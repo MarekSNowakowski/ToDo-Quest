@@ -7,24 +7,23 @@ public class QuestFactory : MonoBehaviour
     [SerializeField]
     GameObject questObject;
 
-    void AddQuest(string questName)
+    public Quest LoadQuest(QuestData questData)
     {
         GameObject ob = Instantiate(questObject);
-        ob.GetComponent<Quest>().Initialize(questName);
-        ob.transform.parent = this.transform;
+        ob.transform.SetParent(transform);
+        Quest quest = ob.GetComponent<Quest>();
+        quest.Load(questData);
+
+        return quest;
     }
 
-    void AddQuest(string questName, string questReward)
+    public Quest AddQuest(QuestData questData)
     {
         GameObject ob = Instantiate(questObject);
-        ob.GetComponent<Quest>().Initialize(questName, questReward);
-        ob.transform.parent = this.transform;
+        Quest quest = ob.GetComponent<Quest>();
+        quest.Initialize(questData);
+
+        return quest;
     }
 
-    void AddQuest(string questName, string questReward, int questWeight)
-    {
-        GameObject ob = Instantiate(questObject);
-        ob.GetComponent<Quest>().Initialize(questName, questReward, questWeight);
-        ob.transform.parent = this.transform;
-    }
 }

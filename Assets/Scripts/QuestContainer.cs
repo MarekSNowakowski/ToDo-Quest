@@ -15,7 +15,10 @@ public class QuestContainer : MonoBehaviour
         numberOfChildren = transform.childCount;
         myRectTransform = GetComponent<RectTransform>();
 
-        myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, numberOfChildren * questPanelHeight);
+        var height = numberOfChildren * questPanelHeight;
+
+        myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
     }
 
 }
