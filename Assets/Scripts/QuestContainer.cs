@@ -8,12 +8,22 @@ public class QuestContainer : MonoBehaviour
     float questPanelHeight = 255;
     RectTransform myRectTransform;
 
+    private void Start()
+    {
+        myRectTransform = gameObject.GetComponent<RectTransform>();
+        RefreshSize();
+    }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        numberOfChildren = transform.childCount;
-        myRectTransform = GetComponent<RectTransform>();
+        myRectTransform = gameObject.GetComponent<RectTransform>();
+    }
+
+    public void RefreshSize()
+    {
+        numberOfChildren = myRectTransform.childCount;
+        Debug.Log(numberOfChildren);
 
         var height = numberOfChildren * questPanelHeight;
 

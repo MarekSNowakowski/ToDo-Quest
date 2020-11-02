@@ -9,20 +9,26 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     QuestFactory questFactory;
 
+    [SerializeField]
+    QuestContainer container;
+
     List<Quest> activeQuests = new List<Quest>();
-    
+
+    private void Start()
+    {
+        //Test();    
+    }
 
     private void Awake()
     {
         Load();
-        //Test();
     }
 
     public void Test()
     {
         QuestData questData = new QuestData();
-        questData.questName = "TEST NAME2";
-        questData.reward = "TEST REWARD2";
+        questData.questName = "TEST NAME";
+        questData.reward = "TEST REWARD";
         AddQuest(questData);
     }
 
@@ -31,7 +37,9 @@ public class QuestManager : MonoBehaviour
         Quest quest = questFactory.AddQuest(questData);
         activeQuests.Add(quest);
         Save();
+        Unload();
         Load();
+        container.RefreshSize();
     }
 
     public void Save()
@@ -44,15 +52,13 @@ public class QuestManager : MonoBehaviour
             data.Add(questData);
         }
 
-        if(data.Count!=0)
-        {
             string filepath = Application.persistentDataPath + "/save.dat";
+        Debug.Log(filepath);   
 
             using (FileStream file = File.Create(filepath))
             {
                 new BinaryFormatter().Serialize(file, data);
             }
-        }
     }
 
     public void Load()
@@ -70,6 +76,33 @@ public class QuestManager : MonoBehaviour
         {
             Quest quest = questFactory.LoadQuest(questData);
             activeQuests.Add(quest);
+            quest.GetManager(this);
         }
+    }
+
+    public void Unload()
+    {
+        transform.DetachChildren();
+        foreach (Quest quest in activeQuests)
+        {
+            Destroy(quest.gameObject);
+        }
+        activeQuests.Clear();
+    }
+
+    public void RemoveQuest(Quest quest)
+    {
+        activeQuests.Remove(quest);
+        Destroy(quest.gameObject);
+        Save();
+        Unload();
+        StartCoroutine(r_waitFrame());
+        Load();
+        container.RefreshSize();
+    }
+
+    IEnumerator r_waitFrame()
+    {
+        yield return new WaitForEndOfFrame();
     }
 }

@@ -14,38 +14,13 @@ public class Quest : MonoBehaviour
     [SerializeField]
     Text rewardText;
 
+    QuestManager questManager;
+
     [Header("Quest Data")]
     string ID;
     string questName;
     string reward;
     int weight;
-
-     public void Initialize(string name, string reward, int weight)
-    {
-        this.questName = name;
-        this.reward = reward;
-        this.weight = weight;
-        this.ID = CorrelationIdGenerator.GetNextId();
-        setUpText();
-    }
-
-    public void Initialize(string name, string reward)
-    {
-        this.questName = name;
-        this.reward = reward;
-        this.weight = 1;
-        this.ID = CorrelationIdGenerator.GetNextId();
-        setUpText();
-    }
-
-    public void Initialize(string name)
-    {
-        this.questName = name;
-        this.reward = null;
-        this.weight = 1;
-        this.ID = CorrelationIdGenerator.GetNextId();
-        setUpText();
-    }
 
     public void Initialize(QuestData questData)
     {
@@ -75,7 +50,15 @@ public class Quest : MonoBehaviour
         setUpText();
     }
 
+    public void GetManager(QuestManager questManager)
+    {
+        this.questManager = questManager;
+    }
 
+    public void RemoveSelf()
+    {
+        questManager.RemoveQuest(this);
+    }
 }
 
 [System.Serializable]
