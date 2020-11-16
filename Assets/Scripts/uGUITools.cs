@@ -1,8 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+
 public class uGUITools : MonoBehaviour {
-	[MenuItem("uGUI/Anchors to Corners %[")]
+#if UNITY_EDITOR
+    [MenuItem("uGUI/Anchors to Corners %[")]
 	static void AnchorsToCorners(){
 		foreach(Transform transform in Selection.transforms){
 			RectTransform t = transform as RectTransform;
@@ -93,4 +95,5 @@ public class uGUITools : MonoBehaviour {
 			t.localScale = new Vector3(t.localScale.x, -t.localScale.y, t.localScale.z);
 		}
 	}
+#endif
 }

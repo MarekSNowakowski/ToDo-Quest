@@ -5,7 +5,7 @@ using UnityEngine;
 public class QuestContainer : MonoBehaviour
 {
     int numberOfChildren;
-    float questPanelHeight = 255;
+    float questPanelHeight = 115;
     RectTransform myRectTransform;
 
     private void Start()
@@ -23,7 +23,6 @@ public class QuestContainer : MonoBehaviour
     public void RefreshSize()
     {
         numberOfChildren = myRectTransform.childCount;
-        Debug.Log(numberOfChildren);
 
         var height = numberOfChildren * questPanelHeight;
 

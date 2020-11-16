@@ -10,9 +10,9 @@ using UnityEngine.UI;
 public class Quest : MonoBehaviour
 {
     [SerializeField]
-    Text nameText;
+    TMPro.TextMeshProUGUI nameText;
     [SerializeField]
-    Text rewardText;
+    GameObject rewardImage;
 
     QuestManager questManager;
 
@@ -32,7 +32,7 @@ public class Quest : MonoBehaviour
     void setUpText()
     {
         nameText.text = questName;
-        rewardText.text = reward;
+        if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
     }
 
     public QuestData Save()

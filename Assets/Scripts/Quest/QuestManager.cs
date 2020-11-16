@@ -16,7 +16,7 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        //Test();    
+  
     }
 
     private void Awake()
@@ -24,17 +24,10 @@ public class QuestManager : MonoBehaviour
         Load();
     }
 
-    public void Test()
-    {
-        QuestData questData = new QuestData();
-        questData.questName = "TEST NAME";
-        questData.reward = "TEST REWARD";
-        AddQuest(questData);
-    }
-
     public void AddQuest(QuestData questData)
     {
         Quest quest = questFactory.AddQuest(questData);
+        quest.Initialize(questData);
         activeQuests.Add(quest);
         Save();
         Unload();
@@ -53,7 +46,6 @@ public class QuestManager : MonoBehaviour
         }
 
             string filepath = Application.persistentDataPath + "/save.dat";
-        Debug.Log(filepath);   
 
             using (FileStream file = File.Create(filepath))
             {
