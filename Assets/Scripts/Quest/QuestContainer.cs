@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class QuestContainer : MonoBehaviour
 {
+    [SerializeField]
+    PageSwiper pageSwiper;
+
     int numberOfChildren;
     float questPanelHeight = 115;
     RectTransform myRectTransform;
@@ -11,7 +14,12 @@ public class QuestContainer : MonoBehaviour
     private void Start()
     {
         myRectTransform = gameObject.GetComponent<RectTransform>();
-        RefreshSize();
+        numberOfChildren = myRectTransform.childCount;
+
+        var height = numberOfChildren * questPanelHeight;
+
+        myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
     }
 
     // Start is called before the first frame update
@@ -28,6 +36,7 @@ public class QuestContainer : MonoBehaviour
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
+        pageSwiper.resetQuestsPosition();
     }
 
 }

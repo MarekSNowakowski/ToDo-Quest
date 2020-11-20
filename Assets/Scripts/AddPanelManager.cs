@@ -16,14 +16,16 @@ public class AddPanelManager : MonoBehaviour
     public void Submit()
     {
         if (questName.text == "") Debug.Log("Can't create quest without a name");
-        QuestData questData = new QuestData();
-        questData.questName = questName.text;
-        if (reward.text != "") questData.reward = reward.text;
+        else {
+            QuestData questData = new QuestData();
+            questData.questName = questName.text;
+            if (reward.text != "") questData.reward = reward.text;
 
-        questManager.AddQuest(questData);
+            questManager.AddQuest(questData);
 
-        questName.text = "";
-        reward.text = "";
-        addPanelView.Close();
+            questName.text = "";
+            reward.text = "";
+            addPanelView.Close();
+        }
     }
 }
