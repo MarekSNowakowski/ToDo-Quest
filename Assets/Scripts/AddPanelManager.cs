@@ -1,13 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class AddPanelManager : MonoBehaviour
 {
+    [Header("MainAddPanel")]
     [SerializeField]
-    TMPro.TMP_InputField questName;
+    GameObject mainAddPanel;
     [SerializeField]
-    TMPro.TMP_InputField reward;
+    TMP_InputField questNameFeild;
+    [SerializeField]
+    TMP_InputField rewardFeild;
+
+    [Header("CommentPanel")]
+    [SerializeField]
+    GameObject commentPanel;
+    [SerializeField]
+    TMP_InputField commentFeild;
+    private string comment;
+
+    [Header("Other")]
     [SerializeField]
     QuestManager questManager;
     [SerializeField]
@@ -15,17 +28,41 @@ public class AddPanelManager : MonoBehaviour
 
     public void Submit()
     {
-        if (questName.text == "") Debug.Log("Can't create quest without a name");
+        if (questNameFeild.text == "") Debug.Log("Can't create quest without a name");
         else {
             QuestData questData = new QuestData();
-            questData.questName = questName.text;
-            if (reward.text != "") questData.reward = reward.text;
+            questData.questName = questNameFeild.text;
+            if (rewardFeild.text != "") questData.reward = rewardFeild.text;
+            if (comment != "") questData.comment = comment;
 
             questManager.AddQuest(questData);
 
-            questName.text = "";
-            reward.text = "";
+            questNameFeild.text = "";
+            rewardFeild.text = "";
             addPanelView.Close();
         }
+    }
+
+    public void OpenCommentPanel()
+    {
+        commentPanel.SetActive(true);
+        mainAddPanel.SetActive(false);
+        commentFeild.ActivateInputField();
+        commentFeild.Select();
+    }
+
+    public void CloseCommentPanel()
+    {
+        commentFeild.text = "";
+        commentPanel.SetActive(false);
+        mainAddPanel.SetActive(true);
+        questNameFeild.ActivateInputField();
+        questNameFeild.Select();
+    }
+
+    public void SubmitComment()
+    {
+        comment = commentFeild.text;
+        CloseCommentPanel();
     }
 }

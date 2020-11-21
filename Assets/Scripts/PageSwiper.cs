@@ -51,7 +51,8 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         Vector2 difference = data.pressPosition - data.position;
         float percentage = difference.x / Screen.width;
         //Change the page
-        if (Mathf.Abs(percentage) >= percentThreshold)
+        if (Mathf.Abs(percentage) >= percentThreshold &&
+            (percentage > 0 && currentPage < totalPages) || (percentage < 0 && currentPage > 1))    //Prevent scroll freezing for a second while we swipe without changing page
         {
             Vector3 newLocation = panelLocation;
             Vector3 newIndicatorLocation = indicatorLocation;

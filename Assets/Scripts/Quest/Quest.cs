@@ -13,6 +13,8 @@ public class Quest : MonoBehaviour
     TMPro.TextMeshProUGUI nameText;
     [SerializeField]
     GameObject rewardImage;
+    [SerializeField]
+    GameObject commentImage;
 
     QuestManager questManager;
 
@@ -21,6 +23,7 @@ public class Quest : MonoBehaviour
     string questName;
     string reward;
     int weight;
+    string comment;
 
     public void Initialize(QuestData questData)
     {
@@ -33,11 +36,12 @@ public class Quest : MonoBehaviour
     {
         nameText.text = questName;
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
+        if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
     }
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment);
         return saveData;
     }
 
@@ -47,6 +51,7 @@ public class Quest : MonoBehaviour
         this.questName = questData.questName;
         this.reward = questData.reward;
         this.weight = questData.weight;
+        this.comment = questData.comment;
         setUpText();
     }
 
@@ -68,20 +73,23 @@ public struct QuestData
     public string questName;
     public string reward;
     public int weight;
+    public string comment;
 
-    public QuestData(string ID, string questName, string reward, int weight)
+    public QuestData(string ID, string questName, string reward, int weight, string comment)
     {
         this.ID = ID;
         this.questName = questName;
         this.reward = reward;
         this.weight = weight;
+        this.comment = comment;
     }
 
-    public void UpdateData(string questName, string reward, int weight)
+    public void UpdateData(string questName, string reward, int weight, string comment)
     {
         this.questName = questName;
         this.reward = reward;
         this.weight = weight;
+        this.comment = comment;
     }
 }
 
