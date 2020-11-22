@@ -63,7 +63,7 @@ public class QuestManager : MonoBehaviour
             object loadedData = new BinaryFormatter().Deserialize(file);
             data = (List<QuestData>)loadedData;
         }
-
+        data.Sort();
         foreach(QuestData questData in data)
         {
             Quest quest = questFactory.LoadQuest(questData);

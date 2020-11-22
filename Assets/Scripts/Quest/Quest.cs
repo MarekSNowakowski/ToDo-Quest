@@ -15,6 +15,8 @@ public class Quest : MonoBehaviour
     GameObject rewardImage;
     [SerializeField]
     GameObject commentImage;
+    [SerializeField]
+    Image weightImage;
 
     QuestManager questManager;
 
@@ -32,11 +34,26 @@ public class Quest : MonoBehaviour
         Load(questData);
     }
 
-    void setUpText()
+    void setUp()
     {
         nameText.text = questName;
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
         if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
+        switch(weight)
+        {
+            case 1:
+                weightImage.color = new Color(0, 210, 0);
+                break;
+            case 2:
+                weightImage.color = new Color(0, 0, 210);
+                break;
+            case 3:
+                weightImage.color = new Color(210, 0, 0);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public QuestData Save()
@@ -52,7 +69,7 @@ public class Quest : MonoBehaviour
         this.reward = questData.reward;
         this.weight = questData.weight;
         this.comment = questData.comment;
-        setUpText();
+        setUp();
     }
 
     public void GetManager(QuestManager questManager)
@@ -67,7 +84,7 @@ public class Quest : MonoBehaviour
 }
 
 [System.Serializable]
-public struct QuestData
+public struct QuestData : IComparable<QuestData>
 {
     public string ID;
     public string questName;
@@ -82,6 +99,11 @@ public struct QuestData
         this.reward = reward;
         this.weight = weight;
         this.comment = comment;
+    }
+
+    public int CompareTo(QuestData other)
+    {
+        return (-1) * weight.CompareTo(other.weight);
     }
 
     public void UpdateData(string questName, string reward, int weight, string comment)

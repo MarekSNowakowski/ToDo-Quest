@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class AddPanelManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class AddPanelManager : MonoBehaviour
     TMP_InputField questNameFeild;
     [SerializeField]
     TMP_InputField rewardFeild;
+    int weight = 0;
+    [SerializeField]
+    Image weightImage;
 
     [Header("CommentPanel")]
     [SerializeField]
@@ -34,9 +38,11 @@ public class AddPanelManager : MonoBehaviour
             questData.questName = questNameFeild.text;
             if (rewardFeild.text != "") questData.reward = rewardFeild.text;
             if (comment != "") questData.comment = comment;
+            questData.weight = weight;
 
             questManager.AddQuest(questData);
 
+            ResetWeight();
             questNameFeild.text = "";
             rewardFeild.text = "";
             addPanelView.Close();
@@ -64,5 +70,24 @@ public class AddPanelManager : MonoBehaviour
     {
         comment = commentFeild.text;
         CloseCommentPanel();
+    }
+
+    public void IncreaseWeight()
+    {
+        weight++;
+        if (weight == 1) weightImage.color = new Color(0, 210, 0);
+        else if (weight == 2) weightImage.color = new Color(0, 0, 210);
+        else if (weight == 3) weightImage.color = new Color(210, 0, 0);
+        else if (weight == 4)
+        {
+            weight = 0;
+            weightImage.color = new Color(255, 255, 255);
+        }
+    }
+
+    public void ResetWeight()
+    {
+        weight = 0;
+        weightImage.color = new Color(255, 255, 255);
     }
 }
