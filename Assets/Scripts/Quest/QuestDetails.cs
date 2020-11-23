@@ -26,9 +26,19 @@ public class QuestDetails : MonoBehaviour
     TextMeshProUGUI comment;
     [SerializeField]
     GameObject commentField;
+    [SerializeField]
+    GameObject addPanelCanvas;
+    AddPanelManager addPanelManager;
+    QuestData questData;
+
+    private void Start()
+    {
+        addPanelManager = addPanelCanvas.GetComponent<AddPanelManager>();
+    }
 
     public void ShowQuestDetails(QuestData questData)
     {
+        this.questData = questData;
         questName.text = questData.questName;
         if(questData.reward!= null)
         {
@@ -53,6 +63,7 @@ public class QuestDetails : MonoBehaviour
                 weightImage.color = new Color(210, 0, 0);
                 break;
             default:
+                weightImage.color = new Color(255, 255, 255);
                 break;
         }
     }
@@ -70,5 +81,12 @@ public class QuestDetails : MonoBehaviour
         //categoryField.SetActive(false);
 
         this.gameObject.SetActive(false);
+    }
+
+    public void EditQuest()
+    {
+        addPanelCanvas.SetActive(true);
+        addPanelManager.EditQuest(questData);
+        CloseDetails();
     }
 }

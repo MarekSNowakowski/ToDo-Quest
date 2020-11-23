@@ -12,9 +12,13 @@ public class AddPanelView : MonoBehaviour
 
     [SerializeField]
     TMPro.TMP_InputField nameInput;
-
     [SerializeField]
     TMPro.TMP_InputField rewardInput;
+
+    [SerializeField]
+    GameObject mainAddPanel;
+    [SerializeField]
+    GameObject commentAddPanel;
 
     float screenHeight = Screen.height;
 
@@ -45,6 +49,8 @@ public class AddPanelView : MonoBehaviour
 
     public void Close()
     {
+        mainAddPanel.SetActive(true);
+        commentAddPanel.SetActive(false);
         this.gameObject.SetActive(false);
     }
 

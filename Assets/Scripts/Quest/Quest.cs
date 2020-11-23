@@ -21,7 +21,7 @@ public class Quest : MonoBehaviour
     QuestManager questManager;
 
     [Header("Quest Data")]
-    string ID;
+    public string ID;
     string questName;
     string reward;
     int weight;

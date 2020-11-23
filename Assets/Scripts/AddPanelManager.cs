@@ -29,6 +29,8 @@ public class AddPanelManager : MonoBehaviour
     QuestManager questManager;
     [SerializeField]
     AddPanelView addPanelView;
+    string editingID;
+    
 
     public void Submit()
     {
@@ -40,11 +42,16 @@ public class AddPanelManager : MonoBehaviour
             if (comment != "") questData.comment = comment;
             questData.weight = weight;
 
+            if(editingID!=null)
+            {
+                questManager.RemoveQuest(questManager.FindQuestWithID(editingID));
+            }
             questManager.AddQuest(questData);
 
             ResetWeight();
             questNameFeild.text = "";
             rewardFeild.text = "";
+            editingID = null;
             addPanelView.Close();
         }
     }
@@ -78,7 +85,7 @@ public class AddPanelManager : MonoBehaviour
         if (weight == 1) weightImage.color = new Color(0, 210, 0);
         else if (weight == 2) weightImage.color = new Color(0, 0, 210);
         else if (weight == 3) weightImage.color = new Color(210, 0, 0);
-        else if (weight == 4)
+        else if (weight == 4 || weight == 0)
         {
             weight = 0;
             weightImage.color = new Color(255, 255, 255);
@@ -89,5 +96,24 @@ public class AddPanelManager : MonoBehaviour
     {
         weight = 0;
         weightImage.color = new Color(255, 255, 255);
+    }
+
+    public void EditQuest(QuestData questData)
+    {
+        questNameFeild.text = questData.questName;
+        rewardFeild.text = questData.reward;
+        weight = questData.weight - 1;
+        IncreaseWeight();
+        commentFeild.text = questData.comment;
+        editingID = questData.ID;
+    }
+
+    public void Close()
+    {
+        ResetWeight();
+        questNameFeild.text = "";
+        rewardFeild.text = "";
+        editingID = null;
+        addPanelView.Close();
     }
 }

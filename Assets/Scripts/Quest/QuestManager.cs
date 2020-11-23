@@ -107,4 +107,9 @@ public class QuestManager : MonoBehaviour
         detailsCanvas.SetActive(true);
         questDetails.ShowQuestDetails(questData);
     }
+
+    public Quest FindQuestWithID(string ID)
+    {
+        return activeQuests.Find(x => x.ID == ID);
+    }
 }
