@@ -12,11 +12,15 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     QuestContainer container;
 
+    QuestDetails questDetails;
+    [SerializeField]
+    GameObject detailsCanvas;
+
     List<Quest> activeQuests = new List<Quest>();
 
     private void Start()
     {
-  
+        questDetails = detailsCanvas.GetComponent<QuestDetails>();
     }
 
     private void Awake()
@@ -96,5 +100,11 @@ public class QuestManager : MonoBehaviour
     IEnumerator r_waitFrame()
     {
         yield return new WaitForEndOfFrame();
+    }
+
+    public void ShowQuestDetails(QuestData questData)
+    {
+        detailsCanvas.SetActive(true);
+        questDetails.ShowQuestDetails(questData);
     }
 }

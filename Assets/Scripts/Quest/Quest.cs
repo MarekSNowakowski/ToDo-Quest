@@ -81,6 +81,12 @@ public class Quest : MonoBehaviour
     {
         questManager.RemoveQuest(this);
     }
+
+    public void ShowDetails()
+    {
+        QuestData questData = new QuestData(ID, questName, reward, weight, comment);
+        questManager.ShowQuestDetails(questData);
+    }
 }
 
 [System.Serializable]
