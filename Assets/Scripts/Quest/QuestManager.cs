@@ -16,6 +16,9 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     GameObject detailsCanvas;
 
+    [SerializeField]
+    RewardManager rewardManager;
+
     List<Quest> activeQuests = new List<Quest>();
 
     private void Start()
@@ -43,18 +46,18 @@ public class QuestManager : MonoBehaviour
     {
         List<QuestData> data = new List<QuestData>();
 
-        foreach(Quest quest in activeQuests)
+        foreach (Quest quest in activeQuests)
         {
             QuestData questData = quest.Save();
             data.Add(questData);
         }
 
-            string filepath = Application.persistentDataPath + "/save.dat";
+        string filepath = Application.persistentDataPath + "/save.dat";
 
-            using (FileStream file = File.Create(filepath))
-            {
-                new BinaryFormatter().Serialize(file, data);
-            }
+        using (FileStream file = File.Create(filepath))
+        {
+            new BinaryFormatter().Serialize(file, data);
+        }
     }
 
     public void Load()
@@ -68,7 +71,7 @@ public class QuestManager : MonoBehaviour
             data = (List<QuestData>)loadedData;
         }
         data.Sort();
-        foreach(QuestData questData in data)
+        foreach (QuestData questData in data)
         {
             Quest quest = questFactory.LoadQuest(questData);
             activeQuests.Add(quest);
@@ -88,6 +91,11 @@ public class QuestManager : MonoBehaviour
 
     public void RemoveQuest(Quest quest)
     {
+        QuestData questData = quest.Save();
+        if(questData.reward!=null)
+        {
+            rewardManager.AddReward(questData);
+        }
         activeQuests.Remove(quest);
         Destroy(quest.gameObject);
         Save();

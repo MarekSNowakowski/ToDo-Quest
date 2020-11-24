@@ -21,7 +21,7 @@ public class QuestFactory : MonoBehaviour
     {
         GameObject ob = Instantiate(questObject);
         Quest quest = ob.GetComponent<Quest>();
-        quest.Initialize(questData);
+        //quest.Initialize(questData);
 
         return quest;
     }
