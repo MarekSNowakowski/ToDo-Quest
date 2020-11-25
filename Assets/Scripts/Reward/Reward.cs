@@ -72,7 +72,7 @@ public class Reward : MonoBehaviour
     public void ShowDetails()
     {
         RewardData rewardData = Save();
-        //rewardManager.ShowRewardDetails(rewardData);
+        rewardManager.ShowRewardDetails(rewardData);
     }
 }
 

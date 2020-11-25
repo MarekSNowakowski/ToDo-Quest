@@ -48,11 +48,7 @@ public class AddPanelManager : MonoBehaviour
             }
             questManager.AddQuest(questData);
 
-            ResetWeight();
-            questNameFeild.text = "";
-            rewardFeild.text = "";
-            editingID = null;
-            addPanelView.Close();
+            Close();
         }
     }
 
@@ -110,10 +106,17 @@ public class AddPanelManager : MonoBehaviour
 
     public void Close()
     {
+        Clear();
+        addPanelView.Close();
+    }
+
+    void Clear()
+    {
         ResetWeight();
         questNameFeild.text = "";
         rewardFeild.text = "";
         editingID = null;
-        addPanelView.Close();
+        comment = "";
+        commentFeild.text = "";
     }
 }

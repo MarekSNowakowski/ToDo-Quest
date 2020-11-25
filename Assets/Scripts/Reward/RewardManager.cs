@@ -12,15 +12,15 @@ public class RewardManager : MonoBehaviour
     [SerializeField]
     RewardContainer container;
 
-    //QuestDetails questDetails;
-    //[SerializeField]
-    //GameObject detailsCanvas;
+    RewardDetails rewardDetails;
+    [SerializeField]
+    GameObject detailsCanvas;
 
     List<Reward> activeRewards = new List<Reward>();
 
     private void Start()
     {
-        //questDetails = detailsCanvas.GetComponent<QuestDetails>();
+        rewardDetails = detailsCanvas.GetComponent<RewardDetails>();
     }
 
     private void Awake()
@@ -101,11 +101,11 @@ public class RewardManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
-    //public void ShowQuestDetails(QuestData questData)
-    //{
-    //    detailsCanvas.SetActive(true);
-    //    questDetails.ShowQuestDetails(questData);
-    //}
+    public void ShowRewardDetails(RewardData rewardData)
+    {
+        detailsCanvas.SetActive(true);
+        rewardDetails.ShowRewardDetails(rewardData);
+    }
 
     public Reward FindRewardWithID(string ID)
     {
