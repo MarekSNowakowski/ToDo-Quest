@@ -28,7 +28,7 @@ public class RewardContainer : MonoBehaviour
         myRectTransform = gameObject.GetComponent<RectTransform>();
     }
 
-    public void RefreshSize()
+    public void RefreshSize(bool adding)
     {
         numberOfChildren = myRectTransform.childCount;
 
@@ -36,7 +36,7 @@ public class RewardContainer : MonoBehaviour
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
-        pageSwiper.resetRewardsPosition();
+        pageSwiper.resetRewardsPosition(adding);
     }
 
 }

@@ -97,6 +97,7 @@ public struct QuestData : IComparable<QuestData>
     public string reward;
     public int weight;
     public string comment;
+    public DateTime creationDateTime;
 
     public QuestData(string ID, string questName, string reward, int weight, string comment)
     {
@@ -105,11 +106,13 @@ public struct QuestData : IComparable<QuestData>
         this.reward = reward;
         this.weight = weight;
         this.comment = comment;
+        this.creationDateTime = DateTime.Now;
     }
 
     public int CompareTo(QuestData other)
     {
-        return (-1) * weight.CompareTo(other.weight);
+        if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
+        else return creationDateTime.CompareTo(other.creationDateTime);
     }
 
     public void UpdateData(string questName, string reward, int weight, string comment)

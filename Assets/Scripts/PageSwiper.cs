@@ -26,6 +26,8 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField]
     RectTransform rewardMaskRT;
     float upperPanelHeight = 150;
+    float questSize = 115;
+    float rewardSize = 115;
     float rewardPanelDistance;
 
     public int currentPage = 1;
@@ -180,15 +182,59 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     //To be changed? We want to see quest we just created/stay where we were while deleating
 
-    public void resetQuestsPosition()   
+    public void resetQuestsPositionl(bool adding)   
     {
-        questsLocation.y = Screen.height - upperPanelHeight - (questRT.rect.height / 2);
+        float end = questRT.rect.height / 2;
+        if (adding)
+        {
+            if(end - (questSize / 2) == questsLocation.y)
+            {
+                questsLocation.y += questSize / 2;
+            }
+            else
+            {
+                questsLocation.y -= questSize / 2;
+            }
+        }
+        else
+        {
+            if (questRT.rect.height > Screen.height - upperPanelHeight && end - (questSize / 2) - 0.5 < questsLocation.y)
+            {
+                questsLocation.y -= questSize / 2 + 0.5f;
+            }
+            else
+            {
+                questsLocation.y += questSize / 2;
+            }
+        }
         quests.transform.position = new Vector3(quests.transform.position.x, questsLocation.y);
     }
 
-    public void resetRewardsPosition()
+    public void resetRewardsPosition(bool adding)
     {
-        rewardsLocation.y = Screen.height - rewardPanelDistance - (rewardsRT.rect.height / 2);
+        float end = rewardsRT.rect.height / 2;
+        if (adding)
+        {
+            if (end - (rewardSize / 2) == rewardsLocation.y)
+            {
+                rewardsLocation.y += rewardSize / 2;
+            }
+            else
+            {
+                rewardsLocation.y -= rewardSize / 2;
+            }
+        }
+        else
+        {
+            if (rewardsRT.rect.height > Screen.height - rewardPanelDistance && end - (rewardSize / 2) - 0.5 < rewardsLocation.y)
+            {
+                rewardsLocation.y -= rewardSize / 2 + 0.5f;
+            }
+            else
+            {
+                rewardsLocation.y += rewardSize / 2;
+            }
+        }
         rewards.transform.position = new Vector3(rewards.transform.position.x, rewardsLocation.y);
     }
 }

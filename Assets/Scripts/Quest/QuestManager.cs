@@ -39,7 +39,7 @@ public class QuestManager : MonoBehaviour
         Save();
         Unload();
         Load();
-        container.RefreshSize();
+        container.RefreshSize(true);
     }
 
     public void Save()
@@ -102,7 +102,7 @@ public class QuestManager : MonoBehaviour
         Unload();
         StartCoroutine(r_waitFrame());
         Load();
-        container.RefreshSize();
+        container.RefreshSize(false);
     }
 
     IEnumerator r_waitFrame()
