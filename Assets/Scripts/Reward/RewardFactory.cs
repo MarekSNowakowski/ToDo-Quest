@@ -21,7 +21,6 @@ public class RewardFactory : MonoBehaviour
     {
         GameObject ob = Instantiate(rewardObject);
         Reward reward = ob.GetComponent<Reward>();
-        reward.Initialize(questData);
 
         return reward;
     }

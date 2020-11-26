@@ -18,6 +18,8 @@ public class RewardManager : MonoBehaviour
 
     List<Reward> activeRewards = new List<Reward>();
 
+    string filepath;
+
     private void Start()
     {
         rewardDetails = detailsCanvas.GetComponent<RewardDetails>();
@@ -25,12 +27,15 @@ public class RewardManager : MonoBehaviour
 
     private void Awake()
     {
+        filepath = Application.persistentDataPath + "/saveR.dat";
+        if(File.Exists(filepath))
         Load();
     }
 
     public void AddReward(QuestData questData)
     {
         Reward reward = rewardFactory.AddReward(questData);
+        reward.Initialize(questData);
         SetUpAfterAddingReward(reward);
     }
 
@@ -54,8 +59,6 @@ public class RewardManager : MonoBehaviour
             data.Add(rewardData);
         }
 
-        string filepath = Application.persistentDataPath + "/saveR.dat";
-
         using (FileStream file = File.Create(filepath))
         {
             new BinaryFormatter().Serialize(file, data);
@@ -64,20 +67,25 @@ public class RewardManager : MonoBehaviour
 
     public void Load()
     {
-        string filepath = Application.persistentDataPath + "/saveR.dat";
-        List<RewardData> data = new List<RewardData>();
+        if(File.Exists(filepath))
+        {
+            List<RewardData> data = new List<RewardData>();
 
-        using (FileStream file = File.Open(filepath, FileMode.Open))
+            using (FileStream file = File.Open(filepath, FileMode.Open))
+            {
+                object loadedData = new BinaryFormatter().Deserialize(file);
+                data = (List<RewardData>)loadedData;
+            }
+            data.Sort();
+            foreach (RewardData rewardData in data)
+            {
+                Reward reward = rewardFactory.LoadReward(rewardData);
+                activeRewards.Add(reward);
+                reward.GetManager(this);
+            }
+        }else
         {
-            object loadedData = new BinaryFormatter().Deserialize(file);
-            data = (List<RewardData>)loadedData;
-        }
-        data.Sort();
-        foreach (RewardData rewardData in data)
-        {
-            Reward reward = rewardFactory.LoadReward(rewardData);
-            activeRewards.Add(reward);
-            reward.GetManager(this);
+            Save();
         }
     }
 

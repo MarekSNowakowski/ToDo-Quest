@@ -21,6 +21,8 @@ public class QuestManager : MonoBehaviour
 
     List<Quest> activeQuests = new List<Quest>();
 
+    string filepath;
+
     private void Start()
     {
         questDetails = detailsCanvas.GetComponent<QuestDetails>();
@@ -28,6 +30,7 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
+        filepath = Application.persistentDataPath + "/save.dat";
         Load();
     }
 
@@ -35,6 +38,11 @@ public class QuestManager : MonoBehaviour
     {
         Quest quest = questFactory.AddQuest(questData);
         quest.Initialize(questData);
+        SetUpAfterAddingQuest(quest);
+    }
+
+    void SetUpAfterAddingQuest(Quest quest)
+    {
         activeQuests.Add(quest);
         Save();
         Unload();
@@ -53,8 +61,6 @@ public class QuestManager : MonoBehaviour
             data.Add(questData);
         }
 
-        string filepath = Application.persistentDataPath + "/save.dat";
-
         using (FileStream file = File.Create(filepath))
         {
             new BinaryFormatter().Serialize(file, data);
@@ -63,20 +69,25 @@ public class QuestManager : MonoBehaviour
 
     public void Load()
     {
-        string filepath = Application.persistentDataPath + "/save.dat";
-        List<QuestData> data = new List<QuestData>();
+        if (File.Exists(filepath))
+        {
+            List<QuestData> data = new List<QuestData>();
 
-        using (FileStream file = File.Open(filepath, FileMode.Open))
+            using (FileStream file = File.Open(filepath, FileMode.Open))
+            {
+                object loadedData = new BinaryFormatter().Deserialize(file);
+                data = (List<QuestData>)loadedData;
+            }
+            data.Sort();
+            foreach (QuestData questData in data)
+            {
+                Quest quest = questFactory.LoadQuest(questData);
+                activeQuests.Add(quest);
+                quest.GetManager(this);
+            }
+        }else
         {
-            object loadedData = new BinaryFormatter().Deserialize(file);
-            data = (List<QuestData>)loadedData;
-        }
-        data.Sort();
-        foreach (QuestData questData in data)
-        {
-            Quest quest = questFactory.LoadQuest(questData);
-            activeQuests.Add(quest);
-            quest.GetManager(this);
+            Save();
         }
     }
 
