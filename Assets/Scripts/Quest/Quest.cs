@@ -7,7 +7,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Quest : MonoBehaviour
+public class Quest : MonoBehaviour, IComparable<Quest>
 {
     [SerializeField]
     TMPro.TextMeshProUGUI nameText;
@@ -26,10 +26,12 @@ public class Quest : MonoBehaviour
     string reward;
     int weight;
     string comment;
+    DateTime questCreationDateTime;
 
     public void Initialize(QuestData questData)
     {
         this.ID = CorrelationIdGenerator.GetNextId();
+        this.questCreationDateTime = DateTime.Now;
         questData.ID = this.ID;
         Load(questData);
     }
@@ -58,7 +60,7 @@ public class Quest : MonoBehaviour
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, questCreationDateTime);
         return saveData;
     }
 
@@ -69,6 +71,7 @@ public class Quest : MonoBehaviour
         this.reward = questData.reward;
         this.weight = questData.weight;
         this.comment = questData.comment;
+        this.questCreationDateTime = questData.creationDateTime;
         setUp();
     }
 
@@ -86,6 +89,12 @@ public class Quest : MonoBehaviour
     {
         QuestData questData = new QuestData(ID, questName, reward, weight, comment);
         questManager.ShowQuestDetails(questData);
+    }
+
+    public int CompareTo(Quest other)
+    {
+        if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
+        else return (-1) * questCreationDateTime.CompareTo(other.questCreationDateTime);
     }
 }
 
@@ -109,10 +118,20 @@ public struct QuestData : IComparable<QuestData>
         this.creationDateTime = DateTime.Now;
     }
 
+    public QuestData(string ID, string questName, string reward, int weight, string comment, DateTime creationDateTime)
+    {
+        this.ID = ID;
+        this.questName = questName;
+        this.reward = reward;
+        this.weight = weight;
+        this.comment = comment;
+        this.creationDateTime = DateTime.Now;
+    }
+
     public int CompareTo(QuestData other)
     {
         if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
-        else return creationDateTime.CompareTo(other.creationDateTime);
+        else return (-1) * creationDateTime.CompareTo(other.creationDateTime);
     }
 
     public void UpdateData(string questName, string reward, int weight, string comment)

@@ -17,7 +17,7 @@ public class RewardFactory : MonoBehaviour
         return reward;
     }
 
-    public Reward AddQuest(QuestData questData)
+    public Reward AddReward(QuestData questData)
     {
         GameObject ob = Instantiate(rewardObject);
         Reward reward = ob.GetComponent<Reward>();

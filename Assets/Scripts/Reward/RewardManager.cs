@@ -30,7 +30,12 @@ public class RewardManager : MonoBehaviour
 
     public void AddReward(QuestData questData)
     {
-        Reward reward = rewardFactory.AddQuest(questData);
+        Reward reward = rewardFactory.AddReward(questData);
+        SetUpAfterAddingReward(reward);
+    }
+
+    void SetUpAfterAddingReward(Reward reward)
+    {
         activeRewards.Add(reward);
         Save();
         Unload();
@@ -42,6 +47,7 @@ public class RewardManager : MonoBehaviour
     {
         List<RewardData> data = new List<RewardData>();
 
+        activeRewards.Sort();
         foreach (Reward reward in activeRewards)
         {
             RewardData rewardData = reward.Save();

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Reward : MonoBehaviour
+public class Reward : MonoBehaviour, IComparable<Reward>
 {
     [SerializeField]
     TMPro.TextMeshProUGUI nameText;
@@ -73,6 +73,11 @@ public class Reward : MonoBehaviour
     {
         RewardData rewardData = Save();
         rewardManager.ShowRewardDetails(rewardData);
+    }
+
+    public int CompareTo(Reward other)
+    {
+        return (-1) * questCompletitionTime.CompareTo(other.questCompletitionTime);
     }
 }
 

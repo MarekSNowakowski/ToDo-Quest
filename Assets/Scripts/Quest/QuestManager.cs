@@ -46,6 +46,7 @@ public class QuestManager : MonoBehaviour
     {
         List<QuestData> data = new List<QuestData>();
 
+        activeQuests.Sort();
         foreach (Quest quest in activeQuests)
         {
             QuestData questData = quest.Save();

@@ -56,7 +56,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             quests.transform.position = questsLocation - new Vector3(0, difference.y, 0);
         }
-        else if (currentPage == 3 && !corutineRunning)
+        else if (currentPage == 3 && !corutineRunning && data.pressPosition.y < rewardMaskRT.rect.height)
         {
             rewards.transform.position = rewardsLocation - new Vector3(0, difference.y, 0);
         }
