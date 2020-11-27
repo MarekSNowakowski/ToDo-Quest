@@ -12,7 +12,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI levelText;
     [SerializeField]
-    TextMeshProUGUI experienceText;
+    TextMeshProUGUI currentExpText;
+    [SerializeField]
+    TMP_InputField expToNextLevelTextField;
     [SerializeField]
     TMP_InputField levelRewardTextField;
     [SerializeField]
@@ -26,6 +28,7 @@ public class LevelManager : MonoBehaviour
     int currentExp;
     int expToNextLevel;
     string filepath;
+    int defaultExpToNextLevel = 100;
 
     private void Awake()
     {
@@ -33,16 +36,20 @@ public class LevelManager : MonoBehaviour
         Load();
     }
 
-    public void addExperience(int amount)
+    public void AddExperience(int amount)
     {
         currentExp += amount;
-        if(currentExp > expToNextLevel)
+        if(currentExp >= expToNextLevel)
         {
-            int difference = expToNextLevel - currentExp;
+            int difference = currentExp - expToNextLevel;
+            currentExp = 0;
             LevelUp();
-            addExperience(difference);
+            if(difference>0)
+                AddExperience(difference);
         }
-        levelSlider.value = (float)currentExp / (float)expToNextLevel;
+
+        Save();
+        SetUp();
     }
 
     void LevelUp()
@@ -53,9 +60,11 @@ public class LevelManager : MonoBehaviour
             questData.reward = rewardText;
             questData.questName = "Level " + currentLevel;
             rewardManager.AddReward(questData);
+            rewardText = null;
+            levelRewardTextField.text = rewardPlaceholder;
         }
+        expToNextLevel += (int)(expToNextLevel * (float)(currentLevel / defaultExpToNextLevel));  // highering the bar
         currentLevel++;
-        levelText.text = currentLevel.ToString();
         Save();
     }
 
@@ -98,7 +107,7 @@ public class LevelManager : MonoBehaviour
             rewardText = null;
             currentLevel = 1;
             currentExp = 0;
-            expToNextLevel = 50;
+            expToNextLevel = defaultExpToNextLevel;
             Save();
         }
 
@@ -116,14 +125,14 @@ public class LevelManager : MonoBehaviour
             rewardText = levelRewardTextField.text;
         }
         Save();
-        StartCoroutine(OnInputEndCOR());
+        StartCoroutine(OnInputEndCOR(levelRewardTextField));
     }
 
-    IEnumerator OnInputEndCOR()
+    IEnumerator OnInputEndCOR(TMP_InputField inputField)
     {
         //Disable interactable then remove event
-        levelRewardTextField.DeactivateInputField();
-        levelRewardTextField.ReleaseSelection();
+        inputField.DeactivateInputField();
+        inputField.ReleaseSelection();
 
         /*Wait until EventSystem is no longer in selecting mode
          This prevents the "Attempting to select while already selecting an object" error
@@ -131,7 +140,7 @@ public class LevelManager : MonoBehaviour
         while (EventSystem.current.alreadySelecting)
             yield return null;
 
-        levelRewardTextField.interactable = false;
+        inputField.interactable = false;
     }
 
     public void EditReward()
@@ -149,13 +158,41 @@ public class LevelManager : MonoBehaviour
     void SetUp()
     {
         levelText.text = currentLevel.ToString();
-        experienceText.text = $"{currentExp} / {expToNextLevel} exp";
+        currentExpText.text = $"{currentExp} / ";
+        expToNextLevelTextField.text = expToNextLevel.ToString();
         if(rewardText != null)
         {
             levelRewardTextField.text = rewardText;
         }
         levelSlider.value = (float)currentExp / (float)expToNextLevel;
     }
+
+    public void EditExpToNextLevel()
+    {
+        expToNextLevelTextField.interactable = true;
+        expToNextLevelTextField.ActivateInputField();
+        if (!expToNextLevelTextField.isFocused)
+            expToNextLevelTextField.Select();
+    }
+
+    public void OnEditExpToNextLevelEnd()
+    {
+        int temp = expToNextLevel;
+        if (expToNextLevelTextField.text == "" || !int.TryParse(expToNextLevelTextField.text, out expToNextLevel))
+        {
+            expToNextLevel = temp;
+            expToNextLevelTextField.text = expToNextLevel.ToString();
+        }
+        else if(expToNextLevel <= currentExp)
+        {
+            expToNextLevel = currentExp + 1;
+            expToNextLevelTextField.text = expToNextLevel.ToString();
+        }
+        Save();
+        levelSlider.value = (float)currentExp / (float)expToNextLevel;
+        StartCoroutine(OnInputEndCOR(expToNextLevelTextField));
+    }
+
 }
 
 [System.Serializable] 

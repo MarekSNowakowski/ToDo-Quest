@@ -19,6 +19,9 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     RewardManager rewardManager;
 
+    [SerializeField]
+    LevelManager levelManager;
+
     List<Quest> activeQuests = new List<Quest>();
 
     string filepath;
@@ -106,7 +109,23 @@ public class QuestManager : MonoBehaviour
         QuestData questData = quest.Save();
         if(questData.reward!=null)
         {
-            rewardManager.AddReward(questData);
+            if(questData.reward.StartsWith("+"))
+            {
+                string rewardPoints = questData.reward.Remove(0,1);
+                int points;
+
+                if(int.TryParse(rewardPoints, out points))
+                {
+                    if(points > 0 && points < 1000)
+                    levelManager.AddExperience(points);
+                }else
+                {
+                    rewardManager.AddReward(questData);
+                }
+            }else
+            {
+                rewardManager.AddReward(questData);
+            }
         }
         activeQuests.Remove(quest);
         Destroy(quest.gameObject);
