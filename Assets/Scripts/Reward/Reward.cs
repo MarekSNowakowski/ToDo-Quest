@@ -18,6 +18,13 @@ public class Reward : MonoBehaviour, IComparable<Reward>
 
     RewardManager rewardManager;
 
+    [Header("Removal")]
+    [SerializeField]
+    GameObject removeButton;
+    [SerializeField]
+    GameObject cancelRemovalButton;
+    bool toBeRemoved;
+
     public void Initialize(QuestData questData)
     {
         this.id = questData.ID;
@@ -66,7 +73,35 @@ public class Reward : MonoBehaviour, IComparable<Reward>
 
     public void RemoveSelf()
     {
-        rewardManager.RemoveReward(this);
+        StartCoroutine(ToBeRemovedCO());
+    }
+
+    public void CancelRemoval()
+    {
+        toBeRemoved = false;
+        nameText.text = rewardName;
+        cancelRemovalButton.SetActive(false);
+        removeButton.SetActive(true);
+    }
+
+    IEnumerator ToBeRemovedCO()
+    {
+        float questRemovalTime = 3;
+
+        toBeRemoved = true;
+        nameText.text = $"<s>{rewardName}</s>";
+        cancelRemovalButton.SetActive(true);
+        removeButton.SetActive(false);
+
+        for (int i = 0; toBeRemoved && i < questRemovalTime; i++)
+        {
+            yield return new WaitForSeconds(1);
+        }
+        if (toBeRemoved)
+        {
+            rewardManager.RemoveReward(this);
+        }
+        toBeRemoved = false;
     }
 
     public void ShowDetails()

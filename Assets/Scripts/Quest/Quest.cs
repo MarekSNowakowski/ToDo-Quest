@@ -28,6 +28,13 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     string comment;
     DateTime questCreationDateTime;
 
+    [Header("Removal")]
+    [SerializeField]
+    GameObject removeButton;
+    [SerializeField]
+    GameObject cancelRemovalButton;
+    bool toBeRemoved;
+
     public void Initialize(QuestData questData)
     {
         this.ID = CorrelationIdGenerator.GetNextId();
@@ -82,7 +89,35 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public void RemoveSelf()
     {
-        questManager.RemoveQuest(this);
+        StartCoroutine(ToBeRemovedCO());
+    }
+
+    public void CancelRemoval()
+    {
+        toBeRemoved = false;
+        nameText.text = questName;
+        cancelRemovalButton.SetActive(false);
+        removeButton.SetActive(true);
+    }
+
+    IEnumerator ToBeRemovedCO()
+    {
+        float questRemovalTime = 3;
+
+        toBeRemoved = true;
+        nameText.text = $"<s>{questName}</s>";
+        cancelRemovalButton.SetActive(true);
+        removeButton.SetActive(false);
+
+        for (int i = 0; toBeRemoved && i < questRemovalTime; i++)
+        {
+            yield return new WaitForSeconds(1);
+        }
+        if(toBeRemoved)
+        {
+            questManager.RemoveQuest(this);
+        }
+        toBeRemoved = false;
     }
 
     public void ShowDetails()
