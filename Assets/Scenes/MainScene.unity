@@ -1481,6 +1481,7 @@ GameObject:
   - component: {fileID: 264740471}
   - component: {fileID: 264740470}
   - component: {fileID: 264740474}
+  - component: {fileID: 264740472}
   m_Layer: 5
   m_Name: Incoming
   m_TagString: Untagged
@@ -1544,6 +1545,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 264740468}
   m_CullTransparentMesh: 0
+--- !u!114 &264740472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264740468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6dfde27124a1434abcabc5b4babcdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questFactory: {fileID: 1524823895}
+  container: {fileID: 1524823893}
 --- !u!114 &264740474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4318,6 +4333,8 @@ GameObject:
   - component: {fileID: 787022885}
   - component: {fileID: 787022887}
   - component: {fileID: 787022886}
+  - component: {fileID: 787022888}
+  - component: {fileID: 787022889}
   m_Layer: 5
   m_Name: Categories
   m_TagString: Untagged
@@ -4335,7 +4352,8 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1616329044}
   m_Father: {fileID: 1849840045}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4380,6 +4398,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787022884}
   m_CullTransparentMesh: 0
+--- !u!114 &787022888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787022884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6dfde27124a1434abcabc5b4babcdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questFactory: {fileID: 1616329045}
+  container: {fileID: 1616329046}
+--- !u!114 &787022889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787022884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &789275271
 GameObject:
   m_ObjectHideFlags: 0
@@ -7548,7 +7593,7 @@ MonoBehaviour:
   weightImage: {fileID: 1419470056}
   commentPanel: {fileID: 78704097}
   commentFeild: {fileID: 1731715542}
-  questManager: {fileID: 1524823894}
+  questManager: {fileID: 1268028214}
   addPanelView: {fileID: 1254508438}
 --- !u!1 &1268028209
 GameObject:
@@ -7562,6 +7607,7 @@ GameObject:
   - component: {fileID: 1268028213}
   - component: {fileID: 1268028212}
   - component: {fileID: 1268028211}
+  - component: {fileID: 1268028214}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7652,6 +7698,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1268028214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268028209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373a26ecf6d40394cb902f6e26f0b0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detailsCanvas: {fileID: 1765920805}
+  rewardManager: {fileID: 813670853}
+  levelManager: {fileID: 1486964255}
+  questDisplayers:
+  - {fileID: 264740472}
+  - {fileID: 787022888}
 --- !u!1 &1288273384
 GameObject:
   m_ObjectHideFlags: 0
@@ -8923,7 +8987,6 @@ GameObject:
   - component: {fileID: 1524823892}
   - component: {fileID: 1524823891}
   - component: {fileID: 1524823893}
-  - component: {fileID: 1524823894}
   - component: {fileID: 1524823895}
   m_Layer: 5
   m_Name: QuestsContainer
@@ -9025,23 +9088,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageSwiper: {fileID: 1849840046}
---- !u!114 &1524823894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524823888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373a26ecf6d40394cb902f6e26f0b0a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questFactory: {fileID: 1524823895}
-  container: {fileID: 1524823893}
-  detailsCanvas: {fileID: 1765920805}
-  rewardManager: {fileID: 813670853}
-  levelManager: {fileID: 1486964255}
 --- !u!114 &1524823895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9267,6 +9313,134 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595424826}
   m_CullTransparentMesh: 0
+--- !u!1 &1616329043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1616329044}
+  - component: {fileID: 1616329049}
+  - component: {fileID: 1616329048}
+  - component: {fileID: 1616329047}
+  - component: {fileID: 1616329046}
+  - component: {fileID: 1616329045}
+  m_Layer: 5
+  m_Name: QuestsContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1616329044
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 787022885}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -1080, y: -930}
+  m_SizeDelta: {x: 1080, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1616329045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c3b4165c3aef94f8fca4ffb293d8c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questObject: {fileID: 347593139646735392, guid: 049fbaea2289fd340a9b2ce7d06efd94,
+    type: 3}
+--- !u!114 &1616329046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5a95ec40445f945ba30256c18d5bf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageSwiper: {fileID: 1849840046}
+--- !u!114 &1616329047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1616329048
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_CullTransparentMesh: 0
+--- !u!114 &1616329049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
 --- !u!1 &1642814008
 GameObject:
   m_ObjectHideFlags: 0
@@ -10457,6 +10631,7 @@ MonoBehaviour:
   quests: {fileID: 1524823888}
   rewards: {fileID: 813670850}
   rewardMaskRT: {fileID: 557290872}
+  categories: {fileID: 1616329043}
   currentPage: 1
 --- !u!1 &1886688248
 GameObject:

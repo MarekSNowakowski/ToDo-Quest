@@ -35,15 +35,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     GameObject cancelRemovalButton;
     bool toBeRemoved;
 
-    public void Initialize(QuestData questData)
-    {
-        this.ID = CorrelationIdGenerator.GetNextId();
-        this.questCreationDateTime = DateTime.Now;
-        questData.ID = this.ID;
-        Load(questData);
-    }
-
-    void setUp()
+    void SetUp()
     {
         nameText.text = questName;
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
@@ -79,7 +71,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.weight = questData.weight;
         this.comment = questData.comment;
         this.questCreationDateTime = questData.creationDateTime;
-        setUp();
+        SetUp();
     }
 
     public void GetManager(QuestManager questManager)
@@ -115,7 +107,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         }
         if(toBeRemoved)
         {
-            questManager.RemoveQuest(this);
+            questManager.RemoveQuest(this.ID);
         }
         toBeRemoved = false;
     }
@@ -130,6 +122,11 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     {
         if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
         else return (-1) * questCreationDateTime.CompareTo(other.questCreationDateTime);
+    }
+
+    public string GetName()
+    {
+        return this.questName;
     }
 }
 
@@ -161,6 +158,12 @@ public struct QuestData : IComparable<QuestData>
         this.weight = weight;
         this.comment = comment;
         this.creationDateTime = DateTime.Now;
+    }
+
+    public void Initialize()
+    {
+        creationDateTime = DateTime.Now;
+        ID = CorrelationIdGenerator.GetNextId();
     }
 
     public int CompareTo(QuestData other)

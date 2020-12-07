@@ -8,6 +8,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     private Vector3 panelLocation;
     private Vector3 indicatorLocation;
     private Vector3 questsLocation;
+    private Vector3 categoriesLocation;
     private Vector3 rewardsLocation;
     [SerializeField]
     float percentThreshold = 0.2f;
@@ -25,6 +26,9 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     RectTransform rewardsRT;
     [SerializeField]
     RectTransform rewardMaskRT;
+    [SerializeField]
+    GameObject categories;
+    RectTransform categoriesRT;
     float upperPanelHeight = 150;
     float questSize = 115;
     float rewardSize = 115;
@@ -38,15 +42,12 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         panelLocation = transform.position;
         indicatorLocation = panelIndicator.transform.position;
         questsLocation = quests.transform.position;
+        categoriesLocation = quests.transform.position;
         rewardsLocation = new Vector2(Screen.width / 2, rewards.transform.position.y);
         questRT = quests.GetComponent<RectTransform>();
         rewardsRT = rewards.GetComponent<RectTransform>();
+        categoriesRT = categories.GetComponent<RectTransform>();
         rewardPanelDistance = Screen.height - rewardMaskRT.rect.height;
-    }
-
-    public Vector3 GetQuestsLocation()
-    {
-        return questsLocation;
     }
 
     public void OnDrag(PointerEventData data)
@@ -55,6 +56,10 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         if (currentPage == 1 && !corutineRunning)
         {
             quests.transform.position = questsLocation - new Vector3(0, difference.y, 0);
+        }
+        else if(currentPage == 2 && !corutineRunning)
+        {
+            categories.transform.position = categoriesLocation - new Vector3(0, difference.y, 0);
         }
         else if (currentPage == 3 && !corutineRunning && data.pressPosition.y < rewardMaskRT.rect.height)
         {
@@ -110,6 +115,27 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 questsLocation.y = quests.transform.position.y;
             }
         }
+        else if (currentPage == 2 && !corutineRunning)
+        {
+            //Scroll to the begining
+            float begining = Screen.height - upperPanelHeight - (categoriesRT.rect.height / 2);
+            if (categories.transform.position.y < begining || categoriesRT.rect.height < Screen.height - upperPanelHeight)
+            {
+                categoriesLocation.y = begining;
+                StartCoroutine(SmoothMoveScroll(categories, categories.transform.position, categoriesLocation, easing));
+            }
+            //Scroll to the end
+            else if (categories.transform.position.y > categoriesRT.rect.height / 2)
+            {
+                categoriesLocation.y = categoriesRT.rect.height / 2;
+                StartCoroutine(SmoothMoveScroll(categories, categories.transform.position, categoriesLocation, easing));
+            }
+            //Save the location
+            else
+            {
+                categoriesLocation.y = categories.transform.position.y;
+            }
+        }
         else if (currentPage == 3 && !corutineRunning)
         {
             float begining = Screen.height - rewardPanelDistance  - (rewardsRT.rect.height / 2);
@@ -161,6 +187,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             yield return null;
         }
         quests.transform.position = new Vector3(quests.transform.position.x, questsLocation.y);
+        categories.transform.position = new Vector3(categories.transform.position.x, categoriesLocation.y);
         rewards.transform.position = new Vector3(rewards.transform.position.x, rewardsLocation.y);
         corutineRunning = false;
     }
@@ -184,30 +211,48 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void resetQuestsPositionl(bool adding)   
     {
-        float end = questRT.rect.height / 2;
+        float endQuest = questRT.rect.height / 2;
+        float endCategories = categoriesRT.rect.height / 2;
         if (adding)
         {
-            if(end - (questSize / 2) == questsLocation.y)
+            if(endQuest - (questSize / 2) == questsLocation.y)
             {
-                questsLocation.y += questSize / 2;
+                questsLocation.y += questSize / 4;
             }
             else
             {
-                questsLocation.y -= questSize / 2;
+                questsLocation.y -= questSize / 4;
+            }
+            if (endCategories - (questSize / 2) == categoriesLocation.y)
+            {
+                categoriesLocation.y += questSize / 4;
+            }
+            else
+            {
+                categoriesLocation.y -= questSize / 4;
             }
         }
         else
         {
-            if (questRT.rect.height > Screen.height - upperPanelHeight && end - (questSize / 2) - 0.5 < questsLocation.y)
+            if (questRT.rect.height > Screen.height - upperPanelHeight && endQuest - (questSize / 2) - 0.5 < questsLocation.y)
             {
-                questsLocation.y -= questSize / 2 + 0.5f;
+                questsLocation.y -= questSize / 4 + 0.25f;
             }
             else
             {
-                questsLocation.y += questSize / 2;
+                questsLocation.y += questSize / 4;
+            }
+            if (categoriesRT.rect.height > Screen.height - upperPanelHeight && endCategories - (questSize / 2) - 0.5 < categoriesLocation.y)
+            {
+                categoriesLocation.y -= questSize / 4 + 0.25f;
+            }
+            else
+            {
+                categoriesLocation.y += questSize / 4;
             }
         }
         quests.transform.position = new Vector3(quests.transform.position.x, questsLocation.y);
+        categories.transform.position = new Vector3(categories.transform.position.x, categoriesLocation.y);
     }
 
     public void resetRewardsPosition(bool adding)

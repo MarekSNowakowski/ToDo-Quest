@@ -44,7 +44,7 @@ public class AddPanelManager : MonoBehaviour
 
             if(editingID!=null)
             {
-                questManager.RemoveQuest(questManager.FindQuestWithID(editingID));
+                questManager.RemoveQuest(editingID);
             }
             questManager.AddQuest(questData);
 

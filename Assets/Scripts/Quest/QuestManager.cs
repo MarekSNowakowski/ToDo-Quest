@@ -6,12 +6,6 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    [SerializeField]
-    QuestFactory questFactory;
-
-    [SerializeField]
-    QuestContainer container;
-
     QuestDetails questDetails;
     [SerializeField]
     GameObject detailsCanvas;
@@ -22,7 +16,10 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     LevelManager levelManager;
 
-    List<Quest> activeQuests = new List<Quest>();
+    [SerializeField]
+    List<QuestDisplayer> questDisplayers;
+
+    List<QuestData> activeQuests = new List<QuestData>();
 
     string filepath;
 
@@ -34,106 +31,103 @@ public class QuestManager : MonoBehaviour
     private void Awake()
     {
         filepath = Application.persistentDataPath + "/save.dat";
+        LoadFromFile();
         Load();
     }
 
     public void AddQuest(QuestData questData)
     {
-        Quest quest = questFactory.AddQuest(questData);
-        quest.Initialize(questData);
-        SetUpAfterAddingQuest(quest);
+        questData.Initialize();
+        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.AddQuest(this, questData);
+        }
+        activeQuests.Add(questData);
+        Save();
     }
 
-    void SetUpAfterAddingQuest(Quest quest)
-    {
-        activeQuests.Add(quest);
-        Save();
-        Unload();
-        Load();
-        container.RefreshSize(true);
-    }
 
     public void Save()
     {
-        List<QuestData> data = new List<QuestData>();
-
-        activeQuests.Sort();
-        foreach (Quest quest in activeQuests)
-        {
-            QuestData questData = quest.Save();
-            data.Add(questData);
-        }
-
         using (FileStream file = File.Create(filepath))
         {
-            new BinaryFormatter().Serialize(file, data);
+            new BinaryFormatter().Serialize(file, activeQuests);
         }
     }
 
-    public void Load()
+    public void LoadFromFile()
     {
         if (File.Exists(filepath))
         {
-            List<QuestData> data = new List<QuestData>();
-
             using (FileStream file = File.Open(filepath, FileMode.Open))
             {
                 object loadedData = new BinaryFormatter().Deserialize(file);
-                data = (List<QuestData>)loadedData;
+                activeQuests = (List<QuestData>)loadedData;
             }
-            data.Sort();
-            foreach (QuestData questData in data)
-            {
-                Quest quest = questFactory.LoadQuest(questData);
-                activeQuests.Add(quest);
-                quest.GetManager(this);
-            }
+            activeQuests.Sort();
         }else
         {
             Save();
         }
     }
 
+    public void Load()
+    {
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.Load(this, activeQuests);
+        }
+    }
+
     public void Unload()
     {
         transform.DetachChildren();
-        foreach (Quest quest in activeQuests)
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
-            Destroy(quest.gameObject);
+            questDisplayer.Unload();
         }
-        activeQuests.Clear();
     }
 
-    public void RemoveQuest(Quest quest)
+    public void RemoveQuest(string id)
     {
-        QuestData questData = quest.Save();
-        if(questData.reward!=null)
+        QuestData questData = FindQuestWithID(id);
+
+        GiveReward(questData);
+        activeQuests.Remove(questData);
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
-            if(questData.reward.StartsWith("+"))
+            questDisplayer.RemoveQuest(id);
+        }
+        Save();
+        //Unload();
+        //StartCoroutine(r_waitFrame());
+        //Load();
+    }
+
+    public void GiveReward(QuestData questData)
+    {
+        if (questData.reward != null)
+        {
+            if (questData.reward.StartsWith("+"))
             {
-                string rewardPoints = questData.reward.Remove(0,1);
+                string rewardPoints = questData.reward.Remove(0, 1);
                 int points;
 
-                if(int.TryParse(rewardPoints, out points))
+                if (int.TryParse(rewardPoints, out points))
                 {
-                    if(points > 0 && points < 1000)
-                    levelManager.AddExperience(points);
-                }else
+                    if (points > 0 && points < 1000)
+                        levelManager.AddExperience(points);
+                }
+                else
                 {
                     rewardManager.AddReward(questData);
                 }
-            }else
+            }
+            else
             {
                 rewardManager.AddReward(questData);
             }
         }
-        activeQuests.Remove(quest);
-        Destroy(quest.gameObject);
-        Save();
-        Unload();
-        StartCoroutine(r_waitFrame());
-        Load();
-        container.RefreshSize(false);
     }
 
     IEnumerator r_waitFrame()
@@ -147,7 +141,7 @@ public class QuestManager : MonoBehaviour
         questDetails.ShowQuestDetails(questData);
     }
 
-    public Quest FindQuestWithID(string ID)
+    public QuestData FindQuestWithID(string ID)
     {
         return activeQuests.Find(x => x.ID == ID);
     }

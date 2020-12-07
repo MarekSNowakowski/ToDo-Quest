@@ -30,8 +30,9 @@ public class QuestContainer : MonoBehaviour
 
     public void RefreshSize(bool adding)
     {
-        numberOfChildren = myRectTransform.childCount;
-
+        //numberOfChildren = myRectTransform.childCount;
+        if (adding) numberOfChildren++;
+        else numberOfChildren--;
         var height = numberOfChildren * questPanelHeight;
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
