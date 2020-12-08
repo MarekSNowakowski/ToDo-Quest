@@ -53,6 +53,7 @@ public class QuestDisplayer : MonoBehaviour
         Quest quest = FindQuestWithID(id);
         activeQuests.Remove(quest);
         Destroy(quest.gameObject);
+
         container.RefreshSize(false);
     }
 
@@ -64,5 +65,15 @@ public class QuestDisplayer : MonoBehaviour
     public Quest FindQuestWithID(string ID)
     {
         return activeQuests.Find(x => x.ID == ID);
+    }
+
+    public void StartRemovall(string id)
+    {
+        FindQuestWithID(id).RemoveSelf();
+    }
+    
+    public void CancellRemoval(string ID)
+    {
+        FindQuestWithID(ID).CancellRemoval();
     }
 }

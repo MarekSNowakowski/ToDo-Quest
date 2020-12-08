@@ -34,6 +34,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     [SerializeField]
     GameObject cancelRemovalButton;
     bool toBeRemoved;
+    private bool thisQuestIsRemoving;
 
     void SetUp()
     {
@@ -79,17 +80,29 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.questManager = questManager;
     }
 
-    public void RemoveSelf()
+    public void Remove()
     {
-        StartCoroutine(ToBeRemovedCO());
+        questManager.StartRemovall(Save());
+        thisQuestIsRemoving = true;
     }
 
-    public void CancelRemoval()
+    public void RemoveSelf()
+    {
+            StartCoroutine(ToBeRemovedCO());
+    }
+
+    public void CancellRemoval()
     {
         toBeRemoved = false;
+        thisQuestIsRemoving = false;
         nameText.text = questName;
         cancelRemovalButton.SetActive(false);
         removeButton.SetActive(true);
+    }
+
+    public void StartCancellRemoval()
+    {
+        questManager.CancellRemoval(ID);
     }
 
     IEnumerator ToBeRemovedCO()
@@ -105,7 +118,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         {
             yield return new WaitForSeconds(1);
         }
-        if(toBeRemoved)
+        if(toBeRemoved && thisQuestIsRemoving)
         {
             questManager.RemoveQuest(this.ID);
         }

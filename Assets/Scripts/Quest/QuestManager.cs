@@ -91,7 +91,6 @@ public class QuestManager : MonoBehaviour
     public void RemoveQuest(string id)
     {
         QuestData questData = FindQuestWithID(id);
-
         GiveReward(questData);
         activeQuests.Remove(questData);
         foreach (QuestDisplayer questDisplayer in questDisplayers)
@@ -102,6 +101,14 @@ public class QuestManager : MonoBehaviour
         //Unload();
         //StartCoroutine(r_waitFrame());
         //Load();
+    }
+
+    public void StartRemovall(QuestData questData)
+    {
+        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.StartRemovall(questData.ID);
+        }
     }
 
     public void GiveReward(QuestData questData)
@@ -144,5 +151,13 @@ public class QuestManager : MonoBehaviour
     public QuestData FindQuestWithID(string ID)
     {
         return activeQuests.Find(x => x.ID == ID);
+    }
+
+    public void CancellRemoval(string id)
+    {
+        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.CancellRemoval(id);
+        }
     }
 }

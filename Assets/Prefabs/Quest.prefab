@@ -62,9 +62,9 @@ MonoBehaviour:
   rewardImage: {fileID: 3637901913256097930}
   commentImage: {fileID: 7877029936099824285}
   weightImage: {fileID: 5601885390258727840}
+  ID: 
   removeButton: {fileID: 8012451384872788696}
   cancelRemovalButton: {fileID: 8262126606973059552}
-  ID: 
 --- !u!1 &795257630416540877
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1510738165509597280}
-        m_MethodName: RemoveSelf
+        m_MethodName: Remove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -920,7 +920,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1510738165509597280}
-        m_MethodName: CancelRemoval
+        m_MethodName: StartCancellRemoval
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
