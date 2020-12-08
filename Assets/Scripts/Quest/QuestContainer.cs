@@ -5,21 +5,30 @@ using UnityEngine;
 public class QuestContainer : MonoBehaviour
 {
     [SerializeField]
-    PageSwiper pageSwiper;
+    protected PageSwiper pageSwiper;
 
-    int numberOfChildren;
-    float questPanelHeight = 115;
-    RectTransform myRectTransform;
+    protected int questCount;
+    protected float questPanelHeight = 115;
+    protected RectTransform myRectTransform;
 
-    private void Start()
+    public virtual void Start()
     {
         myRectTransform = gameObject.GetComponent<RectTransform>();
-        numberOfChildren = myRectTransform.childCount;
+        CountChildren();
 
-        var height = numberOfChildren * questPanelHeight;
+        var height = questCount * questPanelHeight;
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
+    }
+
+    public virtual void CountChildren()
+    {
+        questCount = 0;
+        foreach(Transform child in transform)
+        {
+            if (child.tag == "Quest") questCount++;
+        }
     }
 
     // Start is called before the first frame update
@@ -28,12 +37,12 @@ public class QuestContainer : MonoBehaviour
         myRectTransform = gameObject.GetComponent<RectTransform>();
     }
 
-    public void RefreshSize(bool adding)
+    public virtual void RefreshSize(bool adding)
     {
         //numberOfChildren = myRectTransform.childCount;
-        if (adding) numberOfChildren++;
-        else numberOfChildren--;
-        var height = numberOfChildren * questPanelHeight;
+        if (adding) questCount++;
+        else questCount--;
+        var height = questCount * questPanelHeight;
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
