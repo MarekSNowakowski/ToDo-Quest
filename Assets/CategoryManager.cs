@@ -57,6 +57,11 @@ public class CategoryManager : MonoBehaviour
         categories.Add(category);
         categoriesBox.RefreshSize(categories.Count);
     }
+
+    public bool CheckColor(Color color)
+    {
+        return categories.Find(x => x.color == color).id != null;
+    }
 }
 
 public struct Category

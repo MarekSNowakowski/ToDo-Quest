@@ -30,6 +30,17 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     AddPanelView addPanelView;
     string editingID;
+
+    [Header("CategoryPanel")]
+    [SerializeField]
+    CategoryManager categoryManager;
+    [SerializeField]
+    GameObject categoryPanel;
+    [SerializeField]
+    TMP_InputField categoryInputField;
+    [SerializeField]
+    Image categoryIcon;
+    CategoryColor categoryColor = null;
     
 
     public void Submit()
@@ -106,7 +117,15 @@ public class AddPanelManager : MonoBehaviour
 
     public void Close()
     {
-        Clear();
+        if (mainAddPanel.activeInHierarchy || commentPanel.activeInHierarchy)
+        {
+            Clear();
+        }
+        if (categoryPanel.activeInHierarchy)
+        {
+            CloseCategory();
+        }
+
         addPanelView.Close();
     }
 
@@ -118,5 +137,66 @@ public class AddPanelManager : MonoBehaviour
         editingID = null;
         comment = "";
         commentFeild.text = "";
+    }
+
+    public void OpenCategory()
+    {
+        commentPanel.SetActive(false);
+        mainAddPanel.SetActive(false);
+        categoryPanel.SetActive(true);
+    }
+
+    public void CloseCategory()
+    {
+        categoryPanel.SetActive(false);
+        categoryInputField.text = "";
+    }
+
+    public void SubmitCategory()
+    {
+        string name = categoryInputField.text;
+        if(categoryColor!=null)
+        {
+            if(name!=null && name!="")
+            {
+                categoryManager.AddCategory(name, categoryColor.GetColor());
+                categoryColor.Block();
+                CloseCategory();
+            }
+            else
+            {
+                Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
+            }
+        }
+        else
+        {
+            if (!categoryManager.CheckColor(Color.white))
+            {
+                if (name != null && name != "")
+                {
+                    categoryManager.AddCategory(name, Color.white);
+                    CloseCategory();
+                }
+                else
+                {
+                    Debug.LogWarning("Nie można utworzyć kategorii z powodu braku wybranego koloru!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
+            }
+        }
+    }
+
+    public void OnColorChoose(CategoryColor categoryColor)
+    {
+        this.categoryColor = categoryColor;
+        categoryIcon.color = categoryColor.GetColor();
+    }
+
+    public CategoryManager GetCategoryManager()
+    {
+        return categoryManager;
     }
 }
