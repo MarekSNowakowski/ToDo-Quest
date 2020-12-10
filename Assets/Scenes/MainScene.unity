@@ -1146,6 +1146,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162549812}
   m_CullTransparentMesh: 0
+--- !u!1 &195685426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195685427}
+  - component: {fileID: 195685428}
+  m_Layer: 5
+  m_Name: Categories
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &195685427
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195685426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 590087110}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &195685428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195685426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &209321176
 GameObject:
   m_ObjectHideFlags: 0
@@ -4406,6 +4467,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 581700007}
+  - {fileID: 195685427}
   m_Father: {fileID: 2121359589}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4428,6 +4490,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 581700006}
   noCategoriesText: {fileID: 557349786}
+  categoryPrefab: {fileID: 347593139646735392, guid: f00b4a02a93fdc646b672af49fd2318e,
+    type: 3}
+  categoriesContainer: {fileID: 195685427}
 --- !u!1 &596627508
 GameObject:
   m_ObjectHideFlags: 0
@@ -6101,6 +6166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   categoriesBox: {fileID: 590087111}
+  addPanelManager: {fileID: 1254508439}
 --- !u!1 &789275271
 GameObject:
   m_ObjectHideFlags: 0
@@ -7960,6 +8026,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 590087111}
         m_MethodName: OnCategoriesChoosePress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 787022890}
+        m_MethodName: LoadCategoriesToBox
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10017,7 +10094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1254508434
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10132,6 +10209,7 @@ MonoBehaviour:
   questNameFeild: {fileID: 1939635295}
   rewardFeild: {fileID: 1079362937}
   weightImage: {fileID: 1419470056}
+  categoryIcon: {fileID: 1048888833}
   commentPanel: {fileID: 78704097}
   commentFeild: {fileID: 1731715542}
   questManager: {fileID: 1268028214}
@@ -10139,7 +10217,7 @@ MonoBehaviour:
   categoryManager: {fileID: 787022890}
   categoryPanel: {fileID: 377868670}
   categoryInputField: {fileID: 1719896103}
-  categoryIcon: {fileID: 318804337}
+  categoryCreationIcon: {fileID: 318804337}
 --- !u!1 &1257417273
 GameObject:
   m_ObjectHideFlags: 0

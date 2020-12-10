@@ -16,6 +16,9 @@ public class AddPanelManager : MonoBehaviour
     int weight = 0;
     [SerializeField]
     Image weightImage;
+    [SerializeField]
+    Image categoryIcon;
+    Category activeCategory;
 
     [Header("CommentPanel")]
     [SerializeField]
@@ -39,7 +42,7 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     TMP_InputField categoryInputField;
     [SerializeField]
-    Image categoryIcon;
+    Image categoryCreationIcon;
     CategoryColor categoryColor = null;
     
 
@@ -52,12 +55,17 @@ public class AddPanelManager : MonoBehaviour
             if (rewardFeild.text != "") questData.reward = rewardFeild.text;
             if (comment != "") questData.comment = comment;
             questData.weight = weight;
+            if (activeCategory != null)
+            {
+                questData.category = activeCategory;
+            }
 
-            if(editingID!=null)
+            if (editingID!=null)
             {
                 questManager.RemoveQuest(editingID);
             }
             questManager.AddQuest(questData);
+
 
             Close();
         }
@@ -137,6 +145,8 @@ public class AddPanelManager : MonoBehaviour
         editingID = null;
         comment = "";
         commentFeild.text = "";
+        activeCategory = null;
+        categoryIcon.color = Color.white;
     }
 
     public void OpenCategory()
@@ -192,11 +202,17 @@ public class AddPanelManager : MonoBehaviour
     public void OnColorChoose(CategoryColor categoryColor)
     {
         this.categoryColor = categoryColor;
-        categoryIcon.color = categoryColor.GetColor();
+        categoryCreationIcon.color = categoryColor.GetColor();
     }
 
     public CategoryManager GetCategoryManager()
     {
         return categoryManager;
+    }
+
+    public void ChooseCategory(Category category)
+    {
+        categoryIcon.color = category.GetColor();
+        activeCategory = category;
     }
 }

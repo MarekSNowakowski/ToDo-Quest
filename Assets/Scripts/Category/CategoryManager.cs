@@ -10,13 +10,17 @@ public class CategoryManager : MonoBehaviour
     List<Category> categories;
     [SerializeField]
     CategoriesBox categoriesBox;
+    [SerializeField]
+    AddPanelManager addPanelManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        categories = new List<Category>();
         filepath = Application.persistentDataPath + "/saveC.dat";
         LoadCategories();
         categoriesBox.RefreshSize(categories.Count);
+        categoriesBox.LoadCategories(categories);
     }
 
     void LoadCategories()
@@ -25,21 +29,25 @@ public class CategoryManager : MonoBehaviour
         {
             using (FileStream file = File.Open(filepath, FileMode.Open))
             {
-                if(file.Length != 0)
+                if (file.Length != 0)
                 {
                     object loadedData = new BinaryFormatter().Deserialize(file);
                     categories = (List<Category>)loadedData;
-                }else
-                {
-                    categories = new List<Category>();
                 }
-
             }
-            categories.Sort();
+            AddManagers();
         }
         else
         {
             Save();
+        }
+    }
+
+    void AddManagers()
+    {
+        foreach(Category category in categories)
+        {
+            category.SetManager(this); 
         }
     }
 
@@ -53,27 +61,24 @@ public class CategoryManager : MonoBehaviour
     
     public void AddCategory(string name, Color color)
     {
-        Category category = new Category(name, color);
+        Category category = new Category(name, color, this);
         categories.Add(category);
         categoriesBox.RefreshSize(categories.Count);
+        categoriesBox.LoadCategory(category);
+        Save();
     }
 
     public bool CheckColor(Color color)
     {
-        return categories.Find(x => x.color == color).id != null;
+        if (categories.Count == 0) return false;
+        return categories.Find(x => x.GetColor() == color).GetID() != null;
     }
-}
 
-public struct Category
-{
-    public string id;
-    public string name;
-    public Color color;
-
-    public Category(string name, Color color)
+    public void ChooseCategory(Category category)
     {
-        id = CorrelationIdGenerator.GetNextId();
-        this.name = name;
-        this.color = color;
+        addPanelManager.ChooseCategory(category);
+        categoriesBox.CloseCategoriesContainer();
     }
 }
+
+

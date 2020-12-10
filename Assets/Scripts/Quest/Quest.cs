@@ -17,6 +17,8 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     GameObject commentImage;
     [SerializeField]
     Image weightImage;
+    [SerializeField]
+    Image categoryImage;
 
     QuestManager questManager;
 
@@ -27,6 +29,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     int weight;
     string comment;
     DateTime questCreationDateTime;
+    Category category;
 
     [Header("Removal")]
     [SerializeField]
@@ -41,7 +44,12 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         nameText.text = questName;
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
         if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
-        switch(weight)
+        if (category != null)
+        {
+            categoryImage.gameObject.SetActive(true);
+            categoryImage.color = category.GetColor();
+        }
+        switch (weight)
         {
             case 1:
                 weightImage.color = new Color(0, 210, 0);
@@ -72,6 +80,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.weight = questData.weight;
         this.comment = questData.comment;
         this.questCreationDateTime = questData.creationDateTime;
+        this.category = questData.category;
         SetUp();
     }
 
@@ -152,6 +161,7 @@ public struct QuestData : IComparable<QuestData>
     public int weight;
     public string comment;
     public DateTime creationDateTime;
+    public Category category;
 
     public QuestData(string ID, string questName, string reward, int weight, string comment)
     {
@@ -161,6 +171,7 @@ public struct QuestData : IComparable<QuestData>
         this.weight = weight;
         this.comment = comment;
         this.creationDateTime = DateTime.Now;
+        this.category = null;
     }
 
     public QuestData(string ID, string questName, string reward, int weight, string comment, DateTime creationDateTime)
@@ -171,6 +182,7 @@ public struct QuestData : IComparable<QuestData>
         this.weight = weight;
         this.comment = comment;
         this.creationDateTime = DateTime.Now;
+        this.category = null;
     }
 
     public void Initialize()
