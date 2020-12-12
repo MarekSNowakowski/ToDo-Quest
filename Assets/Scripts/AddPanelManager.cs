@@ -19,6 +19,9 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     Image categoryIcon;
     Category activeCategory;
+    [SerializeField]
+    Sprite bookmarIcon;
+    Sprite bookmarkEmpty;
 
     [Header("CommentPanel")]
     [SerializeField]
@@ -69,6 +72,12 @@ public class AddPanelManager : MonoBehaviour
 
             Close();
         }
+    }
+
+    private void Start()
+    {
+        bookmarkEmpty = categoryIcon.sprite;
+        this.gameObject.SetActive(false); 
     }
 
     public void OpenCommentPanel()
@@ -147,6 +156,7 @@ public class AddPanelManager : MonoBehaviour
         commentFeild.text = "";
         activeCategory = null;
         categoryIcon.color = Color.white;
+        categoryIcon.sprite = bookmarkEmpty;
     }
 
     public void OpenCategory()
@@ -212,6 +222,7 @@ public class AddPanelManager : MonoBehaviour
 
     public void ChooseCategory(Category category)
     {
+        categoryIcon.sprite = bookmarIcon;
         categoryIcon.color = category.GetColor();
         activeCategory = category;
     }

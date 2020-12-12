@@ -18,10 +18,12 @@ public class QuestDetails : MonoBehaviour
     //TextMeshProUGUI date;
     //[SerializeField]
     //GameObject dateField;
-    //[SerializeField]
-    //TextMeshProUGUI categoryName;
-    //[SerializeField]
-    //GameObject categoryField;
+    [SerializeField]
+    TextMeshProUGUI categoryName;
+    [SerializeField]
+    GameObject categoryField;
+    [SerializeField]
+    Image categoryIcon;
     [SerializeField]
     TextMeshProUGUI comment;
     [SerializeField]
@@ -50,6 +52,12 @@ public class QuestDetails : MonoBehaviour
             commentField.SetActive(true);
             comment.text = questData.comment;
         }
+        if (questData.category != null)
+        {
+            categoryField.SetActive(true);
+            categoryName.text = questData.category.GetName();
+            categoryIcon.color = questData.category.GetColor();
+        }
         //date and category showing TBD
         switch (questData.weight)
         {
@@ -73,12 +81,13 @@ public class QuestDetails : MonoBehaviour
         questName.text = "";
         rewardName.text = "";
         //date.text = "";
-        //category.text = "";
+        categoryName.text = "";
+        categoryIcon.color = Color.white;
 
         rewardField.SetActive(false);
         commentField.SetActive(false);
         //dateField.SetActive(false);
-        //categoryField.SetActive(false);
+        categoryField.SetActive(false);
 
         this.gameObject.SetActive(false);
     }

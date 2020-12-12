@@ -14,7 +14,6 @@ public class Category
         id = CorrelationIdGenerator.GetNextId();
         this.categoryName = name;
         this.color = ColorUtility.ToHtmlStringRGB(color);
-        Debug.Log(color);
         this.categoryManager = categoryManager;
     }
 

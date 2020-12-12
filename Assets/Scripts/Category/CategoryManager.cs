@@ -71,7 +71,7 @@ public class CategoryManager : MonoBehaviour
     public bool CheckColor(Color color)
     {
         if (categories.Count == 0) return false;
-        return categories.Find(x => x.GetColor() == color).GetID() != null;
+        return categories.Exists(x => x.GetColor() == color);
     }
 
     public void ChooseCategory(Category category)

@@ -68,7 +68,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, questCreationDateTime);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime);
         return saveData;
     }
 
@@ -136,7 +136,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public void ShowDetails()
     {
-        QuestData questData = new QuestData(ID, questName, reward, weight, comment);
+        QuestData questData = Save();
         questManager.ShowQuestDetails(questData);
     }
 
@@ -163,7 +163,7 @@ public struct QuestData : IComparable<QuestData>
     public DateTime creationDateTime;
     public Category category;
 
-    public QuestData(string ID, string questName, string reward, int weight, string comment)
+    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime)
     {
         this.ID = ID;
         this.questName = questName;
@@ -171,18 +171,7 @@ public struct QuestData : IComparable<QuestData>
         this.weight = weight;
         this.comment = comment;
         this.creationDateTime = DateTime.Now;
-        this.category = null;
-    }
-
-    public QuestData(string ID, string questName, string reward, int weight, string comment, DateTime creationDateTime)
-    {
-        this.ID = ID;
-        this.questName = questName;
-        this.reward = reward;
-        this.weight = weight;
-        this.comment = comment;
-        this.creationDateTime = DateTime.Now;
-        this.category = null;
+        this.category = category;
     }
 
     public void Initialize()
