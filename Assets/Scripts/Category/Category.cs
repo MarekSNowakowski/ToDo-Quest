@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
+using System;
 
-[System.Serializable]
-public class Category
+[Serializable]
+public class Category : IComparable<Category>
 {
     readonly string id;
     readonly string categoryName;
     string color;
-    [System.NonSerialized]
+    [NonSerialized]
     CategoryManager categoryManager;
+    DateTime creationDateTime;
 
     public Category(string name, Color color, CategoryManager categoryManager)
     {
@@ -15,6 +17,7 @@ public class Category
         this.categoryName = name;
         this.color = ColorUtility.ToHtmlStringRGB(color);
         this.categoryManager = categoryManager;
+        creationDateTime = DateTime.Now;
     }
 
     public void SetManager(CategoryManager categoryManager)
@@ -43,5 +46,13 @@ public class Category
         return categoryManager;
     }
 
+    public DateTime GetCreationDate()
+    {
+        return creationDateTime;
+    }
 
+    public int CompareTo(Category other)
+    {
+        return (-1) * creationDateTime.CompareTo(other.GetCreationDate());
+    }
 }

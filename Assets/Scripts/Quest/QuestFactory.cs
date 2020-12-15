@@ -12,7 +12,6 @@ public class QuestFactory : MonoBehaviour
         GameObject ob = Instantiate(questObject);
         ob.transform.SetParent(transform);
         Quest quest = ob.GetComponent<Quest>();
-        quest.Load(questData);
 
         return quest;
     }

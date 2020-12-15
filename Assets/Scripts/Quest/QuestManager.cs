@@ -38,12 +38,20 @@ public class QuestManager : MonoBehaviour
     public void AddQuest(QuestData questData)
     {
         questData.Initialize();
-        foreach(QuestDisplayer questDisplayer in questDisplayers)
-        {
-            questDisplayer.AddQuest(this, questData);
-        }
+        //foreach(QuestDisplayer questDisplayer in questDisplayers)
+        //{
+        //    questDisplayer.AddQuest(this, questData);
+        //}
         activeQuests.Add(questData);
         Save();
+        Unload();
+        LoadFromFile();
+        Load();
+
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.RefreshContainer(true);
+        }
     }
 
 
@@ -81,7 +89,6 @@ public class QuestManager : MonoBehaviour
 
     public void Unload()
     {
-        transform.DetachChildren();
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.Unload();

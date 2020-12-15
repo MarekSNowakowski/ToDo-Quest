@@ -21,6 +21,8 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     Image categoryImage;
 
     QuestManager questManager;
+    //Important for sorting
+    QuestDisplayerState sortingState;
 
     [Header("Quest Data")]
     public string ID;
@@ -44,7 +46,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         nameText.text = questName;
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
         if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
-        if (category != null)
+        if (category != null && sortingState != QuestDisplayerState.SortByCategory)
         {
             categoryImage.gameObject.SetActive(true);
             categoryImage.color = category.GetColor();
@@ -72,7 +74,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         return saveData;
     }
 
-    public void Load(QuestData questData)
+    public void Load(QuestData questData, QuestDisplayerState state)
     {
         this.ID = questData.ID;
         this.questName = questData.questName;
@@ -81,6 +83,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.comment = questData.comment;
         this.questCreationDateTime = questData.creationDateTime;
         this.category = questData.category;
+        this.sortingState = state;
         SetUp();
     }
 
@@ -97,7 +100,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public void RemoveSelf()
     {
-            StartCoroutine(ToBeRemovedCO());
+        StartCoroutine(ToBeRemovedCO());
     }
 
     public void CancellRemoval()
@@ -142,17 +145,31 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public int CompareTo(Quest other)
     {
-        if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
-        else return (-1) * questCreationDateTime.CompareTo(other.questCreationDateTime);
+        if(sortingState == QuestDisplayerState.SortByCategory)
+        {
+            if (this.category != other.category) return (-1) * category.CompareTo(other.category);
+            else if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
+            else return (-1) * questCreationDateTime.CompareTo(other.questCreationDateTime);
+        }
+        else
+        {
+            if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
+            else return (-1) * questCreationDateTime.CompareTo(other.questCreationDateTime);
+        }
     }
 
     public string GetName()
     {
         return this.questName;
     }
+
+    public Category GetCategory()
+    {
+        return category;
+    }
 }
 
-[System.Serializable]
+[Serializable]
 public struct QuestData : IComparable<QuestData>
 {
     public string ID;

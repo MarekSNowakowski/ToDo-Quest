@@ -1693,7 +1693,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questFactory: {fileID: 1524823895}
+  labelFactory: {fileID: 0}
   container: {fileID: 1524823893}
+  state: 1
 --- !u!114 &264740474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6139,7 +6141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questFactory: {fileID: 1616329045}
+  labelFactory: {fileID: 1616329050}
   container: {fileID: 1616329046}
+  state: 0
 --- !u!114 &787022889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13076,6 +13080,7 @@ GameObject:
   - component: {fileID: 1616329047}
   - component: {fileID: 1616329045}
   - component: {fileID: 1616329046}
+  - component: {fileID: 1616329050}
   m_Layer: 5
   m_Name: QuestsContainer
   m_TagString: Untagged
@@ -13192,6 +13197,21 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
+--- !u!114 &1616329050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616329043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c33761fbff7364281e72a592d747e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelCategory: {fileID: 347593139646735392, guid: 3be8000a4c004404e97946aa2e25ab6a,
+    type: 3}
+  emptyBookmarkIcon: {fileID: 21300000, guid: 4678ef922f02ecd43a0ee90dd543a749, type: 3}
 --- !u!1 &1642814008
 GameObject:
   m_ObjectHideFlags: 0
