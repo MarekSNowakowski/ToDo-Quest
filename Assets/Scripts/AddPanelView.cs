@@ -19,6 +19,15 @@ public class AddPanelView : MonoBehaviour
     GameObject mainAddPanel;
     [SerializeField]
     GameObject commentAddPanel;
+    [SerializeField]
+    GameObject datePanel;
+
+    [Header("CommentPanel")]
+    [SerializeField]
+    GameObject commentPanel;
+    [SerializeField]
+    TMPro.TMP_InputField commentFeild;
+
 
     float screenHeight = Screen.height;
 
@@ -51,6 +60,7 @@ public class AddPanelView : MonoBehaviour
     {
         mainAddPanel.SetActive(true);
         commentAddPanel.SetActive(false);
+        datePanel.SetActive(false);
         this.gameObject.SetActive(false);
     }
 
@@ -108,5 +118,32 @@ public class AddPanelView : MonoBehaviour
     {
         rewardInput.ActivateInputField();
         rewardInput.Select();
+    }
+
+    public void OpenCommentPanel()
+    {
+        commentPanel.SetActive(true);
+        mainAddPanel.SetActive(false);
+        commentFeild.ActivateInputField();
+        commentFeild.Select();
+    }
+
+    public void CloseCommentPanel()
+    {
+        commentFeild.text = "";
+        commentPanel.SetActive(false);
+        mainAddPanel.SetActive(true);
+        nameInput.ActivateInputField();
+        nameInput.Select();
+    }
+
+    public void OpenDatePanel()
+    {
+        datePanel.SetActive(true);
+    }
+
+    public void CloseDatePanel()
+    {
+        datePanel.SetActive(false);
     }
 }

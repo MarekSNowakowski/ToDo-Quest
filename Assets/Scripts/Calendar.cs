@@ -1,62 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
 using TMPro;
 using System.Globalization;
 
 public class Calendar : MonoBehaviour
 {
-    /// <summary>
-    /// Cell or slot in the calendar. All the information each day should now about itself
-    /// </summary>
-    public class Day
-    {
-        public int dayNum;
-        public Color dayColor;
-        public GameObject obj;
-        public Color nonActiveColor;
-        public bool active;
-
-        /// <summary>
-        /// Constructor of Day
-        /// </summary>
-        public Day(int dayNum, Color dayColor, GameObject obj, bool active)
-        {
-            this.dayNum = dayNum;
-            this.obj = obj;
-            UpdateActivnes(active, dayColor);
-            UpdateDay(dayNum);
-        }
-
-        /// <summary>
-        /// Call this when updating the color so that both the dayColor is updated, as well as the visual color on the screen
-        /// </summary>
-        public void UpdateActivnes(bool active, Color newColor)
-        {
-            this.active = active;
-            obj.GetComponent<Image>().color = newColor;
-            dayColor = newColor;
-        }
-
-        /// <summary>
-        /// When updating the day we decide whether we should show the dayNum based on the color of the day
-        /// This means the color should always be updated before the day is updated
-        /// </summary>
-        public void UpdateDay(int newDayNum)
-        {
-            this.dayNum = newDayNum;
-            if(active)
-            {
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = (dayNum + 1).ToString();
-            }
-            else
-            {
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = "";
-            }
-        }
-    }
-
     /// <summary>
     /// All the days in the month. After we make our first calendar we store these days in this list so we do not have to recreate them every time.
     /// </summary>
@@ -86,6 +35,7 @@ public class Calendar : MonoBehaviour
     public Color activeDayColor;
     public Color nonActiveDayColor;
     public Color currentDayColor;
+    public Color selectedColor;
 
     /// <summary>
     /// In awake we set the Calendar to the current date
@@ -104,7 +54,7 @@ public class Calendar : MonoBehaviour
         currDate = temp;
         CultureInfo cultureInfo = new CultureInfo("en-US");
         MonthAndYear.text = temp.Year.ToString() + "\n" + temp.ToString("MMMM", cultureInfo);
-        int startDay = GetMonthStartDay(year,month);
+        int startDay = GetMonthStartDay(year,month) - 1;
         int endDay = GetTotalNumberOfDays(year, month);
         //Activate last week because it can be inactive
         weeks[weeks.Length - 1].gameObject.SetActive(true);
@@ -119,15 +69,19 @@ public class Calendar : MonoBehaviour
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    Day newDay;
                     int currDay = (w * 7) + i;
+
+                    Day newDay = weeks[w].GetChild(i).gameObject.AddComponent<Day>();
+                    
                     if (currDay < startDay || currDay - startDay >= endDay)
                     {
-                        newDay = new Day(currDay - startDay, nonActiveDayColor, weeks[w].GetChild(i).gameObject, false);
+                        newDay.InitializeDay(DateTime.Now, nonActiveDayColor, false, this);
                     }
                     else
                     {
-                        newDay = new Day(currDay - startDay, activeDayColor, weeks[w].GetChild(i).gameObject, true);
+                        Debug.Log(currDay - startDay);
+                        DateTime date = new DateTime(year, month, currDay - startDay + 1);
+                        newDay.InitializeDay(date, activeDayColor, true, this);
                     }
                     days.Add(newDay);
                 }
@@ -148,7 +102,7 @@ public class Calendar : MonoBehaviour
                     days[i].UpdateActivnes(true, activeDayColor);
                 }
 
-                days[i].UpdateDay(i - startDay);
+                days[i].UpdateDay(i - startDay + 1);
             }
         }
 
@@ -216,5 +170,20 @@ public class Calendar : MonoBehaviour
         }
 
         UpdateCalendar(currDate.Year, currDate.Month);
+    }
+
+    public Color GetSelectedColor()
+    {
+        return selectedColor;
+    }
+
+    public void ChooseDate()
+    {
+
+    }
+
+    public void SubmitDate()
+    {
+
     }
 }

@@ -80,27 +80,10 @@ public class AddPanelManager : MonoBehaviour
         this.gameObject.SetActive(false); 
     }
 
-    public void OpenCommentPanel()
-    {
-        commentPanel.SetActive(true);
-        mainAddPanel.SetActive(false);
-        commentFeild.ActivateInputField();
-        commentFeild.Select();
-    }
-
-    public void CloseCommentPanel()
-    {
-        commentFeild.text = "";
-        commentPanel.SetActive(false);
-        mainAddPanel.SetActive(true);
-        questNameFeild.ActivateInputField();
-        questNameFeild.Select();
-    }
-
     public void SubmitComment()
     {
         comment = commentFeild.text;
-        CloseCommentPanel();
+        addPanelView.CloseCommentPanel();
     }
 
     public void IncreaseWeight()
@@ -225,5 +208,10 @@ public class AddPanelManager : MonoBehaviour
         categoryIcon.sprite = bookmarIcon;
         categoryIcon.color = category.GetColor();
         activeCategory = category;
+    }
+
+    public void SubmitDate()
+    {
+
     }
 }
