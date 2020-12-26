@@ -18433,6 +18433,7 @@ MonoBehaviour:
   categoryPanel: {fileID: 377868670}
   categoryInputField: {fileID: 1719896103}
   categoryCreationIcon: {fileID: 318804337}
+  calendar: {fileID: 78274412}
 --- !u!1 &1257417273
 GameObject:
   m_ObjectHideFlags: 0
@@ -25503,6 +25504,8 @@ MonoBehaviour:
   comment: {fileID: 1348699015}
   commentField: {fileID: 1096101866}
   addPanelCanvas: {fileID: 1254508433}
+  dateField: {fileID: 789275271}
+  date: {fileID: 1825489511}
 --- !u!114 &1765920811
 MonoBehaviour:
   m_ObjectHideFlags: 0

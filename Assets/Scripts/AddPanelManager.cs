@@ -50,6 +50,8 @@ public class AddPanelManager : MonoBehaviour
     CategoryColor categoryColor = null;
 
     [Header("Calendar")]
+    [SerializeField]
+    Calendar calendar;
     DateTime date;
     bool dateChosen;
 
@@ -123,6 +125,12 @@ public class AddPanelManager : MonoBehaviour
         IncreaseWeight();
         commentFeild.text = questData.comment;
         editingID = questData.ID;
+        date = questData.date;
+        if (date != default)
+        {
+            dateChosen = true;
+            calendar.ChooseDate(date);
+        }
     }
 
     public void Close()
@@ -135,6 +143,7 @@ public class AddPanelManager : MonoBehaviour
         {
             CloseCategory();
         }
+        calendar.Discard();
 
         addPanelView.Close();
     }

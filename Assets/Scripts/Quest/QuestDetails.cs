@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class QuestDetails : MonoBehaviour
 {
@@ -14,10 +15,6 @@ public class QuestDetails : MonoBehaviour
     GameObject rewardField;
     [SerializeField]
     Image weightImage;
-    //[SerializeField]
-    //TextMeshProUGUI date;
-    //[SerializeField]
-    //GameObject dateField;
     [SerializeField]
     TextMeshProUGUI categoryName;
     [SerializeField]
@@ -30,6 +27,10 @@ public class QuestDetails : MonoBehaviour
     GameObject commentField;
     [SerializeField]
     GameObject addPanelCanvas;
+    [SerializeField]
+    GameObject dateField;
+    [SerializeField]
+    TextMeshProUGUI date;
     AddPanelManager addPanelManager;
     QuestData questData;
 
@@ -52,13 +53,17 @@ public class QuestDetails : MonoBehaviour
             commentField.SetActive(true);
             comment.text = questData.comment;
         }
+        if (questData.date != default)
+        {
+            dateField.SetActive(true);
+            date.text = questData.date.ToString("dddd, dd MMMM yyyy");
+        }
         if (questData.category != null)
         {
             categoryField.SetActive(true);
             categoryName.text = questData.category.GetName();
             categoryIcon.color = questData.category.GetColor();
         }
-        //date and category showing TBD
         switch (questData.weight)
         {
             case 1:
@@ -83,12 +88,13 @@ public class QuestDetails : MonoBehaviour
         //date.text = "";
         categoryName.text = "";
         categoryIcon.color = Color.white;
+        date.text = "";
 
         rewardField.SetActive(false);
         commentField.SetActive(false);
         //dateField.SetActive(false);
         categoryField.SetActive(false);
-
+        dateField.SetActive(false);
         this.gameObject.SetActive(false);
     }
 

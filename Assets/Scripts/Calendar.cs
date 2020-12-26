@@ -42,6 +42,11 @@ public class Calendar : MonoBehaviour
     [SerializeField] Color currentDayColor;
     [SerializeField] Color selectedColor;
 
+    private void Start()
+    {
+        currDate = DateTime.Now;
+    }
+
     /// <summary>
     /// In awake we set the Calendar to the current date
     /// </summary>
@@ -51,7 +56,7 @@ public class Calendar : MonoBehaviour
         {
             selectedDay = null;
         }
-        UpdateCalendar(DateTime.Now.Year, DateTime.Now.Month);
+        UpdateCalendar(currDate.Year, currDate.Month);
     }
 
     /// <summary>
@@ -82,25 +87,12 @@ public class Calendar : MonoBehaviour
                     int currDay = (w * 7) + i;
 
                     Day newDay = weeks[w].GetChild(i).gameObject.GetComponent<Day>();
-                    
-                    //if (currDay < startDay || currDay - startDay >= endDay)
-                    //{
-                    //    newDay.InitializeDay(DateTime.Now, nonActiveDayColor, false, this);
-                    //}
-                    //else
-                    //{
-                    //    Debug.Log(currDay - startDay);
-                    //    DateTime date = new DateTime(year, month, currDay - startDay + 1);
-                    //    newDay.InitializeDay(date, activeDayColor, true, this);
-                    //}
                     days.Add(newDay);
                 }
             }
         }
         ///loop through days
         ///Since we already have the days objects, we can just update them rather than creating new ones
-        //else
-        //{
             for(int i = 0; i < 42; i++)
             {
                 if(i < startDay || i - startDay >= endDay)
@@ -114,10 +106,7 @@ public class Calendar : MonoBehaviour
                     DateTime date = new DateTime(year, month, i - startDay + 1);
                     days[i].InitializeDay(date, activeDayColor, true, this);
                 }
-
-                //days[i].UpdateDay(i - startDay + 1);
             }
-        //}
 
         ///This just checks if today is on our calendar. If so, we highlight it in green
         if(DateTime.Now.Year == year && DateTime.Now.Month == month)
@@ -125,7 +114,7 @@ public class Calendar : MonoBehaviour
             days[(DateTime.Now.Day - 1) + startDay].UpdateActivnes(true, currentDayColor);
         }
 
-        if(selectedDay != null && selectedDate.Year == year && selectedDate.Month == month)
+        if(selectedDate.Year == year && selectedDate.Month == month)
         {
             days[(selectedDate.Day - 1) + startDay].ChangeColorToSelected();
         }
@@ -220,6 +209,12 @@ public class Calendar : MonoBehaviour
         selectedDate = day.GetDate();
     }
 
+    public void ChooseDate(DateTime dateTime)
+    {
+        selectedDate = dateTime;
+        currDate = dateTime;
+    }
+
     public void UnChooseDate()
     {
         selectedDay = null;
@@ -240,5 +235,7 @@ public class Calendar : MonoBehaviour
     public void Discard()
     {
         selectedDay = null;
+        selectedDate = default;
+        currDate = DateTime.Now;
     }
 }
