@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class AddPanelManager : MonoBehaviour
 {
@@ -47,7 +48,11 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     Image categoryCreationIcon;
     CategoryColor categoryColor = null;
-    
+
+    [Header("Calendar")]
+    DateTime date;
+    bool dateChosen;
+
 
     public void Submit()
     {
@@ -62,11 +67,16 @@ public class AddPanelManager : MonoBehaviour
             {
                 questData.category = activeCategory;
             }
+            if (dateChosen)
+            {
+                questData.date = date;
+            }
 
             if (editingID!=null)
             {
                 questManager.RemoveQuest(editingID);
             }
+
             questManager.AddQuest(questData);
 
 
@@ -140,6 +150,7 @@ public class AddPanelManager : MonoBehaviour
         activeCategory = null;
         categoryIcon.color = Color.white;
         categoryIcon.sprite = bookmarkEmpty;
+        dateChosen = false;
     }
 
     public void OpenCategory()
@@ -210,8 +221,21 @@ public class AddPanelManager : MonoBehaviour
         activeCategory = category;
     }
 
+    public void SubmitDate(DateTime dateTime)
+    {
+        date = dateTime;
+        dateChosen = true;
+        addPanelView.CloseDatePanel();
+    }
+
     public void SubmitDate()
     {
+        dateChosen = false;
+        addPanelView.CloseDatePanel();
+    }
 
+    public bool IsDateChosen()
+    {
+        return dateChosen;
     }
 }

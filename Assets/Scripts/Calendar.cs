@@ -10,38 +10,47 @@ public class Calendar : MonoBehaviour
     /// All the days in the month. After we make our first calendar we store these days in this list so we do not have to recreate them every time.
     /// </summary>
     private List<Day> days = new List<Day>();
+    private Day selectedDay = null;
+    private DateTime selectedDate;
+
+    [SerializeField]
+    AddPanelManager addPanelManager;
 
     /// <summary>
     /// Setup in editor since there will always be six weeks. 
     /// Try to figure out why it must be six weeks even though at most there are only 31 days in a month
     /// </summary>
-    public Transform[] weeks;
+    [SerializeField] Transform[] weeks;
 
     /// <summary>
     /// This is the text object that displays the current month and year
     /// </summary>
-    public TextMeshProUGUI MonthAndYear;
+    [SerializeField] TextMeshProUGUI MonthAndYear;
 
     /// <summary>
     /// this currDate is the date our Calendar is currently on. The year and month are based on the calendar, 
     /// while the day itself is almost always just 1
     /// If you have some option to select a day in the calendar, you would want the change this objects day value to the last selected day
     /// </summary>
-    public DateTime currDate = DateTime.Now;
+    [SerializeField] DateTime currDate = DateTime.Now;
 
     /// <summary>
     /// Here set colors representing state of the day
     /// </summary>
-    public Color activeDayColor;
-    public Color nonActiveDayColor;
-    public Color currentDayColor;
-    public Color selectedColor;
+    [SerializeField] Color activeDayColor;
+    [SerializeField] Color nonActiveDayColor;
+    [SerializeField] Color currentDayColor;
+    [SerializeField] Color selectedColor;
 
     /// <summary>
     /// In awake we set the Calendar to the current date
     /// </summary>
     private void OnEnable()
     {
+        if (!addPanelManager.IsDateChosen())
+        {
+            selectedDay = null;
+        }
         UpdateCalendar(DateTime.Now.Year, DateTime.Now.Month);
     }
 
@@ -58,6 +67,7 @@ public class Calendar : MonoBehaviour
         int endDay = GetTotalNumberOfDays(year, month);
         //Activate last week because it can be inactive
         weeks[weeks.Length - 1].gameObject.SetActive(true);
+        weeks[weeks.Length - 2].gameObject.SetActive(true);
 
 
         ///Create the days
@@ -71,40 +81,43 @@ public class Calendar : MonoBehaviour
                 {
                     int currDay = (w * 7) + i;
 
-                    Day newDay = weeks[w].GetChild(i).gameObject.AddComponent<Day>();
+                    Day newDay = weeks[w].GetChild(i).gameObject.GetComponent<Day>();
                     
-                    if (currDay < startDay || currDay - startDay >= endDay)
-                    {
-                        newDay.InitializeDay(DateTime.Now, nonActiveDayColor, false, this);
-                    }
-                    else
-                    {
-                        Debug.Log(currDay - startDay);
-                        DateTime date = new DateTime(year, month, currDay - startDay + 1);
-                        newDay.InitializeDay(date, activeDayColor, true, this);
-                    }
+                    //if (currDay < startDay || currDay - startDay >= endDay)
+                    //{
+                    //    newDay.InitializeDay(DateTime.Now, nonActiveDayColor, false, this);
+                    //}
+                    //else
+                    //{
+                    //    Debug.Log(currDay - startDay);
+                    //    DateTime date = new DateTime(year, month, currDay - startDay + 1);
+                    //    newDay.InitializeDay(date, activeDayColor, true, this);
+                    //}
                     days.Add(newDay);
                 }
             }
         }
         ///loop through days
         ///Since we already have the days objects, we can just update them rather than creating new ones
-        else
-        {
+        //else
+        //{
             for(int i = 0; i < 42; i++)
             {
                 if(i < startDay || i - startDay >= endDay)
                 {
-                    days[i].UpdateActivnes(false, nonActiveDayColor);
+                    //days[i].UpdateActivnes(false, nonActiveDayColor);
+                    days[i].InitializeDay(DateTime.Now, nonActiveDayColor, false, this);
                 }
                 else
                 {
-                    days[i].UpdateActivnes(true, activeDayColor);
+                    //days[i].UpdateActivnes(true, activeDayColor);
+                    DateTime date = new DateTime(year, month, i - startDay + 1);
+                    days[i].InitializeDay(date, activeDayColor, true, this);
                 }
 
-                days[i].UpdateDay(i - startDay + 1);
+                //days[i].UpdateDay(i - startDay + 1);
             }
-        }
+        //}
 
         ///This just checks if today is on our calendar. If so, we highlight it in green
         if(DateTime.Now.Year == year && DateTime.Now.Month == month)
@@ -112,18 +125,23 @@ public class Calendar : MonoBehaviour
             days[(DateTime.Now.Day - 1) + startDay].UpdateActivnes(true, currentDayColor);
         }
 
-        CheckTheLastWeek();
+        if(selectedDay != null && selectedDate.Year == year && selectedDate.Month == month)
+        {
+            days[(selectedDate.Day - 1) + startDay].ChangeColorToSelected();
+        }
+
+        CheckTheLastWeeks();
     }
 
     /// <summary>
     /// Turns off last row if the month can be displayed in 5 rows
     /// </summary>
-    void CheckTheLastWeek()
+    void CheckTheLastWeeks()
     {
         bool turnOff = true;
         for(int i = days.Count - 7 ; i < days.Count ; i++)
         {
-            if (days[i].active)
+            if (days[i].IsActive())
             {
                 turnOff = false;
                 break;
@@ -131,7 +149,21 @@ public class Calendar : MonoBehaviour
         }
         if(turnOff)
         {
+            turnOff = true;
             weeks[weeks.Length - 1].gameObject.SetActive(false);
+            //Check the 3rd row - Febuary 2021
+            for (int i = days.Count - 14; i < days.Count - 7; i++)
+            {
+                if (days[i].IsActive())
+                {
+                    turnOff = false;
+                    break;
+                }
+            }
+            if(turnOff)
+            {
+                weeks[weeks.Length - 2].gameObject.SetActive(false);
+            }
         }
     }
 
@@ -177,13 +209,36 @@ public class Calendar : MonoBehaviour
         return selectedColor;
     }
 
-    public void ChooseDate()
+    public void ChooseDate(Day day)
     {
+        if(selectedDay != null && selectedDay != day)
+        {
+            selectedDay.UnSelect();
+        }
 
+        selectedDay = day;
+        selectedDate = day.GetDate();
+    }
+
+    public void UnChooseDate()
+    {
+        selectedDay = null;
     }
 
     public void SubmitDate()
     {
+        if(selectedDay!=null && selectedDate != null)
+        {
+            addPanelManager.SubmitDate(selectedDate);
+        }
+        else
+        {
+            addPanelManager.SubmitDate();
+        }
+    }
 
+    public void Discard()
+    {
+        selectedDay = null;
     }
 }

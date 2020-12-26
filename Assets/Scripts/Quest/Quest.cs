@@ -32,6 +32,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     string comment;
     DateTime questCreationDateTime;
     Category category;
+    public DateTime date;
 
     [Header("Removal")]
     [SerializeField]
@@ -70,7 +71,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date);
         return saveData;
     }
 
@@ -83,6 +84,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.comment = questData.comment;
         this.questCreationDateTime = questData.creationDateTime;
         this.category = questData.category;
+        this.date = questData.date;
         this.sortingState = state;
         SetUp();
     }
@@ -178,9 +180,10 @@ public struct QuestData : IComparable<QuestData>
     public int weight;
     public string comment;
     public DateTime creationDateTime;
+    public DateTime date;
     public Category category;
 
-    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime)
+    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime, DateTime date)
     {
         this.ID = ID;
         this.questName = questName;
@@ -189,6 +192,7 @@ public struct QuestData : IComparable<QuestData>
         this.comment = comment;
         this.creationDateTime = DateTime.Now;
         this.category = category;
+        this.date = date;
     }
 
     public void Initialize()
@@ -203,13 +207,13 @@ public struct QuestData : IComparable<QuestData>
         else return (-1) * creationDateTime.CompareTo(other.creationDateTime);
     }
 
-    public void UpdateData(string questName, string reward, int weight, string comment)
-    {
-        this.questName = questName;
-        this.reward = reward;
-        this.weight = weight;
-        this.comment = comment;
-    }
+    //public void UpdateData(string questName, string reward, int weight, string comment)
+    //{
+    //    this.questName = questName;
+    //    this.reward = reward;
+    //    this.weight = weight;
+    //    this.comment = comment;
+    //}
 }
 
 internal static class CorrelationIdGenerator

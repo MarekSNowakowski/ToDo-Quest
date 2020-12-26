@@ -8,11 +8,34 @@ using TMPro;
 /// </summary>
 public class Day : MonoBehaviour
 {
-    public DateTime date;
-    public Color dayColor;
-    public Color nonActiveColor;
-    public bool active;
-    public Calendar calendar;
+    DateTime date;
+    Color dayColor;
+    Color nonActiveColor;
+    bool active;
+    Calendar calendar;
+    Button button;
+
+    private void AddButton()
+    {
+        button = this.gameObject.AddComponent<Button>();
+        button.onClick.AddListener(OnDayChoose);
+    }
+
+    void TurnOffIfNotActive()
+    {
+        if(button==null)
+        {
+            AddButton();
+        }
+        if(active)
+        {
+            button.enabled = true;
+        }
+        else
+        {
+            button.enabled = false;
+        }
+    }
 
     /// <summary>
     /// Constructor of Day
@@ -23,6 +46,7 @@ public class Day : MonoBehaviour
         UpdateActivnes(active, dayColor);
         UpdateDay(date.Day);
         this.calendar = calendar;
+        TurnOffIfNotActive();
     }
 
     /// <summary>
@@ -54,7 +78,48 @@ public class Day : MonoBehaviour
 
     public void OnDayChoose()
     {
-        calendar.ChooseDate();
+        Image image = gameObject.GetComponent<Image>();
+        if (image.color != calendar.GetSelectedColor())
+        {
+            Select(image);
+        }
+        else
+        {
+            UnSelect(image);
+        }
+
+    }
+
+    void Select(Image image)
+    {
+        calendar.ChooseDate(this);
+        image.color = calendar.GetSelectedColor();
+    }
+
+    void UnSelect(Image image)
+    {
+        calendar.UnChooseDate();
+        image.color = dayColor;
+    }
+
+    public void UnSelect()
+    {
+        Image image = gameObject.GetComponent<Image>();
+        UnSelect(image);
+    }
+
+    public bool IsActive()
+    {
+        return active;
+    }
+
+    public DateTime GetDate()
+    {
+        return date;
+    }
+
+    public void ChangeColorToSelected()
+    {
         gameObject.GetComponent<Image>().color = calendar.GetSelectedColor();
     }
 }
