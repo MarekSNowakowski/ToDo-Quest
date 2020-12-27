@@ -957,6 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3df8362132c8f4482c9e567f8e29fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedDay: {fileID: 0}
   addPanelManager: {fileID: 1254508439}
   weeks:
   - {fileID: 853153320}
@@ -18434,6 +18435,8 @@ MonoBehaviour:
   categoryInputField: {fileID: 1719896103}
   categoryCreationIcon: {fileID: 318804337}
   calendar: {fileID: 78274412}
+  dateFilledIcon: {fileID: 21300000, guid: d302d4ead50dcaf419a8a9fdda3eb4ff, type: 3}
+  dateIcon: {fileID: 1063285693}
 --- !u!1 &1257417273
 GameObject:
   m_ObjectHideFlags: 0

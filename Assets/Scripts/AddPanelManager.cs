@@ -54,6 +54,11 @@ public class AddPanelManager : MonoBehaviour
     Calendar calendar;
     DateTime date;
     bool dateChosen;
+    Sprite dateEmptyIcon;
+    [SerializeField]
+    Sprite dateFilledIcon;
+    [SerializeField]
+    Image dateIcon;
 
 
     public void Submit()
@@ -89,6 +94,7 @@ public class AddPanelManager : MonoBehaviour
     private void Start()
     {
         bookmarkEmpty = categoryIcon.sprite;
+        dateEmptyIcon = dateIcon.sprite;
         this.gameObject.SetActive(false); 
     }
 
@@ -130,6 +136,7 @@ public class AddPanelManager : MonoBehaviour
         {
             dateChosen = true;
             calendar.ChooseDate(date);
+            dateIcon.sprite = dateFilledIcon;
         }
     }
 
@@ -159,6 +166,7 @@ public class AddPanelManager : MonoBehaviour
         activeCategory = null;
         categoryIcon.color = Color.white;
         categoryIcon.sprite = bookmarkEmpty;
+        dateIcon.sprite = dateEmptyIcon;
         dateChosen = false;
     }
 
@@ -235,12 +243,14 @@ public class AddPanelManager : MonoBehaviour
         date = dateTime;
         dateChosen = true;
         addPanelView.CloseDatePanel();
+        dateIcon.sprite = dateFilledIcon;
     }
 
     public void SubmitDate()
     {
         dateChosen = false;
         addPanelView.CloseDatePanel();
+        dateIcon.sprite = dateEmptyIcon;
     }
 
     public bool IsDateChosen()

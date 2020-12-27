@@ -10,8 +10,9 @@ public class Calendar : MonoBehaviour
     /// All the days in the month. After we make our first calendar we store these days in this list so we do not have to recreate them every time.
     /// </summary>
     private List<Day> days = new List<Day>();
-    private Day selectedDay = null;
+    [SerializeField] private Day selectedDay = null;
     private DateTime selectedDate;
+    private DateTime selectedDateTemp;
 
     [SerializeField]
     AddPanelManager addPanelManager;
@@ -42,9 +43,12 @@ public class Calendar : MonoBehaviour
     [SerializeField] Color currentDayColor;
     [SerializeField] Color selectedColor;
 
-    private void Start()
+    private void Awake()
     {
-        currDate = DateTime.Now;
+        if(!addPanelManager.IsDateChosen())
+        {
+            currDate = DateTime.Now;
+        }
     }
 
     /// <summary>
@@ -55,8 +59,14 @@ public class Calendar : MonoBehaviour
         if (!addPanelManager.IsDateChosen())
         {
             selectedDay = null;
+            selectedDate = default;
+            currDate = DateTime.Now;
+        }else if (selectedDate != default)
+        {
+            currDate = selectedDate;
         }
         UpdateCalendar(currDate.Year, currDate.Month);
+        Debug.Log(selectedDate + " " + addPanelManager.IsDateChosen());
     }
 
     /// <summary>
@@ -117,6 +127,7 @@ public class Calendar : MonoBehaviour
         if(selectedDate.Year == year && selectedDate.Month == month)
         {
             days[(selectedDate.Day - 1) + startDay].ChangeColorToSelected();
+            selectedDay = days[(selectedDate.Day - 1) + startDay];
         }
 
         CheckTheLastWeeks();
@@ -206,7 +217,7 @@ public class Calendar : MonoBehaviour
         }
 
         selectedDay = day;
-        selectedDate = day.GetDate();
+        selectedDateTemp = day.GetDate();
     }
 
     public void ChooseDate(DateTime dateTime)
@@ -218,24 +229,39 @@ public class Calendar : MonoBehaviour
     public void UnChooseDate()
     {
         selectedDay = null;
+        selectedDateTemp = default;
     }
 
     public void SubmitDate()
     {
-        if(selectedDay!=null && selectedDate != null)
+        if(selectedDay != null && selectedDateTemp != default)
+        {
+            selectedDate = selectedDateTemp;
+            addPanelManager.SubmitDate(selectedDate);
+            currDate = selectedDate;
+        }else if(selectedDate != default)
         {
             addPanelManager.SubmitDate(selectedDate);
+            currDate = selectedDate;
         }
         else
         {
             addPanelManager.SubmitDate();
+            selectedDate = default;
         }
     }
 
     public void Discard()
     {
-        selectedDay = null;
-        selectedDate = default;
-        currDate = DateTime.Now;
+        if(!addPanelManager.IsDateChosen())
+        {
+            selectedDay = null;
+            selectedDate = default;
+            currDate = DateTime.Now;
+        }
+        else
+        {
+            selectedDay = null;
+        }
     }
 }
