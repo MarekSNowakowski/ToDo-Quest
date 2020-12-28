@@ -73,7 +73,7 @@ public class Calendar : MonoBehaviour
         {
             currDate = selectedDate;
         }
-        TurnOffLeftArrowIfAtCurrentMoth();
+
         UpdateCalendar(currDate.Year, currDate.Month);
     }
 
@@ -127,6 +127,7 @@ public class Calendar : MonoBehaviour
                     DateTime date = new DateTime(year, month, i - startDay + 1);
                     days[i].InitializeDay(date, activeDayColor, true, this);
 
+                    // If current displayed month is current month we color code past days and turn them incactive
                     if (DateTime.Now.Year == year && DateTime.Now.Month == month)
                     {
                         if (i < today)
@@ -137,25 +138,20 @@ public class Calendar : MonoBehaviour
                         {
                             days[today].UpdateActivnes(true, currentDayColor);
                         }
+                        // Block from going to the past months by disabling the left arrow
+                        leftArrow.interactable = false;
+                    }
+                    else
+                    {
+                        if(!leftArrow.IsInteractable())
+                        {
+                            leftArrow.interactable = true;
+                        }
                     }
                 }
             }
 
-        ///This just checks if today is on our calendar. If so, we highlight it in green
-        //if(DateTime.Now.Year == year && DateTime.Now.Month == month)
-        //{
-        //    int today = (DateTime.Now.Day - 1) + startDay;
-        //    for(int i = 0; i < today; i++)
-        //    {
-        //        days[i].UpdateActivnes(false, nonActiveDayColor);
-        //    }
-        //    days[today].UpdateActivnes(true, currentDayColor);
-        //    for (int i = today + 1; i < 42; i++)
-        //    {
-        //        if((DateTime.Now.Day - 1) + startDay
-        //    }
-        //}
-
+        // Change color of selected day
         if(selectedDate.Year == year && selectedDate.Month == month)
         {
             days[(selectedDate.Day - 1) + startDay].ChangeColorToSelected();
@@ -233,7 +229,6 @@ public class Calendar : MonoBehaviour
             currDate = currDate.AddMonths(1);
         }
 
-        TurnOffLeftArrowIfAtCurrentMoth();
         UpdateCalendar(currDate.Year, currDate.Month);
     }
 
@@ -266,6 +261,10 @@ public class Calendar : MonoBehaviour
         selectedDateTemp = default;
     }
 
+
+    /// <summary>
+    /// Submits date to addPanelManager
+    /// </summary>
     public void SubmitDate()
     {
         if(selectedDay != null && selectedDateTemp != default)
@@ -285,6 +284,9 @@ public class Calendar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Discard selected day and close
+    /// </summary>
     public void Discard()
     {
         if(!addPanelManager.IsDateChosen())
@@ -296,21 +298,6 @@ public class Calendar : MonoBehaviour
         else
         {
             selectedDay = null;
-        }
-    }
-
-    void TurnOffLeftArrowIfAtCurrentMoth()
-    {
-        if(currDate.Year == DateTime.Now.Year && currDate.Month == DateTime.Now.Month)
-        {
-            leftArrow.interactable = false;
-        }
-        else
-        {
-            if(!leftArrow.IsInteractable())
-            {
-                leftArrow.interactable = true;
-            }
         }
     }
 }
