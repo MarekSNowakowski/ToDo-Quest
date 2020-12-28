@@ -82,6 +82,13 @@ public class Calendar : MonoBehaviour
     /// </summary>
     void UpdateCalendar(int year, int month)
     {
+        // If we try to open past month, change it to current
+        if(year < DateTime.Now.Year || (year == DateTime.Now.Year && month < DateTime.Now.Month))
+        {
+            year = DateTime.Now.Year;
+            month = DateTime.Now.Month;
+        }
+
         DateTime temp = new DateTime(year, month, 1);
         currDate = temp;
         CultureInfo cultureInfo = new CultureInfo("en-US");
