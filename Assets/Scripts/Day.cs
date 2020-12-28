@@ -57,6 +57,7 @@ public class Day : MonoBehaviour
         this.active = active;
         gameObject.GetComponent<Image>().color = newColor;
         dayColor = newColor;
+        TurnOffIfNotActive();
     }
 
     /// <summary>

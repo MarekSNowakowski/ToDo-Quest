@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Globalization;
 
 public class QuestDetails : MonoBehaviour
 {
@@ -56,7 +57,8 @@ public class QuestDetails : MonoBehaviour
         if (questData.date != default)
         {
             dateField.SetActive(true);
-            date.text = questData.date.ToString("dddd, dd MMMM yyyy");
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+            date.text = questData.date.ToString("dddd, dd MMMM yyyy", cultureInfo);
         }
         if (questData.category != null)
         {

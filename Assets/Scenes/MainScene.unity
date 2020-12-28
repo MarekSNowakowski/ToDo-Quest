@@ -967,10 +967,12 @@ MonoBehaviour:
   - {fileID: 1287029565}
   - {fileID: 336447207}
   MonthAndYear: {fileID: 1329380614}
+  leftArrow: {fileID: 601695523}
   activeDayColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
   nonActiveDayColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
   currentDayColor: {r: 0, g: 0.4811321, b: 0, a: 1}
   selectedColor: {r: 0.5283019, g: 0.15686275, b: 0.15686275, a: 1}
+  pastDateColor: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
 --- !u!114 &78274413
 MonoBehaviour:
   m_ObjectHideFlags: 0

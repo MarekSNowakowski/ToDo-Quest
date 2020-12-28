@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using System.Globalization;
+using UnityEngine.UI;
 
 public class Calendar : MonoBehaviour
 {
@@ -36,12 +37,19 @@ public class Calendar : MonoBehaviour
     [SerializeField] DateTime currDate = DateTime.Now;
 
     /// <summary>
+    /// this object is left arrow - changes to previus month. We need it to turn it off if at the current month and yeatr,
+    /// to prevent from going to passed month.
+    /// </summary>
+    [SerializeField] Button leftArrow;
+
+    /// <summary>
     /// Here set colors representing state of the day
     /// </summary>
     [SerializeField] Color activeDayColor;
     [SerializeField] Color nonActiveDayColor;
     [SerializeField] Color currentDayColor;
     [SerializeField] Color selectedColor;
+    [SerializeField] Color pastDateColor;
 
     private void Awake()
     {
@@ -65,8 +73,8 @@ public class Calendar : MonoBehaviour
         {
             currDate = selectedDate;
         }
+        TurnOffLeftArrowIfAtCurrentMoth();
         UpdateCalendar(currDate.Year, currDate.Month);
-        Debug.Log(selectedDate + " " + addPanelManager.IsDateChosen());
     }
 
     /// <summary>
@@ -101,9 +109,12 @@ public class Calendar : MonoBehaviour
                 }
             }
         }
+
+        int today = (DateTime.Now.Day - 1) + startDay;
+
         ///loop through days
         ///Since we already have the days objects, we can just update them rather than creating new ones
-            for(int i = 0; i < 42; i++)
+        for (int i = 0; i < 42; i++)
             {
                 if(i < startDay || i - startDay >= endDay)
                 {
@@ -115,14 +126,35 @@ public class Calendar : MonoBehaviour
                     //days[i].UpdateActivnes(true, activeDayColor);
                     DateTime date = new DateTime(year, month, i - startDay + 1);
                     days[i].InitializeDay(date, activeDayColor, true, this);
+
+                    if (DateTime.Now.Year == year && DateTime.Now.Month == month)
+                    {
+                        if (i < today)
+                        {
+                            days[i].UpdateActivnes(false, pastDateColor);
+                        }
+                        else if(i==today)
+                        {
+                            days[today].UpdateActivnes(true, currentDayColor);
+                        }
+                    }
                 }
             }
 
         ///This just checks if today is on our calendar. If so, we highlight it in green
-        if(DateTime.Now.Year == year && DateTime.Now.Month == month)
-        {
-            days[(DateTime.Now.Day - 1) + startDay].UpdateActivnes(true, currentDayColor);
-        }
+        //if(DateTime.Now.Year == year && DateTime.Now.Month == month)
+        //{
+        //    int today = (DateTime.Now.Day - 1) + startDay;
+        //    for(int i = 0; i < today; i++)
+        //    {
+        //        days[i].UpdateActivnes(false, nonActiveDayColor);
+        //    }
+        //    days[today].UpdateActivnes(true, currentDayColor);
+        //    for (int i = today + 1; i < 42; i++)
+        //    {
+        //        if((DateTime.Now.Day - 1) + startDay
+        //    }
+        //}
 
         if(selectedDate.Year == year && selectedDate.Month == month)
         {
@@ -201,6 +233,7 @@ public class Calendar : MonoBehaviour
             currDate = currDate.AddMonths(1);
         }
 
+        TurnOffLeftArrowIfAtCurrentMoth();
         UpdateCalendar(currDate.Year, currDate.Month);
     }
 
@@ -220,6 +253,7 @@ public class Calendar : MonoBehaviour
         selectedDateTemp = day.GetDate();
     }
 
+    //ChooseDate used when we want to edit quest with date set
     public void ChooseDate(DateTime dateTime)
     {
         selectedDate = dateTime;
@@ -262,6 +296,21 @@ public class Calendar : MonoBehaviour
         else
         {
             selectedDay = null;
+        }
+    }
+
+    void TurnOffLeftArrowIfAtCurrentMoth()
+    {
+        if(currDate.Year == DateTime.Now.Year && currDate.Month == DateTime.Now.Month)
+        {
+            leftArrow.interactable = false;
+        }
+        else
+        {
+            if(!leftArrow.IsInteractable())
+            {
+                leftArrow.interactable = true;
+            }
         }
     }
 }
