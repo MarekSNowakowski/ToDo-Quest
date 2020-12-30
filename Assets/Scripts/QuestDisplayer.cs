@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -18,9 +19,10 @@ public class QuestDisplayer : MonoBehaviour
     QuestDisplayerState state;
 
     List<Quest> activeQuests = new List<Quest>();
-    List<CategoryLabel> activeCategoryLabels = new List<CategoryLabel>();
+    List<Label> activeLabels = new List<Label>();
 
-    string lastLabelCategoryCreatedID = null;
+    string lastLabelCreatedID = null;
+    int lastLabelCreatedNumber = 0;
 
     //public void AddQuest(QuestManager questManager, QuestData questData)
     //{
@@ -47,17 +49,23 @@ public class QuestDisplayer : MonoBehaviour
         {
             data.Sort(SortQuestDataByCategory());
         }
+        else if(state == QuestDisplayerState.SortByDate)
+        {
+            data.Sort(SortQuestDataByDate());
+        }
             
         foreach (QuestData questData in data)
         {
             TryCreateCategoryLabel(questData.category);
+            TryCreateDateLabel(questData.date);
             Quest quest = questFactory.LoadQuest(questData);
             activeQuests.Add(quest);
             quest.GetManager(questManager);
             quest.Load(questData, state);
         }
 
-        lastLabelCategoryCreatedID = null;
+        lastLabelCreatedID = null;
+        lastLabelCreatedNumber = 0;
     }
 
     void TryCreateCategoryLabel(Category category)
@@ -65,27 +73,137 @@ public class QuestDisplayer : MonoBehaviour
         //Category Label Creation
         if(state == QuestDisplayerState.SortByCategory)
         {
-            if (category != null && category.GetID() != lastLabelCategoryCreatedID)
+            if (category != null && category.GetID() != lastLabelCreatedID)
             {
-                lastLabelCategoryCreatedID = category.GetID();
+                lastLabelCreatedID = category.GetID();
                 CategoryLabel categoryLabel = labelFactory.LoadCategory(category);
                 categoryLabel.QuestAdded();
-                activeCategoryLabels.Add(categoryLabel);
-            } else if (category != null && category.GetID() == lastLabelCategoryCreatedID)
+                activeLabels.Add(categoryLabel);
+            } else if (category != null && category.GetID() == lastLabelCreatedID)
             {
-                activeCategoryLabels[activeCategoryLabels.Count - 1].QuestAdded();
+                activeLabels[activeLabels.Count - 1].QuestAdded();
             }
-            else if (category == null && lastLabelCategoryCreatedID != "No category")
+            else if (category == null && lastLabelCreatedID != "No category")
             {
-                lastLabelCategoryCreatedID = "No category";
+                lastLabelCreatedID = "No category";
                 CategoryLabel categoryLabel = labelFactory.LoadOthersCategoryLabel();
                 categoryLabel.QuestAdded();
-                activeCategoryLabels.Add(categoryLabel);
+                activeLabels.Add(categoryLabel);
             }
-            else if (category == null && activeCategoryLabels.Exists(x=>x.GetID() == "No category"))
+            else if (category == null && activeLabels.Exists(x=>x.GetID() == "No category"))
             {
-                activeCategoryLabels[activeCategoryLabels.Count-1].QuestAdded();
+                activeLabels[activeLabels.Count-1].QuestAdded();
             }
+        }
+    }
+
+
+    /// <summary>
+    /// Contains instructions when to create dateLabel
+    /// </summary>
+    /// <param name="date"></param>
+    void TryCreateDateLabel(DateTime date)
+    {
+        if (state == QuestDisplayerState.SortByDate)
+        {
+            switch (lastLabelCreatedID)
+            {
+                //At the start create Overdue label if date is overdue
+                case null:
+                    if(date != default && date < DateTime.Today)
+                    {
+                        lastLabelCreatedID = "Overdue";
+                        DateLabel dateLabel = labelFactory.LoadDate(date);
+                        dateLabel.QuestAdded();
+                        activeLabels.Add(dateLabel);
+                    }
+                    //If there is no overdue - create today label
+                    else
+                    {
+                        CreateLabelsTillDate(0,date);
+                    }
+                    break;
+                case "Overdue":
+                    if (date != default && date < DateTime.Today)
+                    {
+                        activeLabels[activeLabels.Count - 1].QuestAdded();
+                    }
+                    else
+                    {
+                        CreateLabelsTillDate(0,date);
+                    }
+                    break;
+                case "0":
+                    CheckIfLabelCreated(date, 0);
+                    break;
+                case "1":
+                    CheckIfLabelCreated(date, 1);
+                    break;
+                case "2":
+                    CheckIfLabelCreated(date, 2);
+                    break;
+                case "3":
+                    CheckIfLabelCreated(date, 3);
+                    break;
+                case "4":
+                    CheckIfLabelCreated(date, 4);
+                    break;
+                case "5":
+                    CheckIfLabelCreated(date, 5);
+                    break;
+                case "6":
+                    CheckIfLabelCreated(date, 6);
+                    break;
+                case "7":
+                    CheckIfLabelCreated(date, 7);
+                    break;
+
+            }
+        }
+    }
+
+    void CreateLabelsTillDate(int start, DateTime date)
+    {
+        if(start >= 0 && start < 7)
+        {
+            for (int i = start; i <= 7; i++)
+            {
+                if(i<7)
+                {
+                    lastLabelCreatedID = i.ToString();
+                    DateLabel dateLabel = labelFactory.LoadDate(DateTime.Today.AddDays(i));
+                    activeLabels.Add(dateLabel);
+                    if (date == DateTime.Today.AddDays(i))
+                    {
+                        dateLabel.QuestAdded();
+                        break;
+                    }
+                }
+                else
+                {
+                    lastLabelCreatedID = i.ToString();
+                    DateLabel dateLabel = labelFactory.LoadDate(default);
+                    activeLabels.Add(dateLabel);
+                    if (date == default)
+                    {
+                        dateLabel.QuestAdded();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    void CheckIfLabelCreated(DateTime date, int num)
+    {
+        if (date == DateTime.Today.AddDays(num) || (num == 7 && date == default))
+        {
+            //Add quest to last label
+            activeLabels[activeLabels.Count - 1].QuestAdded();
+        }
+        else
+        {
+            CreateLabelsTillDate(num + 1, date);
         }
     }
 
@@ -96,12 +214,12 @@ public class QuestDisplayer : MonoBehaviour
         {
             Destroy(quest.gameObject);
         }
-        foreach (CategoryLabel categoryLabel in activeCategoryLabels)
+        foreach (Label label in activeLabels)
         {
-            Destroy(categoryLabel.gameObject);
+            Destroy(label.gameObject);
         }
         activeQuests.Clear();
-        activeCategoryLabels.Clear();
+        activeLabels.Clear();
     }
 
     public void RemoveQuest(string id)
@@ -116,22 +234,22 @@ public class QuestDisplayer : MonoBehaviour
 
     void TryRemoveLabel(Quest quest)
     {
-        lastLabelCategoryCreatedID = null;
+        lastLabelCreatedID = null;
         if (state==QuestDisplayerState.SortByCategory)
         {
-            CategoryLabel categoryLabel;
+            Label categoryLabel;
             if(quest.GetCategory() == null)
             {
-                categoryLabel = activeCategoryLabels.Find(x => x.GetID() == "No category");
+                categoryLabel = activeLabels.Find(x => x.GetID() == "No category");
             }
             else
             {
-                categoryLabel = activeCategoryLabels.Find(x => x.GetID() == quest.GetCategory().GetID());
+                categoryLabel = activeLabels.Find(x => x.GetID() == quest.GetCategory().GetID());
             }
             categoryLabel.QuestRemoved();
             if(categoryLabel.GetNumberOfQuestsInside() == 0)
             {
-                activeCategoryLabels.Remove(categoryLabel);
+                activeLabels.Remove(categoryLabel);
                 Destroy(categoryLabel.gameObject);
             }
         }
@@ -184,6 +302,35 @@ public class QuestDisplayer : MonoBehaviour
     public static IComparer<QuestData> SortQuestDataByCategory()
     {
         return new SortQuestDataByCategoryHelper();
+    }
+
+    private class SortQuestDataByDateHelper : IComparer<QuestData>
+    {
+        public int Compare(QuestData x, QuestData y)
+        {
+            if(x.date != default && y.date != default)
+            {
+                return x.date.CompareTo(y.date);
+            }
+            else if(x.date == default && y.date != default)
+            {
+                return 1;
+            }
+            else if(x.date != default && y.date == default)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+    }
+
+    public static IComparer<QuestData> SortQuestDataByDate()
+    {
+        return new SortQuestDataByDateHelper();
     }
 }
 

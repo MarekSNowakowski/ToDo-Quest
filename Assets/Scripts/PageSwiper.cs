@@ -43,6 +43,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         indicatorLocation = panelIndicator.transform.position;
         questsLocation = quests.transform.position;
         categoriesLocation = quests.transform.position;
+        categoriesLocation.y += 140;    //Qfix
         rewardsLocation = new Vector2(Screen.width / 2, rewards.transform.position.y);
         questRT = quests.GetComponent<RectTransform>();
         rewardsRT = rewards.GetComponent<RectTransform>();

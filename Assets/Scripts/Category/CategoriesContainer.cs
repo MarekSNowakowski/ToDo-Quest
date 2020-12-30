@@ -9,6 +9,7 @@ public class CategoriesContainer : QuestContainer
     public override void Start()
     {
         addCategoryButton.SetAsLastSibling();
+        initialHeight = 200;
         base.Start();
     }
     public override void RefreshSize(bool adding)
