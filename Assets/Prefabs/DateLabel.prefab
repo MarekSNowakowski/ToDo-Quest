@@ -58,8 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbca166df0c5234ba244a7348ada589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  labelID: 
   titleText: {fileID: 164368424583405530}
   dateText: {fileID: 8354081219058733865}
+  inactiveColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
 --- !u!1 &795257630416540877
 GameObject:
   m_ObjectHideFlags: 0

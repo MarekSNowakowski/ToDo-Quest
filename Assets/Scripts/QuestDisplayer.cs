@@ -178,13 +178,17 @@ public class QuestDisplayer : MonoBehaviour
                         dateLabel.QuestAdded();
                         break;
                     }
+                    else
+                    {
+                        dateLabel.TurnInactive();
+                    }
                 }
                 else
                 {
                     lastLabelCreatedID = i.ToString();
                     DateLabel dateLabel = labelFactory.LoadDate(default);
                     activeLabels.Add(dateLabel);
-                    if (date == default)
+                    if (date == default || date > DateTime.Today.AddDays(7)) 
                     {
                         dateLabel.QuestAdded();
                         break;
@@ -253,6 +257,43 @@ public class QuestDisplayer : MonoBehaviour
                 Destroy(categoryLabel.gameObject);
             }
         }
+        else if (state == QuestDisplayerState.SortByDate)
+        {
+            Label label = GetDateLabel(quest.date);
+
+            label.QuestRemoved();
+            if (label.GetNumberOfQuestsInside() == 0)
+            {
+                if(label.GetID()=="Other" || label.GetID() == "Overdue")
+                {
+                    activeLabels.Remove(label);
+                    Destroy(label.gameObject);
+                }
+                else
+                {
+                    label.GetComponent<DateLabel>().TurnInactive();
+                }
+            }
+        }
+    }
+
+    Label GetDateLabel(DateTime date)
+    {
+        string id;
+        if(date == default || date > DateTime.Today.AddDays(7))
+        {
+            id = "Other";
+        }
+        else if(date < DateTime.Today)
+        {
+            id = "Overdue";
+        }
+        else
+        {
+            id = date.ToString();
+        }
+
+        return activeLabels.Find(x => x.GetID() == id);
     }
 
     IEnumerator r_waitFrame()

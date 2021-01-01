@@ -40,21 +40,24 @@ public class LabelFactory : MonoBehaviour
     /// </summary>
     public DateLabel LoadDate(DateTime date)
     {
-        string title = "", dateText = "";
+        string title = "", dateText = "", id = "";
         CultureInfo cultureInfo = new CultureInfo("en-US");
 
         if (date == default)
         {
             title = "Other";
             dateText = "";
+            id = title;
         }
         else if(date < DateTime.Today)
         {
             title = "Overdue";
             dateText = "";
+            id = title;
         }
         else
         {
+            id = date.ToString();
             for(int i = 0; i < 7; i++)
             {
                 if (date == DateTime.Today.AddDays(i))
@@ -80,7 +83,7 @@ public class LabelFactory : MonoBehaviour
         GameObject ob = Instantiate(labelDate);
         ob.transform.SetParent(transform);
         DateLabel dateLabel = ob.GetComponent<DateLabel>();
-        dateLabel.Initialize(dateText,title);
+        dateLabel.Initialize(dateText,title,id);
 
         return dateLabel;
     }
