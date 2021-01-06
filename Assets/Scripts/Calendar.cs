@@ -82,8 +82,9 @@ public class Calendar : MonoBehaviour
     /// </summary>
     void UpdateCalendar(int year, int month)
     {
+        selectedDateTemp = default;
         // If we try to open past month, change it to current
-        if(year < DateTime.Now.Year || (year == DateTime.Now.Year && month < DateTime.Now.Month))
+        if (year < DateTime.Now.Year || (year == DateTime.Now.Year && month < DateTime.Now.Month))
         {
             year = DateTime.Now.Year;
             month = DateTime.Now.Month;
@@ -279,7 +280,7 @@ public class Calendar : MonoBehaviour
             selectedDate = selectedDateTemp;
             addPanelManager.SubmitDate(selectedDate);
             currDate = selectedDate;
-        }else if(selectedDate != default)
+        }else if(selectedDate != default && selectedDateTemp != default)
         {
             addPanelManager.SubmitDate(selectedDate);
             currDate = selectedDate;
@@ -305,6 +306,18 @@ public class Calendar : MonoBehaviour
         else
         {
             selectedDay = null;
+        }
+    }
+
+    public bool IsDateSelected()
+    {
+        if(selectedDate != default || selectedDateTemp != default)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

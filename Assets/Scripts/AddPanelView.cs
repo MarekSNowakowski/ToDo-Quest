@@ -28,6 +28,10 @@ public class AddPanelView : MonoBehaviour
     [SerializeField]
     TMPro.TMP_InputField commentFeild;
 
+    [Header("Discard")]
+    [SerializeField]
+    GameObject discardPaenl;
+
 
     float screenHeight = Screen.height;
 
@@ -61,7 +65,18 @@ public class AddPanelView : MonoBehaviour
         mainAddPanel.SetActive(true);
         commentAddPanel.SetActive(false);
         datePanel.SetActive(false);
+        discardPaenl.SetActive(false);
         this.gameObject.SetActive(false);
+    }
+
+    public void TryClose()
+    {
+        discardPaenl.SetActive(true);
+    }
+
+    public void CancelClose()
+    {
+        discardPaenl.SetActive(false);
     }
 
     private void Update()

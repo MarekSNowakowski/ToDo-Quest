@@ -95,6 +95,7 @@ public class AddPanelManager : MonoBehaviour
     {
         bookmarkEmpty = categoryIcon.sprite;
         dateEmptyIcon = dateIcon.sprite;
+        comment = "";
         this.gameObject.SetActive(false); 
     }
 
@@ -113,14 +114,14 @@ public class AddPanelManager : MonoBehaviour
         else if (weight == 4 || weight == 0)
         {
             weight = 0;
-            weightImage.color = new Color(255, 255, 255);
+            weightImage.color = Color.white;
         }
     }
 
     public void ResetWeight()
     {
         weight = 0;
-        weightImage.color = new Color(255, 255, 255);
+        weightImage.color = Color.white;
     }
 
     public void EditQuest(QuestData questData)
@@ -153,6 +154,39 @@ public class AddPanelManager : MonoBehaviour
         calendar.Discard();
 
         addPanelView.Close();
+    }
+
+    public void CancelClose()
+    {
+        addPanelView.CancelClose();
+    }
+
+    public void TryClose()
+    {
+        if(CanClose())
+        {
+            Close();
+        }
+        else
+        {
+            addPanelView.TryClose();
+        }
+    }
+
+    /// <summary>
+    /// Checks if there were any changes, if not returns true
+    /// </summary>
+    bool CanClose()
+    {
+        if (questNameFeild.text != "" || rewardFeild.text != "" || editingID != null || comment != "" || commentFeild.text != "" || calendar.IsDateSelected() ||
+            weightImage.color != Color.white || activeCategory != null || categoryIcon.sprite != bookmarkEmpty || dateChosen)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     void Clear()
