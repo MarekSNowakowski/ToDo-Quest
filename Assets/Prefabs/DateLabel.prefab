@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -540, y: 0}
-  m_SizeDelta: {x: 1080, y: 80}
+  m_SizeDelta: {x: 1080, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1005822956812100508
 CanvasRenderer:
@@ -58,7 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbca166df0c5234ba244a7348ada589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labelID: 
   titleText: {fileID: 164368424583405530}
   dateText: {fileID: 8354081219058733865}
   inactiveColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
@@ -243,14 +242,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -399,8 +398,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

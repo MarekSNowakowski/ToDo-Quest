@@ -10,7 +10,7 @@ public class QuestContainer : MonoBehaviour
     protected float initialHeight = 0;
     protected int questCount;
     protected int labelCount;
-    protected float questPanelHeight = 115;
+    protected float questPanelHeight = 90;
     protected float labelHeight = 80;
     protected RectTransform myRectTransform;
 
