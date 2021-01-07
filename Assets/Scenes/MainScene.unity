@@ -13924,7 +13924,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1254508438}
+      - m_Target: {fileID: 1254508439}
         m_MethodName: OpenCommentPanel
         m_Mode: 1
         m_Arguments:
@@ -18662,6 +18662,7 @@ GameObject:
   - component: {fileID: 1254508435}
   - component: {fileID: 1254508438}
   - component: {fileID: 1254508439}
+  - component: {fileID: 1254508440}
   m_Layer: 5
   m_Name: AddCanvas
   m_TagString: Untagged
@@ -18784,12 +18785,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd1988a412674041b98f01621de3487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconManager: {fileID: 1254508440}
   mainAddPanel: {fileID: 1211379135}
   questNameFeild: {fileID: 1939635295}
   rewardFeild: {fileID: 1079362937}
-  weightImage: {fileID: 1419470056}
-  categoryIcon: {fileID: 1048888833}
-  bookmarIcon: {fileID: 21300000, guid: 0b66118263db29647aa14d890e37fce2, type: 3}
   commentPanel: {fileID: 78704097}
   commentFeild: {fileID: 1731715542}
   questManager: {fileID: 1268028214}
@@ -18799,8 +18798,25 @@ MonoBehaviour:
   categoryInputField: {fileID: 1719896103}
   categoryCreationIcon: {fileID: 318804337}
   calendar: {fileID: 78274412}
+--- !u!114 &1254508440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254508433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dbde110aa284fe45945673a3088a926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookmarFilledIcon: {fileID: 21300000, guid: 0b66118263db29647aa14d890e37fce2, type: 3}
+  categoryIcon: {fileID: 1048888833}
   dateFilledIcon: {fileID: 21300000, guid: d302d4ead50dcaf419a8a9fdda3eb4ff, type: 3}
   dateIcon: {fileID: 1063285693}
+  commentFilledIcon: {fileID: 21300000, guid: f086d9265c0fb054a88c649524cf753a, type: 3}
+  commentIcon: {fileID: 994793479}
+  weightIcon: {fileID: 1419470056}
 --- !u!1 &1257417273
 GameObject:
   m_ObjectHideFlags: 0

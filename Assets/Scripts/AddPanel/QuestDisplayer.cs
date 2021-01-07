@@ -22,7 +22,6 @@ public class QuestDisplayer : MonoBehaviour
     List<Label> activeLabels = new List<Label>();
 
     string lastLabelCreatedID = null;
-    int lastLabelCreatedNumber = 0;
 
     //public void AddQuest(QuestManager questManager, QuestData questData)
     //{
@@ -63,9 +62,19 @@ public class QuestDisplayer : MonoBehaviour
             quest.GetManager(questManager);
             quest.Load(questData, state);
         }
+        if (state == QuestDisplayerState.SortByDate)
+        {
+            if (lastLabelCreatedID != "6" || lastLabelCreatedID != "7")
+            {
+                if (lastLabelCreatedID == "Overdue")
+                {
+                    lastLabelCreatedID = "0";
+                }
+                CreateLabels(int.Parse(lastLabelCreatedID) + 1);
+            }
+        }
 
         lastLabelCreatedID = null;
-        lastLabelCreatedNumber = 0;
     }
 
     void TryCreateCategoryLabel(Category category)
@@ -193,6 +202,24 @@ public class QuestDisplayer : MonoBehaviour
                         dateLabel.QuestAdded();
                         break;
                     }
+                }
+            }
+        }
+    }
+
+    void CreateLabels(int start)
+    {
+        if (start >= 0 && start < 7)
+        {
+            for (int i = start; i <= 7; i++)
+            {
+                if (i < 7)
+                {
+                    lastLabelCreatedID = i.ToString();
+                    DateLabel dateLabel = labelFactory.LoadDate(DateTime.Today.AddDays(i));
+                    activeLabels.Add(dateLabel);
+
+                    dateLabel.TurnInactive();
                 }
             }
         }
