@@ -68,6 +68,7 @@ public class Calendar : MonoBehaviour
         {
             selectedDay = null;
             selectedDate = default;
+            selectedDateTemp = default;
             currDate = DateTime.Now;
         }else if (selectedDate != default)
         {
@@ -301,6 +302,7 @@ public class Calendar : MonoBehaviour
         {
             selectedDay = null;
             selectedDate = default;
+            selectedDateTemp = default;
             currDate = DateTime.Now;
         }
         else

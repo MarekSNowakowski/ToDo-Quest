@@ -135,8 +135,9 @@ public class AddPanelView : MonoBehaviour
         rewardInput.Select();
     }
 
-    public void OpenCommentPanel()
+    public void OpenCommentPanel(string comment)
     {
+        commentFeild.text = comment;
         commentPanel.SetActive(true);
         mainAddPanel.SetActive(false);
         commentFeild.ActivateInputField();

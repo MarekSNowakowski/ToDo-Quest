@@ -7,6 +7,9 @@ using System;
 
 public class AddPanelManager : MonoBehaviour
 {
+    [SerializeField]
+    IconManager iconManager;
+
     [Header("MainAddPanel")]
     [SerializeField]
     GameObject mainAddPanel;
@@ -15,14 +18,8 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     TMP_InputField rewardFeild;
     int weight = 0;
-    [SerializeField]
-    Image weightImage;
-    [SerializeField]
-    Image categoryIcon;
     Category activeCategory;
-    [SerializeField]
-    Sprite bookmarIcon;
-    Sprite bookmarkEmpty;
+
 
     [Header("CommentPanel")]
     [SerializeField]
@@ -54,11 +51,8 @@ public class AddPanelManager : MonoBehaviour
     Calendar calendar;
     DateTime date;
     bool dateChosen;
-    Sprite dateEmptyIcon;
-    [SerializeField]
-    Sprite dateFilledIcon;
-    [SerializeField]
-    Image dateIcon;
+
+
 
 
     public void Submit()
@@ -93,35 +87,42 @@ public class AddPanelManager : MonoBehaviour
 
     private void Start()
     {
-        bookmarkEmpty = categoryIcon.sprite;
-        dateEmptyIcon = dateIcon.sprite;
         comment = "";
         this.gameObject.SetActive(false); 
+    }
+
+    public void OpenCommentPanel()
+    {
+        addPanelView.OpenCommentPanel(comment);
     }
 
     public void SubmitComment()
     {
         comment = commentFeild.text;
+        if (commentFeild.text != "")
+        {
+            iconManager.FillCommentIcon();
+        }
         addPanelView.CloseCommentPanel();
     }
 
     public void IncreaseWeight()
     {
         weight++;
-        if (weight == 1) weightImage.color = new Color(0, 210, 0);
-        else if (weight == 2) weightImage.color = new Color(0, 0, 210);
-        else if (weight == 3) weightImage.color = new Color(210, 0, 0);
+        if (weight == 1) iconManager.SetWeightColor(new Color(0, 210, 0));
+        else if (weight == 2) iconManager.SetWeightColor(new Color(0, 0, 210));
+        else if (weight == 3) iconManager.SetWeightColor(new Color(210, 0, 0));
         else if (weight == 4 || weight == 0)
         {
             weight = 0;
-            weightImage.color = Color.white;
+            iconManager.ClearWeightIcon();
         }
     }
 
     public void ResetWeight()
     {
         weight = 0;
-        weightImage.color = Color.white;
+        iconManager.ClearWeightIcon();
     }
 
     public void EditQuest(QuestData questData)
@@ -137,7 +138,7 @@ public class AddPanelManager : MonoBehaviour
         {
             dateChosen = true;
             calendar.ChooseDate(date);
-            dateIcon.sprite = dateFilledIcon;
+            iconManager.FillDateIcon();
         }
     }
 
@@ -179,7 +180,7 @@ public class AddPanelManager : MonoBehaviour
     bool CanClose()
     {
         if (questNameFeild.text != "" || rewardFeild.text != "" || editingID != null || comment != "" || commentFeild.text != "" || calendar.IsDateSelected() ||
-            weightImage.color != Color.white || activeCategory != null || categoryIcon.sprite != bookmarkEmpty || dateChosen)
+            !iconManager.IsWeightIconWhite() || activeCategory != null ||  dateChosen)
         {
             return false;
         }
@@ -197,10 +198,9 @@ public class AddPanelManager : MonoBehaviour
         editingID = null;
         comment = "";
         commentFeild.text = "";
+        iconManager.ClearCommentIcon();
         activeCategory = null;
-        categoryIcon.color = Color.white;
-        categoryIcon.sprite = bookmarkEmpty;
-        dateIcon.sprite = dateEmptyIcon;
+        iconManager.Clear();
         dateChosen = false;
     }
 
@@ -267,8 +267,7 @@ public class AddPanelManager : MonoBehaviour
 
     public void ChooseCategory(Category category)
     {
-        categoryIcon.sprite = bookmarIcon;
-        categoryIcon.color = category.GetColor();
+        iconManager.SetCategoryIconColor(category.GetColor());
         activeCategory = category;
     }
 
@@ -277,14 +276,14 @@ public class AddPanelManager : MonoBehaviour
         date = dateTime;
         dateChosen = true;
         addPanelView.CloseDatePanel();
-        dateIcon.sprite = dateFilledIcon;
+        iconManager.FillDateIcon();
     }
 
     public void SubmitDate()
     {
         dateChosen = false;
         addPanelView.CloseDatePanel();
-        dateIcon.sprite = dateEmptyIcon;
+        iconManager.ClearDateIcon();
     }
 
     public bool IsDateChosen()
