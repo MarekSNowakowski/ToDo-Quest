@@ -12,9 +12,11 @@ public class CategoriesContainer : QuestContainer
         initialHeight = 200;
         base.Start();
     }
+
     public override void RefreshSize(bool adding)
     {
         base.RefreshSize(adding);
+        addCategoryButton.SetParent(transform);
         addCategoryButton.SetAsLastSibling();
     }
 }

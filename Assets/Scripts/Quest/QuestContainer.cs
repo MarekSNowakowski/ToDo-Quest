@@ -10,7 +10,7 @@ public class QuestContainer : MonoBehaviour
     protected float initialHeight = 0;
     protected int questCount;
     protected int labelCount;
-    protected float questPanelHeight = 90;
+    protected float questPanelHeight = 100;
     protected float labelHeight = 80;
     protected RectTransform myRectTransform;
 
@@ -45,7 +45,13 @@ public class QuestContainer : MonoBehaviour
     {
         CountChildren();
 
+        if(!adding)
+        {
+            questCount--;
+        }
+
         var height = initialHeight + (questCount * questPanelHeight) + (labelCount * labelHeight);
+        Debug.Log(height);
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);

@@ -8,7 +8,7 @@ public class RewardContainer : MonoBehaviour
     PageSwiper pageSwiper;
 
     int numberOfChildren;
-    float rewardPanelHeight = 115;
+    float rewardPanelHeight = 100;
     RectTransform myRectTransform;
 
     private void Start()

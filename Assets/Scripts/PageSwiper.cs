@@ -29,9 +29,9 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField]
     GameObject categories;
     RectTransform categoriesRT;
-    float upperPanelHeight = 150;
-    float questSize = 115;
-    float rewardSize = 115;
+    float upperPanelHeight = 120;
+    float questSize = 100;
+    float rewardSize = 100;
     float rewardPanelDistance;
 
     public int currentPage = 1;
@@ -43,7 +43,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         indicatorLocation = panelIndicator.transform.position;
         questsLocation = quests.transform.position;
         categoriesLocation = quests.transform.position;
-        categoriesLocation.y += 140;    //Qfix
+        categoriesLocation.y += 180;    //Qfix don't sure why? Create category button has height of 200
         rewardsLocation = new Vector2(Screen.width / 2, rewards.transform.position.y);
         questRT = quests.GetComponent<RectTransform>();
         rewardsRT = rewards.GetComponent<RectTransform>();
@@ -212,21 +212,24 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void resetQuestsPositionl(bool adding)   
     {
+        float panelDifference = 25;  //default 25 but no idea why :(
         float endQuest = questRT.rect.height / 2;
         float endCategories = categoriesRT.rect.height / 2;
         if (adding)
         {
-            if(endQuest - (questSize / 2) == questsLocation.y)
+            //When you are at the end
+            if (endQuest - (questSize / 2) == questsLocation.y + panelDifference)
             {
-                questsLocation.y += questSize / 4;
+                questsLocation.y += questSize / 2 + panelDifference;
             }
             else
             {
                 questsLocation.y -= questSize / 4;
             }
-            if (endCategories - (questSize / 2) == categoriesLocation.y)
+            //When you are at the end
+            if (endCategories - (questSize / 2) == categoriesLocation.y + panelDifference)
             {
-                categoriesLocation.y += questSize / 4;
+                categoriesLocation.y += questSize / 2 + panelDifference;
             }
             else
             {
@@ -235,17 +238,20 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         }
         else
         {
-            if (questRT.rect.height > Screen.height - upperPanelHeight && endQuest - (questSize / 2) - 0.5 < questsLocation.y)
+            Debug.Log(questRT.rect.height + " > " + (Screen.height - upperPanelHeight) + " " + (endQuest - (questSize / 2)) + " < " + (questsLocation.y - panelDifference));
+            //When you are at the end?
+            if (questRT.rect.height > Screen.height - upperPanelHeight && endQuest - (questSize / 2)  < questsLocation.y)
             {
-                questsLocation.y -= questSize / 4 + 0.25f;
+                questsLocation.y -= questSize / 4;
             }
             else
             {
                 questsLocation.y += questSize / 4;
             }
+            //When you are at the end?
             if (categoriesRT.rect.height > Screen.height - upperPanelHeight && endCategories - (questSize / 2) - 0.5 < categoriesLocation.y)
             {
-                categoriesLocation.y -= questSize / 4 + 0.25f;
+                categoriesLocation.y -= questSize / 4;
             }
             else
             {
