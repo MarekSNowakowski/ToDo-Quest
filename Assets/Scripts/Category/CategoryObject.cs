@@ -8,16 +8,37 @@ public class CategoryObject : MonoBehaviour
     [SerializeField]
     TMPro.TextMeshProUGUI categoryText;
     Category category;
+    /// <summary>
+    /// Only for no category object
+    /// </summary>
+    [SerializeField]
+    CategoryManager categoryManager;
 
     public void Set(Category category)
     {
-        categoryColor.color = category.GetColor();
-        categoryText.text = category.GetName();
-        this.category = category;
+        if(category == null)
+        {
+            categoryColor.color = Color.white;
+            categoryText.text = "No category";
+            this.category = null;
+        }
+        else
+        {
+            categoryColor.color = category.GetColor();
+            categoryText.text = category.GetName();
+            this.category = category;
+        }
     }
 
     public void OnCategoryChoose()
     {
-        category.GetCategoryManager().ChooseCategory(category);
+        if(category!=null)
+        {
+            category.GetCategoryManager().ChooseCategory(category);
+        }
+        else
+        {
+            categoryManager.ChooseCategory(null);
+        }
     }
 }

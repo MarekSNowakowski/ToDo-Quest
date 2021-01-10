@@ -10,13 +10,12 @@ public class CategoriesBox : MonoBehaviour
     [SerializeField]
     GameObject background;
     [SerializeField]
-    GameObject noCategoriesText;
-    [SerializeField]
     GameObject categoryPrefab;
     [SerializeField]
-    Transform categoriesContainer;
+    RectTransform categoriesContainer;
 
     protected float categoryHeight = 100;
+    protected float categoriesBoxMaxHeight = 500;
     protected float height;
 
     private void Awake()
@@ -26,21 +25,11 @@ public class CategoriesBox : MonoBehaviour
 
     public virtual void RefreshSize(int numberOfCategories)
     {
-        height = numberOfCategories * categoryHeight;
-        if(height==0)
-        {
-            height = categoryHeight;
-            noCategoriesText.SetActive(true);
-        }
-        else if(noCategoriesText.activeInHierarchy)
-        {
-            noCategoriesText.SetActive(false);
-        }
+        height = (numberOfCategories + 1) * categoryHeight;
     }
 
     public void OnCategoriesChoosePress()
     {
-        
         if (background.activeInHierarchy)
         {
             CloseCategoriesContainer();
@@ -49,7 +38,15 @@ public class CategoriesBox : MonoBehaviour
         {
             background.SetActive(true);
             categoriesContainer.gameObject.SetActive(true);
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            categoriesContainer.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            if (height > categoriesBoxMaxHeight)
+            {
+                myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, categoriesBoxMaxHeight);
+            }
+            else
+            {
+                myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            }
         }
         
     }

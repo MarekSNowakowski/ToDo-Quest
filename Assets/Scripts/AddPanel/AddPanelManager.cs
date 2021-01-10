@@ -131,7 +131,13 @@ public class AddPanelManager : MonoBehaviour
         rewardFeild.text = questData.reward;
         weight = questData.weight - 1;
         IncreaseWeight();
-        commentFeild.text = questData.comment;
+        if(questData.comment != null && questData.comment != "")
+        {
+            commentFeild.text = questData.comment;
+            comment = questData.comment;
+            iconManager.FillCommentIcon();
+        }
+        ChooseCategory(questData.category);
         editingID = questData.ID;
         date = questData.date;
         if (date != default)
@@ -267,8 +273,17 @@ public class AddPanelManager : MonoBehaviour
 
     public void ChooseCategory(Category category)
     {
-        iconManager.SetCategoryIconColor(category.GetColor());
-        activeCategory = category;
+        if (category != null)
+        {
+            iconManager.SetCategoryIconColor(category.GetColor());
+            activeCategory = category;
+        }
+        else
+        {
+            iconManager.ClearCategoryIcon();
+            activeCategory = null;
+        }
+
     }
 
     public void SubmitDate(DateTime dateTime)
