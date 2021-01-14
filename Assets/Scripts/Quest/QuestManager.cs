@@ -73,7 +73,7 @@ public class QuestManager : MonoBehaviour
                 activeQuests = (List<QuestData>)loadedData;
             }
             activeQuests.Sort();
-        }else
+        } else
         {
             Save();
         }
@@ -99,15 +99,41 @@ public class QuestManager : MonoBehaviour
     {
         QuestData questData = FindQuestWithID(id);
         GiveReward(questData);
+        CheckCycle(questData);
         activeQuests.Remove(questData);
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.RemoveQuest(id);
         }
         Save();
-        //Unload();
-        //StartCoroutine(r_waitFrame());
-        //Load();
+    }
+
+    public void FastRemoveQuest(string id)
+    {
+        QuestData questData = FindQuestWithID(id);
+        activeQuests.Remove(questData);
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.RemoveQuest(id);
+        }
+        Save();
+    }
+
+    void CheckCycle(QuestData questData)
+    {
+        if(questData.repeatCycle != 0)
+        {
+            if (questData.repeatCycle == 30)
+            {
+                questData.date = questData.date.AddMonths(1);
+            }
+            else
+            {
+                questData.date = questData.date.AddDays(questData.repeatCycle);
+            }
+
+            AddQuest(questData);
+        }
     }
 
     public void StartRemovall(QuestData questData)

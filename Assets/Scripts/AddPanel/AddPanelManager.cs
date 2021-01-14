@@ -50,6 +50,7 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     Calendar calendar;
     DateTime date;
+    int repeatCycle = 0;
     bool dateChosen;
 
 
@@ -72,11 +73,11 @@ public class AddPanelManager : MonoBehaviour
             {
                 questData.date = date;
             }
-
-            if (editingID!=null)
+            if (editingID != null)
             {
-                questManager.RemoveQuest(editingID);
+                questManager.FastRemoveQuest(editingID);
             }
+            questData.repeatCycle = repeatCycle;
 
             questManager.AddQuest(questData);
 
@@ -88,7 +89,7 @@ public class AddPanelManager : MonoBehaviour
     private void Start()
     {
         comment = "";
-        this.gameObject.SetActive(false); 
+        this.gameObject.SetActive(false);
     }
 
     public void OpenCommentPanel()
@@ -131,7 +132,7 @@ public class AddPanelManager : MonoBehaviour
         rewardFeild.text = questData.reward;
         weight = questData.weight - 1;
         IncreaseWeight();
-        if(questData.comment != null && questData.comment != "")
+        if (questData.comment != null && questData.comment != "")
         {
             commentFeild.text = questData.comment;
             comment = questData.comment;
@@ -140,6 +141,8 @@ public class AddPanelManager : MonoBehaviour
         ChooseCategory(questData.category);
         editingID = questData.ID;
         date = questData.date;
+        repeatCycle = questData.repeatCycle;
+        calendar.SetUpCycle(repeatCycle);
         if (date != default)
         {
             dateChosen = true;
@@ -170,7 +173,7 @@ public class AddPanelManager : MonoBehaviour
 
     public void TryClose()
     {
-        if(CanClose())
+        if (CanClose())
         {
             Close();
         }
@@ -186,7 +189,7 @@ public class AddPanelManager : MonoBehaviour
     bool CanClose()
     {
         if (questNameFeild.text != "" || rewardFeild.text != "" || editingID != null || comment != "" || commentFeild.text != "" || calendar.IsDateSelected() ||
-            !iconManager.IsWeightIconWhite() || activeCategory != null ||  dateChosen)
+            !iconManager.IsWeightIconWhite() || activeCategory != null || dateChosen)
         {
             return false;
         }
@@ -226,9 +229,9 @@ public class AddPanelManager : MonoBehaviour
     public void SubmitCategory()
     {
         string name = categoryInputField.text;
-        if(categoryColor!=null)
+        if (categoryColor != null)
         {
-            if(name!=null && name!="")
+            if (name != null && name != "")
             {
                 categoryManager.AddCategory(name, categoryColor.GetColor());
                 categoryColor.Block();
@@ -286,19 +289,31 @@ public class AddPanelManager : MonoBehaviour
 
     }
 
-    public void SubmitDate(DateTime dateTime)
+    public void SubmitDate(DateTime dateTime, int repeatCycle)
     {
         date = dateTime;
         dateChosen = true;
         addPanelView.CloseDatePanel();
         iconManager.FillDateIcon();
+        this.repeatCycle = repeatCycle;
     }
 
-    public void SubmitDate()
+    public void SubmitDate(int repeatCycle)
     {
-        dateChosen = false;
-        addPanelView.CloseDatePanel();
-        iconManager.ClearDateIcon();
+        this.repeatCycle = repeatCycle;
+        if (repeatCycle == 0)
+        {
+            dateChosen = false;
+            addPanelView.CloseDatePanel();
+            iconManager.ClearDateIcon();
+        }
+        else
+        {
+            date = DateTime.Today;
+            dateChosen = true;
+            addPanelView.CloseDatePanel();
+            iconManager.FillDateIcon();
+        }
     }
 
     public bool IsDateChosen()

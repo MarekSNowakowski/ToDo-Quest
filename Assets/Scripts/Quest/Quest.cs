@@ -19,6 +19,8 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     Image weightImage;
     [SerializeField]
     Image categoryImage;
+    [SerializeField]
+    GameObject repeatCycleImage;
 
     QuestManager questManager;
     //Important for sorting
@@ -33,6 +35,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     DateTime questCreationDateTime;
     Category category;
     public DateTime date;
+    int repeatCycle;
 
     [Header("Removal")]
     [SerializeField]
@@ -47,6 +50,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         nameText.text = questName;
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
         if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
+        if (repeatCycle != 0) repeatCycleImage.SetActive(true);
         if (category != null && sortingState != QuestDisplayerState.SortByCategory)
         {
             categoryImage.gameObject.SetActive(true);
@@ -71,7 +75,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle);
         return saveData;
     }
 
@@ -86,6 +90,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.category = questData.category;
         this.date = questData.date;
         this.sortingState = state;
+        this.repeatCycle = questData.repeatCycle;
         SetUp();
     }
 
@@ -182,8 +187,9 @@ public struct QuestData : IComparable<QuestData>
     public DateTime creationDateTime;
     public DateTime date;
     public Category category;
+    public int repeatCycle;
 
-    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime, DateTime date)
+    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime, DateTime date, int repeatCycle)
     {
         this.ID = ID;
         this.questName = questName;
@@ -193,6 +199,7 @@ public struct QuestData : IComparable<QuestData>
         this.creationDateTime = DateTime.Now;
         this.category = category;
         this.date = date;
+        this.repeatCycle = repeatCycle;
     }
 
     public void Initialize()

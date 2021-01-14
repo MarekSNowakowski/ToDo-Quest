@@ -238,7 +238,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         }
         else
         {
-            Debug.Log(questRT.rect.height + " > " + (Screen.height - upperPanelHeight) + " " + (endQuest - (questSize / 2)) + " < " + (questsLocation.y - panelDifference));
             //When you are at the end?
             if (questRT.rect.height > Screen.height - upperPanelHeight && endQuest - (questSize / 2)  < questsLocation.y)
             {

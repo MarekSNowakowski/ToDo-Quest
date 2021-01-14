@@ -35,6 +35,12 @@ public class QuestDetails : MonoBehaviour
     AddPanelManager addPanelManager;
     QuestData questData;
 
+    [Header("Cycle")]
+    [SerializeField]
+    Image cycleImage;
+    [SerializeField]
+    TextMeshProUGUI cycleText;
+
     private void Start()
     {
         addPanelManager = addPanelCanvas.GetComponent<AddPanelManager>();
@@ -59,6 +65,26 @@ public class QuestDetails : MonoBehaviour
             dateField.SetActive(true);
             CultureInfo cultureInfo = new CultureInfo("en-US");
             date.text = questData.date.ToString("dddd, dd MMMM yyyy", cultureInfo);
+            if(questData.repeatCycle != 0)
+            {
+                cycleImage.gameObject.SetActive(true);
+
+                switch (questData.repeatCycle)
+                {
+                    case 1:
+                        cycleText.text = "Every day";
+                        break;
+                    case 7:
+                        cycleText.text = "Every week";
+                        break;
+                    case 14:
+                        cycleText.text = "Every 2 weeks";
+                        break;
+                    case 30:
+                        cycleText.text = "Every month";
+                        break;
+                }
+            }
         }
         if (questData.category != null)
         {
@@ -91,6 +117,8 @@ public class QuestDetails : MonoBehaviour
         categoryName.text = "";
         categoryIcon.color = Color.white;
         date.text = "";
+        cycleImage.gameObject.SetActive(false);
+        cycleText.text = "";
 
         rewardField.SetActive(false);
         commentField.SetActive(false);

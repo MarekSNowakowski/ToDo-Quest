@@ -18,6 +18,9 @@ public class Calendar : MonoBehaviour
     [SerializeField]
     AddPanelManager addPanelManager;
 
+    [SerializeField]
+    CycleManager cycleManager;
+
     /// <summary>
     /// Setup in editor since there will always be six weeks. 
     /// Try to figure out why it must be six weeks even though at most there are only 31 days in a month
@@ -279,16 +282,16 @@ public class Calendar : MonoBehaviour
         if(selectedDay != null && selectedDateTemp != default)
         {
             selectedDate = selectedDateTemp;
-            addPanelManager.SubmitDate(selectedDate);
+            addPanelManager.SubmitDate(selectedDate, cycleManager.SubmitCycle());
             currDate = selectedDate;
-        }else if(selectedDate != default && selectedDateTemp != default)
+        }else if(selectedDate != default)
         {
-            addPanelManager.SubmitDate(selectedDate);
+            addPanelManager.SubmitDate(selectedDate, cycleManager.SubmitCycle());
             currDate = selectedDate;
         }
         else
         {
-            addPanelManager.SubmitDate();
+            addPanelManager.SubmitDate(cycleManager.SubmitCycle());
             selectedDate = default;
         }
     }
@@ -309,6 +312,7 @@ public class Calendar : MonoBehaviour
         {
             selectedDay = null;
         }
+        cycleManager.Clear();
     }
 
     public bool IsDateSelected()
@@ -321,5 +325,10 @@ public class Calendar : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void SetUpCycle(int repeatCycle)
+    {
+        cycleManager.SetUp(repeatCycle);
     }
 }
