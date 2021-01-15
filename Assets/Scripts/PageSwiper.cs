@@ -29,7 +29,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField]
     GameObject categories;
     RectTransform categoriesRT;
-    float upperPanelHeight = 120;
+    float upperPanelHeight = 240;
     float questSize = 100;
     float rewardSize = 100;
     float rewardPanelDistance;
@@ -43,7 +43,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         indicatorLocation = panelIndicator.transform.position;
         questsLocation = quests.transform.position;
         categoriesLocation = quests.transform.position;
-        categoriesLocation.y += 180;    //Qfix don't sure why? Create category button has height of 200
+        categoriesLocation.y += 60;    //Qfix don't sure why? Create category button has height of 200
         rewardsLocation = new Vector2(Screen.width / 2, rewards.transform.position.y);
         questRT = quests.GetComponent<RectTransform>();
         rewardsRT = rewards.GetComponent<RectTransform>();

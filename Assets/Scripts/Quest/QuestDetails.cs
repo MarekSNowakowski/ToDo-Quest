@@ -134,7 +134,7 @@ public class QuestDetails : MonoBehaviour
         addPanelManager.EditQuest(questData);
         CloseDetails();
     }
-
+        
     public void RemoveQuest()
     {
         addPanelManager.GetQuestManager().FastRemoveQuest(questData.ID);
