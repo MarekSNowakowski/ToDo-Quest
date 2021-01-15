@@ -320,4 +320,9 @@ public class AddPanelManager : MonoBehaviour
     {
         return dateChosen;
     }
+
+    public QuestManager GetQuestManager()
+    {
+        return questManager;
+    }
 }
