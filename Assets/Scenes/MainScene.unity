@@ -19780,10 +19780,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bookmarFilledIcon: {fileID: 21300000, guid: 0b66118263db29647aa14d890e37fce2, type: 3}
   categoryIcon: {fileID: 1048888833}
+  bookmarkEmpty: {fileID: 21300000, guid: 4678ef922f02ecd43a0ee90dd543a749, type: 3}
   dateFilledIcon: {fileID: 21300000, guid: d302d4ead50dcaf419a8a9fdda3eb4ff, type: 3}
   dateIcon: {fileID: 1063285693}
+  dateEmptyIcon: {fileID: 21300000, guid: 0f98e3b196a474f4b9adc78de0e36fb3, type: 3}
   commentFilledIcon: {fileID: 21300000, guid: f086d9265c0fb054a88c649524cf753a, type: 3}
   commentIcon: {fileID: 994793479}
+  commentEmptyIcon: {fileID: 21300000, guid: 2b8b27a75a732794787df7ea89aeca60, type: 3}
   weightIcon: {fileID: 1419470056}
 --- !u!1 &1257417273
 GameObject:

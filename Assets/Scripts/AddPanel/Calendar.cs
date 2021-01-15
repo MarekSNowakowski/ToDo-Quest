@@ -86,7 +86,6 @@ public class Calendar : MonoBehaviour
     /// </summary>
     void UpdateCalendar(int year, int month)
     {
-        selectedDateTemp = default;
         // If we try to open past month, change it to current
         if (year < DateTime.Now.Year || (year == DateTime.Now.Year && month < DateTime.Now.Month))
         {
@@ -164,10 +163,15 @@ public class Calendar : MonoBehaviour
             }
 
         // Change color of selected day
-        if(selectedDate.Year == year && selectedDate.Month == month)
+        if((selectedDateTemp == default || selectedDate == selectedDateTemp) && selectedDate.Year == year && selectedDate.Month == month)
         {
             days[(selectedDate.Day - 1) + startDay].ChangeColorToSelected();
             selectedDay = days[(selectedDate.Day - 1) + startDay];
+        }
+        else if(selectedDateTemp.Year == year && selectedDateTemp.Month == month)
+        {
+            days[(selectedDateTemp.Day - 1) + startDay].ChangeColorToSelected();
+            selectedDay = days[(selectedDateTemp.Day - 1) + startDay];
         }
 
         CheckTheLastWeeks();
@@ -311,6 +315,10 @@ public class Calendar : MonoBehaviour
         else
         {
             selectedDay = null;
+            if(selectedDateTemp != selectedDate)
+            {
+                selectedDateTemp = default;
+            }
         }
         cycleManager.Clear();
     }

@@ -173,7 +173,7 @@ public class QuestDisplayer : MonoBehaviour
 
     void CreateLabelsTillDate(int start, DateTime date)
     {
-        if(start >= 0 && start < 7)
+        if(start >= 0 && start <= 7)
         {
             for (int i = start; i <= 7; i++)
             {
@@ -347,7 +347,10 @@ public class QuestDisplayer : MonoBehaviour
     {
         public int Compare(QuestData x, QuestData y)
         {
-            
+            if (x.category == y.category)
+            {
+                return (-1) * x.weight.CompareTo(y.weight);
+            }
             if (x.category != null && y.category != null)
             {
                 return (-1) * x.category.CompareTo(y.category);
@@ -376,6 +379,10 @@ public class QuestDisplayer : MonoBehaviour
     {
         public int Compare(QuestData x, QuestData y)
         {
+            if(x.date == y.date)
+            {
+                return (-1) * x.weight.CompareTo(y.weight);
+            }
             if(x.date != default && y.date != default)
             {
                 return x.date.CompareTo(y.date);

@@ -10,6 +10,7 @@ public class IconManager : MonoBehaviour
     Sprite bookmarFilledIcon;
     [SerializeField]
     Image categoryIcon;
+    [SerializeField]
     Sprite bookmarkEmpty;
 
     [Header("Date")]
@@ -17,6 +18,7 @@ public class IconManager : MonoBehaviour
     Sprite dateFilledIcon;
     [SerializeField]
     Image dateIcon;
+    [SerializeField]
     Sprite dateEmptyIcon;
 
     [Header("Comment")]
@@ -24,6 +26,7 @@ public class IconManager : MonoBehaviour
     Sprite commentFilledIcon;
     [SerializeField]
     Image commentIcon;
+    [SerializeField]
     Sprite commentEmptyIcon;
 
     [Header("Weight")]
@@ -32,9 +35,9 @@ public class IconManager : MonoBehaviour
 
     private void Start()
     {
-        bookmarkEmpty = categoryIcon.sprite;
-        dateEmptyIcon = dateIcon.sprite;
-        commentEmptyIcon = commentIcon.sprite;
+        //bookmarkEmpty = categoryIcon.sprite;
+        //dateEmptyIcon = dateIcon.sprite;
+        //commentEmptyIcon = commentIcon.sprite;
     }
 
     public void SetCategoryIconColor(Color color)
