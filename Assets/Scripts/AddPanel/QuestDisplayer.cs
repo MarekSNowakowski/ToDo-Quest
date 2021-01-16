@@ -197,7 +197,7 @@ public class QuestDisplayer : MonoBehaviour
                     lastLabelCreatedID = i.ToString();
                     DateLabel dateLabel = labelFactory.LoadDate(default);
                     activeLabels.Add(dateLabel);
-                    if (date == default || date > DateTime.Today.AddDays(7)) 
+                    if (date == default || date >= DateTime.Today.AddDays(7)) 
                     {
                         dateLabel.QuestAdded();
                         break;
@@ -307,7 +307,7 @@ public class QuestDisplayer : MonoBehaviour
     Label GetDateLabel(DateTime date)
     {
         string id;
-        if(date == default || date > DateTime.Today.AddDays(7))
+        if(date == default || date >= DateTime.Today.AddDays(7))
         {
             id = "Other";
         }

@@ -60,12 +60,15 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         {
             case 1:
                 weightImage.color = new Color(0, 210, 0);
+                cancelRemovalButton.GetComponent<Image>().color = new Color(0, 210, 0);
                 break;
             case 2:
                 weightImage.color = new Color(0, 0, 210);
+                cancelRemovalButton.GetComponent<Image>().color = new Color(0, 0, 210);
                 break;
             case 3:
                 weightImage.color = new Color(210, 0, 0);
+                cancelRemovalButton.GetComponent<Image>().color = new Color(210, 0, 0);
                 break;
             default:
                 break;

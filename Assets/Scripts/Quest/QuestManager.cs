@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
+    [SerializeField]
+    SettingsManager settingsManager;
+
     QuestDetails questDetails;
     [SerializeField]
     GameObject detailsCanvas;
@@ -166,8 +169,18 @@ public class QuestManager : MonoBehaviour
             else
             {
                 rewardManager.AddReward(questData);
+                GiveExp(questData.weight);
             }
         }
+        else
+        {
+            GiveExp(questData.weight);
+        }
+    }
+
+    void GiveExp(int weight)
+    {
+        levelManager.AddExperience(settingsManager.GetQuestCompleteExp()[weight]);
     }
 
     IEnumerator r_waitFrame()

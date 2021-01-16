@@ -43,7 +43,7 @@ public class LabelFactory : MonoBehaviour
         string title = "", dateText = "", id = "";
         CultureInfo cultureInfo = new CultureInfo("en-US");
 
-        if (date == default || date > DateTime.Today.AddDays(7))
+        if (date == default || date >= DateTime.Today.AddDays(7))
         {
             title = "Other";
             dateText = "";
