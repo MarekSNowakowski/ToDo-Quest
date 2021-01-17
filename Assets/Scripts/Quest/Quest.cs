@@ -51,7 +51,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
         if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
         if (repeatCycle != 0) repeatCycleImage.SetActive(true);
-        if (category != null && sortingState != QuestDisplayerState.SortByCategory)
+        if (category != null && sortingState != QuestDisplayerState.SortByCategory && sortingState != QuestDisplayerState.ShowOneCategory)
         {
             categoryImage.gameObject.SetActive(true);
             categoryImage.color = category.GetColor();
@@ -215,6 +215,11 @@ public struct QuestData : IComparable<QuestData>
     {
         if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
         else return (-1) * creationDateTime.CompareTo(other.creationDateTime);
+    }
+
+    public void RemoveCategory()
+    {
+        this.category = null;
     }
 
     //public void UpdateData(string questName, string reward, int weight, string comment)

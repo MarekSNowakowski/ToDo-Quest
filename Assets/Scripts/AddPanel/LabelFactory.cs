@@ -14,13 +14,18 @@ public class LabelFactory : MonoBehaviour
     [SerializeField]
     Sprite emptyBookmarkIcon;
     string emptyLabelText = "Others";
+    /// <summary>
+    /// Only for factory of categories
+    /// </summary>
+    [SerializeField]
+    CategoryDetails categoryDetails;
 
     public CategoryLabel LoadCategory(Category category)
     {
         GameObject ob = Instantiate(labelCategory);
         ob.transform.SetParent(transform);
         CategoryLabel categoryLabel = ob.GetComponent<CategoryLabel>();
-        categoryLabel.Initialize(category);
+        categoryLabel.Initialize(category, categoryDetails);
 
         return categoryLabel;
     }

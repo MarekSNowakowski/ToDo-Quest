@@ -41,4 +41,9 @@ public class CategoryObject : MonoBehaviour
             categoryManager.ChooseCategory(null);
         }
     }
+
+    public Category GetCategory()
+    {
+        return category;
+    }
 }

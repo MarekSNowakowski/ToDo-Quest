@@ -68,6 +68,18 @@ public class CategoryManager : MonoBehaviour
         Save();
     }
 
+    public void RemoveCategory(Category category)
+    {
+        categories.RemoveAll(x => x.GetID() == category.GetID());
+        foreach (Category c in categories)
+        {
+            Debug.Log(c.GetName());
+        }
+        categoriesBox.RefreshSize(categories.Count);
+        categoriesBox.UnLoadCategory(category);
+        Save();
+    }
+
     public bool CheckColor(Color color)
     {
         if (categories.Count == 0) return false;

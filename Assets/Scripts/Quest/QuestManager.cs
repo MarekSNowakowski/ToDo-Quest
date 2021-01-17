@@ -98,6 +98,13 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public void ShowCategoryQuests(QuestDisplayer questDisplayer, Category category)
+    {
+        detailsCanvas.SetActive(true);
+        List<QuestData> categoryQuestDataList = FindQuestsWithCategory(category);
+        questDisplayer.ShowCategoryQuests(this, categoryQuestDataList);
+    }
+
     public void RemoveQuest(string id)
     {
         QuestData questData = FindQuestWithID(id);
@@ -205,5 +212,29 @@ public class QuestManager : MonoBehaviour
         {
             questDisplayer.CancellRemoval(id);
         }
+    }
+
+    public void RemoveCategory(Category category)
+    {
+        List<QuestData> categoryQuests = FindQuestsWithCategory(category);
+        Debug.Log(categoryQuests.Count);
+        foreach(QuestData questData in categoryQuests)
+        {
+            FastRemoveQuest(questData.ID);
+            questData.RemoveCategory();
+            AddQuest(questData);
+        }
+        Save();
+        Unload();
+        Load();
+        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.SetCategoryButton();
+        }
+    }
+
+    public List<QuestData> FindQuestsWithCategory(Category category)
+    {
+        return activeQuests.FindAll(x => x.category!=null && x.category.GetID() == category.GetID());
     }
 }

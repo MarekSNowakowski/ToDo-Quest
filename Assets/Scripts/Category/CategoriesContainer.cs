@@ -16,6 +16,11 @@ public class CategoriesContainer : QuestContainer
     public override void RefreshSize(bool adding)
     {
         base.RefreshSize(adding);
+        SetCategoryButton();
+    }
+
+    public void SetCategoryButton()
+    {
         addCategoryButton.SetParent(transform);
         addCategoryButton.SetAsLastSibling();
     }

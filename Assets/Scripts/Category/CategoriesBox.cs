@@ -13,6 +13,7 @@ public class CategoriesBox : MonoBehaviour
     GameObject categoryPrefab;
     [SerializeField]
     RectTransform categoriesContainer;
+    List<CategoryObject> categoriesObjects = new List<CategoryObject>();
 
     protected float categoryHeight = 100;
     protected float categoriesBoxMaxHeight = 500;
@@ -71,11 +72,18 @@ public class CategoriesBox : MonoBehaviour
         }
     }
 
+    public void UnLoadCategory(Category category)
+    {
+        CategoryObject categoryObject = categoriesObjects.Find(x => x.GetCategory() != null && x.GetCategory().GetID() == category.GetID());
+        Destroy(categoryObject.gameObject);
+    }
+
     public void LoadCategory(Category category)
     {
         GameObject categoryObject = Instantiate(categoryPrefab);
         CategoryObject categoryObjectScript = categoryObject.GetComponent<CategoryObject>();
         categoryObject.transform.SetParent(categoriesContainer);
         categoryObjectScript.Set(category);
+        categoriesObjects.Add(categoryObjectScript);
     }
 }

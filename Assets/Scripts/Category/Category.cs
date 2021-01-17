@@ -33,7 +33,15 @@ public class Category : IComparable<Category>
 
         public string GetID()
         {
-            return id;
+            if (id != null)
+            {
+                return id;
+            }
+            else
+            {
+                return "No ID";
+            }
+
         }
 
         public string GetName()

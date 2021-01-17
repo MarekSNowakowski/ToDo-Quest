@@ -42,6 +42,13 @@ public class QuestDisplayer : MonoBehaviour
         container.RefreshSize(addition);
     }
 
+    public void SetCategoryButton()
+    {
+        CategoriesContainer categoriesContainer;
+        container.TryGetComponent<CategoriesContainer>(out categoriesContainer);
+        if (categoriesContainer != null) categoriesContainer.SetCategoryButton();
+    }
+
     public void Load(QuestManager questManager, List<QuestData> data)
     {
         if(state == QuestDisplayerState.SortByCategory)
@@ -343,6 +350,17 @@ public class QuestDisplayer : MonoBehaviour
         FindQuestWithID(ID).CancellRemoval();
     }
 
+    public void ShowCategoryQuests(QuestManager questManager, List<QuestData> data)
+    {
+        foreach (QuestData questData in data)
+        {
+            Quest quest = questFactory.LoadQuest(questData);
+            activeQuests.Add(quest);
+            quest.GetManager(questManager);
+            quest.Load(questData, state);
+        }
+    }
+
     private class SortQuestDataByCategoryHelper : IComparer<QuestData>
     {
         public int Compare(QuestData x, QuestData y)
@@ -412,5 +430,6 @@ public class QuestDisplayer : MonoBehaviour
 public enum QuestDisplayerState
 {
     SortByCategory,
-    SortByDate
+    SortByDate,
+    ShowOneCategory
 }
