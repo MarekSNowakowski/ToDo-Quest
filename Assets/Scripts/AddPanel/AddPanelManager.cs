@@ -45,6 +45,7 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     Image categoryCreationIcon;
     CategoryColor categoryColor = null;
+    Category editingCategory = null;
 
     [Header("Calendar")]
     [SerializeField]
@@ -151,6 +152,26 @@ public class AddPanelManager : MonoBehaviour
         }
     }
 
+    public void EditCategory(Category category)
+    {
+        OpenCategory();
+        categoryInputField.text = category.GetName();
+        categoryCreationIcon.color = category.GetColor();
+        editingCategory = category;
+    }
+
+    public Color GetEditingCategoryColor()
+    {
+        if(editingCategory!=null && editingCategory.GetColor()!=null)
+        {
+            return editingCategory.GetColor();
+        }
+        else
+        {
+            return Color.gray;
+        }
+    }
+
     public void Close()
     {
         if (mainAddPanel.activeInHierarchy || commentPanel.activeInHierarchy)
@@ -211,6 +232,9 @@ public class AddPanelManager : MonoBehaviour
         activeCategory = null;
         iconManager.Clear();
         dateChosen = false;
+        editingCategory = null;
+        categoryInputField.text = "";
+        categoryCreationIcon.color = Color.white;
     }
 
     public void OpenCategory()
@@ -218,47 +242,59 @@ public class AddPanelManager : MonoBehaviour
         commentPanel.SetActive(false);
         mainAddPanel.SetActive(false);
         categoryPanel.SetActive(true);
+        editingCategory = null;
+        categoryInputField.text = "";
+        categoryCreationIcon.color = Color.white;
     }
 
     public void CloseCategory()
     {
         categoryPanel.SetActive(false);
         categoryInputField.text = "";
+        editingCategory = null;
     }
 
     public void SubmitCategory()
     {
         string name = categoryInputField.text;
-        if (categoryColor != null)
+        if(editingCategory != null)
         {
-            if (name != null && name != "")
-            {
-                categoryManager.AddCategory(name, categoryColor.GetColor());
-                categoryColor.Block();
-                CloseCategory();
-            }
-            else
-            {
-                Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
-            }
+            categoryManager.EditCategory(editingCategory, name, categoryCreationIcon.color);
+            CloseCategory();
         }
         else
         {
-            if (!categoryManager.CheckColor(Color.white))
+            if (categoryColor != null)
             {
                 if (name != null && name != "")
                 {
-                    categoryManager.AddCategory(name, Color.white);
+                    categoryManager.AddCategory(name, categoryColor.GetColor());
+                    categoryColor.Block();
                     CloseCategory();
                 }
                 else
                 {
-                    Debug.LogWarning("Nie można utworzyć kategorii z powodu braku wybranego koloru!");
+                    Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
                 }
             }
             else
             {
-                Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
+                if (!categoryManager.CheckColor(Color.white))
+                {
+                    if (name != null && name != "")
+                    {
+                        categoryManager.AddCategory(name, Color.white);
+                        CloseCategory();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Nie można utworzyć kategorii z powodu braku wybranego koloru!");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ using System;
 public class Category : IComparable<Category>
 {
     readonly string id;
-    readonly string categoryName;
+    string categoryName;
     string color;
     [NonSerialized]
     CategoryManager categoryManager;
@@ -23,6 +23,12 @@ public class Category : IComparable<Category>
     public void SetManager(CategoryManager categoryManager)
     {
         this.categoryManager = categoryManager;
+    }
+
+    public void Edit(string name, Color color)
+    {
+        categoryName = name;
+        this.color = ColorUtility.ToHtmlStringRGB(color);
     }
 
         public Color GetColor()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,19 +13,25 @@ public class CategoryManager : MonoBehaviour
     CategoriesBox categoriesBox;
     [SerializeField]
     AddPanelManager addPanelManager;
+    [SerializeField]
+    QuestManager questManager;
+    private Color editingCategoryColor;
 
     // Start is called before the first frame update
     void Start()
     {
         categories = new List<Category>();
-        filepath = Application.persistentDataPath + "/saveC.dat";
-        LoadCategories();
+        if (categories.Count == 0 || categories == null)
+        {
+            LoadCategories();
+        }
         categoriesBox.RefreshSize(categories.Count);
         categoriesBox.LoadCategories(categories);
     }
 
     void LoadCategories()
     {
+        filepath = Application.persistentDataPath + "/saveC.dat";
         if (File.Exists(filepath))
         {
             using (FileStream file = File.Open(filepath, FileMode.Open))
@@ -83,13 +90,35 @@ public class CategoryManager : MonoBehaviour
     public bool CheckColor(Color color)
     {
         if (categories.Count == 0) return false;
-        return categories.Exists(x => x.GetColor() == color);
+        return categories.Exists(x => x.GetColor() != addPanelManager.GetEditingCategoryColor() && x.GetColor() == color);
     }
 
     public void ChooseCategory(Category category)
     {
         addPanelManager.ChooseCategory(category);
         categoriesBox.CloseCategoriesContainer();
+    }
+
+    internal void EditCategory(Category editingCategory, string name, Color color)
+    {
+        editingCategoryColor = color;
+        editingCategory.Edit(name, color);
+        categoriesBox.UnLoadCategory(editingCategory);
+        categoriesBox.LoadCategory(editingCategory);
+        questManager.ReloadQuests();
+        categories.RemoveAll(x => x.GetID() == editingCategory.GetID());
+        categories.Add(editingCategory);
+        questManager.ChangeLabel(editingCategory);
+        Save();
+    }
+
+    public List<Category> GetCategories()
+    {
+        if(categories==null || categories.Count == 0)
+        {
+            LoadCategories();
+        }
+        return categories;
     }
 }
 

@@ -17,6 +17,8 @@ public class CategoryDetails : MonoBehaviour
     [SerializeField]
     GameObject categoryDetails;
     Category displayedCategory;
+    [SerializeField]
+    AddPanelManager addPanelManager;
 
     public void ShowCategoryDetails(Category category)
     {
@@ -39,7 +41,7 @@ public class CategoryDetails : MonoBehaviour
 
     public void EditCategory()
     {
-        //TBD
+        addPanelManager.EditCategory(displayedCategory);
         CloseDetails();
     }
 

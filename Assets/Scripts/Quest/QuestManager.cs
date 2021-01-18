@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -129,6 +130,14 @@ public class QuestManager : MonoBehaviour
         Save();
     }
 
+    internal void ChangeLabel(Category editingCategory)
+    {
+        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.TryChangeLabel(editingCategory);
+        }
+    }
+
     void CheckCycle(QuestData questData)
     {
         if(questData.repeatCycle != 0)
@@ -227,14 +236,26 @@ public class QuestManager : MonoBehaviour
         Save();
         Unload();
         Load();
-        foreach(QuestDisplayer questDisplayer in questDisplayers)
-        {
-            questDisplayer.SetCategoryButton();
-        }
+        SetCategoryButton();
     }
 
     public List<QuestData> FindQuestsWithCategory(Category category)
     {
         return activeQuests.FindAll(x => x.category!=null && x.category.GetID() == category.GetID());
+    }
+
+    public void ReloadQuests()
+    {
+        Unload();
+        Load();
+        SetCategoryButton();
+    }
+
+    void SetCategoryButton()
+    {
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.SetCategoryButton();
+        }
     }
 }

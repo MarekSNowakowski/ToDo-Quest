@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryIcon: {fileID: 2171000701808979549}
   categoryName: {fileID: 164368424583405530}
-  categoryDetails: {fileID: 0}
+  inactiveColor: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
 --- !u!1 &795257630416540877
 GameObject:
   m_ObjectHideFlags: 0

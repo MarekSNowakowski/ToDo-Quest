@@ -5,7 +5,7 @@ public abstract class Label : MonoBehaviour
     protected string labelID;
     protected int questsInside;
 
-    public void QuestAdded()
+    virtual public void QuestAdded()
     {
         questsInside++;
     }

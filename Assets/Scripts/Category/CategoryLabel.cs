@@ -11,6 +11,8 @@ public class CategoryLabel : Label
     TMPro.TextMeshProUGUI categoryName;
     CategoryDetails categoryDetails;
     Category category;
+    [SerializeField]
+    Color inactiveColor;
 
 
     public void Initialize(Category category, CategoryDetails categoryDetails)
@@ -38,6 +40,29 @@ public class CategoryLabel : Label
             categoryDetails.ShowCategoryDetails(category);
         }
     }
+
+    public override void QuestAdded()
+    {
+        TurnActive();
+        base.QuestAdded();
+    }
+
+    public void TurnInactive()
+    {
+        categoryName.color = inactiveColor;
+    }
+
+    public void TurnActive()
+    {
+        categoryName.color = Color.white;
+    }
+
+    public void EditLabel(string name, Color color)
+    {
+        categoryName.text = name;
+        categoryIcon.color = color;
+    }
+
 
     //public string GetName()
     //{

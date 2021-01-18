@@ -18,6 +18,9 @@ public class QuestDisplayer : MonoBehaviour
     [SerializeField]
     QuestDisplayerState state;
 
+    [SerializeField]
+    CategoryManager categoryManager;
+
     List<Quest> activeQuests = new List<Quest>();
     List<Label> activeLabels = new List<Label>();
 
@@ -81,6 +84,7 @@ public class QuestDisplayer : MonoBehaviour
             }
         }
 
+        CreateEmptyCategoryLables();
         lastLabelCreatedID = null;
     }
 
@@ -109,6 +113,34 @@ public class QuestDisplayer : MonoBehaviour
             else if (category == null && activeLabels.Exists(x=>x.GetID() == "No category"))
             {
                 activeLabels[activeLabels.Count-1].QuestAdded();
+            }
+        }
+    }
+
+    internal void TryChangeLabel(Category category)
+    {
+        if(state == QuestDisplayerState.SortByCategory && activeLabels.Exists(x=>x.GetID()==category.GetID()))
+        {
+            CategoryLabel categoryLabel = activeLabels.Find(x => x.GetID() == category.GetID()).GetComponent<CategoryLabel>();
+            categoryLabel.EditLabel(category.GetName(), category.GetColor());
+        }
+    }
+
+    void CreateEmptyCategoryLables()
+    {
+        if(state == QuestDisplayerState.SortByCategory)
+        {
+            List<Category> categoriesToLoad = new List<Category>();
+            foreach(Category category in categoryManager.GetCategories())
+            {
+                if(!activeLabels.Exists(x => x.GetID() == category.GetID()))
+                {
+                    categoriesToLoad.Add(category);
+                    lastLabelCreatedID = category.GetID();
+                    CategoryLabel categoryLabel = labelFactory.LoadCategory(category);
+                    categoryLabel.TurnInactive();
+                    activeLabels.Add(categoryLabel);
+                }
             }
         }
     }
@@ -287,8 +319,7 @@ public class QuestDisplayer : MonoBehaviour
             categoryLabel.QuestRemoved();
             if(categoryLabel.GetNumberOfQuestsInside() == 0)
             {
-                activeLabels.Remove(categoryLabel);
-                Destroy(categoryLabel.gameObject);
+                categoryLabel.GetComponent<CategoryLabel>().TurnInactive();
             }
         }
         else if (state == QuestDisplayerState.SortByDate)

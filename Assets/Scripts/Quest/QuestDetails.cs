@@ -34,12 +34,15 @@ public class QuestDetails : MonoBehaviour
     TextMeshProUGUI date;
     AddPanelManager addPanelManager;
     QuestData questData;
+    Category category;
 
     [Header("Cycle")]
     [SerializeField]
     Image cycleImage;
     [SerializeField]
     TextMeshProUGUI cycleText;
+    [SerializeField]
+    CategoryDetails categoryDetails;
 
     private void Start()
     {
@@ -91,6 +94,7 @@ public class QuestDetails : MonoBehaviour
             categoryField.SetActive(true);
             categoryName.text = questData.category.GetName();
             categoryIcon.color = questData.category.GetColor();
+            category = questData.category;
         }
         switch (questData.weight)
         {
@@ -111,21 +115,25 @@ public class QuestDetails : MonoBehaviour
 
     public void CloseDetails()
     {
+        Clear();
+        this.gameObject.SetActive(false);
+    }
+
+    public void Clear()
+    {
         questName.text = "";
         rewardName.text = "";
-        //date.text = "";
         categoryName.text = "";
         categoryIcon.color = Color.white;
         date.text = "";
         cycleImage.gameObject.SetActive(false);
         cycleText.text = "";
+        category = null;
 
         rewardField.SetActive(false);
         commentField.SetActive(false);
-        //dateField.SetActive(false);
         categoryField.SetActive(false);
         dateField.SetActive(false);
-        this.gameObject.SetActive(false);
     }
 
     public void EditQuest()
@@ -138,5 +146,11 @@ public class QuestDetails : MonoBehaviour
     public void RemoveQuest()
     {
         addPanelManager.GetQuestManager().FastRemoveQuest(questData.ID);
+    }
+
+    public void OpenCategoryDetails()
+    {
+        categoryDetails.ShowCategoryDetails(category);
+        Clear();
     }
 }
