@@ -396,13 +396,16 @@ public class QuestDisplayer : MonoBehaviour
     {
         public int Compare(QuestData x, QuestData y)
         {
-            if (x.category == y.category)
-            {
-                return (-1) * x.weight.CompareTo(y.weight);
-            }
             if (x.category != null && y.category != null)
             {
-                return (-1) * x.category.CompareTo(y.category);
+                if(x.category.GetID() == y.category.GetID())
+                {
+                    return (-1) * x.weight.CompareTo(y.weight);
+                }
+                else
+                {
+                    return (-1) * x.category.CompareTo(y.category);
+                }
             }
             else if(x.category != null && y.category == null)
             {
@@ -414,7 +417,7 @@ public class QuestDisplayer : MonoBehaviour
             }
             else
             {
-                return 0;
+                return (-1) * x.weight.CompareTo(y.weight);
             }
         }
     }
