@@ -42,8 +42,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         panelLocation = transform.position;
         indicatorLocation = panelIndicator.transform.position;
         questsLocation = quests.transform.position;
-        categoriesLocation = quests.transform.position;
-        categoriesLocation.y += 20;    //Qfix don't sure why? Create category button has height of 200
+        categoriesLocation = new Vector2(quests.transform.position.x, categories.transform.position.y);
         rewardsLocation = new Vector2(Screen.width / 2, rewards.transform.position.y);
         questRT = quests.GetComponent<RectTransform>();
         rewardsRT = rewards.GetComponent<RectTransform>();

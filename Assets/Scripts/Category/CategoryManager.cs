@@ -75,6 +75,7 @@ public class CategoryManager : MonoBehaviour
         categoriesBox.RefreshSize(categories.Count);
         categoriesBox.LoadCategory(category);
         Save();
+        questManager.ReloadQuests();
     }
 
     public void RemoveCategory(Category category)
