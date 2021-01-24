@@ -32,6 +32,8 @@ public class RewardContainer : MonoBehaviour
     {
         numberOfChildren = myRectTransform.childCount;
 
+        if (!adding) numberOfChildren--;
+
         var height = numberOfChildren * rewardPanelHeight;
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);

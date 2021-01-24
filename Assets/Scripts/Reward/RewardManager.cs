@@ -104,9 +104,7 @@ public class RewardManager : MonoBehaviour
         activeRewards.Remove(reward);
         Destroy(reward.gameObject);
         Save();
-        Unload();
         StartCoroutine(r_waitFrame());
-        Load();
         container.RefreshSize(false);
     }
 
