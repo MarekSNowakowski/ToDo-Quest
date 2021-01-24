@@ -11,7 +11,7 @@ public class QuestContainer : MonoBehaviour
     protected int questCount;
     protected int labelCount;
     protected float questPanelHeight = 100;
-    protected float labelHeight = 80;
+    protected float labelHeight = 60;
     protected RectTransform myRectTransform;
 
     public virtual void Start()
@@ -41,7 +41,7 @@ public class QuestContainer : MonoBehaviour
         myRectTransform = gameObject.GetComponent<RectTransform>();
     }
 
-    public virtual void RefreshSize(bool adding)
+    public virtual void RefreshSize(bool adding, bool dateLabelInteraction, bool categoryLabelInteraction)
     {
         CountChildren();
 
@@ -50,11 +50,16 @@ public class QuestContainer : MonoBehaviour
             questCount--;
         }
 
+        if(!adding && (dateLabelInteraction || categoryLabelInteraction))
+        {
+            labelCount--;
+        }
+
         var height = initialHeight + (questCount * questPanelHeight) + (labelCount * labelHeight);
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
-        pageSwiper.resetQuestsPositionl(adding);
+        pageSwiper.resetQuestsPositionl(adding, dateLabelInteraction, categoryLabelInteraction);
     }
 
 }

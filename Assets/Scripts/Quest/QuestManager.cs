@@ -41,6 +41,9 @@ public class QuestManager : MonoBehaviour
 
     public void AddQuest(QuestData questData)
     {
+        bool addingCategoryLabel = false;
+        bool addingDateLabel = false;
+
         questData.Initialize();
         activeQuests.Add(questData);
         Save();
@@ -50,7 +53,7 @@ public class QuestManager : MonoBehaviour
 
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
-            questDisplayer.RefreshContainer(true);
+            questDisplayer.RefreshContainerAfterAddingQuest(questData);
         }
     }
 

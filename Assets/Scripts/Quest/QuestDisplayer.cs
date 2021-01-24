@@ -26,6 +26,11 @@ public class QuestDisplayer : MonoBehaviour
 
     string lastLabelCreatedID = null;
 
+    bool newLabel = false;
+
+    readonly string noCategory = "No category";
+    readonly string noDate = "Other";
+
     //public void AddQuest(QuestManager questManager, QuestData questData)
     //{
     //    Quest quest = questFactory.AddQuest(questData);
@@ -40,9 +45,22 @@ public class QuestDisplayer : MonoBehaviour
     //    container.RefreshSize(true);
     //}
 
-    public void RefreshContainer(bool addition)
+    public void RefreshContainerAfterAddingQuest(QuestData addedQuestData)
     {
-        container.RefreshSize(addition);
+        bool dateLabelAdding = false;
+        bool categoryLabelAdding = false;
+        //category label added
+        if((state==QuestDisplayerState.SortByCategory && activeLabels.Exists(x=>x.GetID() == noCategory) && activeLabels.Find(x=>x.GetID() == noCategory).GetNumberOfQuestsInside() == 1 && 
+            addedQuestData.category == null)) {
+            categoryLabelAdding = true;
+        }
+            //Date label added
+        else if(state == QuestDisplayerState.SortByDate && activeLabels.Exists(x=>x.GetID() == noDate) && activeLabels.Find(x=>x.GetID() == noDate).GetNumberOfQuestsInside() == 1
+        && (addedQuestData.date == default || addedQuestData.date >= DateTime.Today.AddDays(7)))
+        {
+            dateLabelAdding = true;
+        }
+        container.RefreshSize(true, dateLabelAdding, categoryLabelAdding);
     }
 
     public void SetCategoryButton()
@@ -54,7 +72,7 @@ public class QuestDisplayer : MonoBehaviour
 
     public void Load(QuestManager questManager, List<QuestData> data)
     {
-        if(state == QuestDisplayerState.SortByCategory)
+        if (state == QuestDisplayerState.SortByCategory)
         {
             data.Sort(SortQuestDataByCategory());
         }
@@ -301,16 +319,30 @@ public class QuestDisplayer : MonoBehaviour
 
     public void RemoveQuest(string id)
     {
+        int labelRemoved = 0;
         Quest quest = FindQuestWithID(id);
-        TryRemoveLabel(quest);
+        labelRemoved = TryRemoveLabel(quest);
         activeQuests.Remove(quest);
         Destroy(quest.gameObject);
 
-        container.RefreshSize(false);
+        if (labelRemoved == 1)
+        {
+            container.RefreshSize(false, true, false);
+        }
+        else if(labelRemoved == 2)
+        {
+            container.RefreshSize(false, false, true);
+        }
+        else
+        {
+            container.RefreshSize(false, false, false);
+        }
+
     }
 
-    void TryRemoveLabel(Quest quest)
+    int TryRemoveLabel(Quest quest)
     {
+        int labelRemoved = 0;
         lastLabelCreatedID = null;
         if (state==QuestDisplayerState.SortByCategory)
         {
@@ -326,7 +358,16 @@ public class QuestDisplayer : MonoBehaviour
             categoryLabel.QuestRemoved();
             if(categoryLabel.GetNumberOfQuestsInside() == 0)
             {
-                categoryLabel.GetComponent<CategoryLabel>().TurnInactive();
+                if(categoryLabel.GetID() == "No category")
+                {
+                    activeLabels.Remove(categoryLabel);
+                    Destroy(categoryLabel.gameObject);
+                    labelRemoved = 2;
+                }
+                else
+                {
+                    categoryLabel.GetComponent<CategoryLabel>().TurnInactive();
+                }
             }
         }
         else if (state == QuestDisplayerState.SortByDate)
@@ -340,6 +381,7 @@ public class QuestDisplayer : MonoBehaviour
                 {
                     activeLabels.Remove(label);
                     Destroy(label.gameObject);
+                    labelRemoved = 1;
                 }
                 else
                 {
@@ -347,6 +389,7 @@ public class QuestDisplayer : MonoBehaviour
                 }
             }
         }
+        return labelRemoved;
     }
 
     Label GetDateLabel(DateTime date)

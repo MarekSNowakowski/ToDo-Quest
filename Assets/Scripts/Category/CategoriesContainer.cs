@@ -13,9 +13,9 @@ public class CategoriesContainer : QuestContainer
         base.Start();
     }
 
-    public override void RefreshSize(bool adding)
+    public override void RefreshSize(bool adding, bool dateLabelInteraction, bool categoryLabelInteraction)
     {
-        base.RefreshSize(adding);
+        base.RefreshSize(adding, dateLabelInteraction, categoryLabelInteraction);
         SetCategoryButton();
     }
 

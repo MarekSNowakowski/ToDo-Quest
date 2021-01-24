@@ -207,9 +207,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         corutineRunning = false;
     }
 
-    //To be changed? We want to see quest we just created/stay where we were while deleating
-
-    public void resetQuestsPositionl(bool adding)   
+    public void resetQuestsPositionl(bool adding, bool dateLabelInteraction, bool categoryLabelInteraction)   
     {
         float panelDifference = 25;  //default 25 but no idea why :(
         float endQuest = questRT.rect.height / 2;
@@ -219,10 +217,15 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             //When you are at the end
             if (endQuest - (questSize / 2) == questsLocation.y + panelDifference)
             {
+                Debug.Log("1");
                 questsLocation.y += questSize / 2 + panelDifference;
             }
             else
             {
+                if(dateLabelInteraction)
+                {
+                    questsLocation.y -= 60 / 2;
+                }
                 questsLocation.y -= questSize / 4;
             }
             //When you are at the end
@@ -233,6 +236,10 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             else
             {
                 categoriesLocation.y -= questSize / 4;
+                if (categoryLabelInteraction)
+                {
+                    categoriesLocation.y -= 60 / 2;
+                }
             }
         }
         else
@@ -244,6 +251,10 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             }
             else
             {
+                if(dateLabelInteraction)
+                {
+                    questsLocation.y += 60 / 2;
+                }
                 questsLocation.y += questSize / 4;
             }
             //When you are at the end?
@@ -253,6 +264,10 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             }
             else
             {
+                if (categoryLabelInteraction)
+                {
+                    categoriesLocation.y += 60 / 2;
+                }
                 categoriesLocation.y += questSize / 4;
             }
         }
