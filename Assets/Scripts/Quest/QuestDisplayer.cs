@@ -80,7 +80,14 @@ public class QuestDisplayer : MonoBehaviour
                 {
                     lastLabelCreatedID = "0";
                 }
-                CreateLabels(int.Parse(lastLabelCreatedID) + 1);
+                if(lastLabelCreatedID!=null)
+                {
+                    CreateLabels(int.Parse(lastLabelCreatedID) + 1);
+                }
+                else
+                {
+                    CreateLabels(0);
+                }
             }
         }
 
@@ -128,7 +135,7 @@ public class QuestDisplayer : MonoBehaviour
 
     void CreateEmptyCategoryLables()
     {
-        if(state == QuestDisplayerState.SortByCategory)
+        if(state == QuestDisplayerState.SortByCategory && (categoryManager.GetCategories() != null))
         {
             List<Category> categoriesToLoad = new List<Category>();
             foreach(Category category in categoryManager.GetCategories())

@@ -42,7 +42,8 @@ public class CategoryManager : MonoBehaviour
                     categories = (List<Category>)loadedData;
                 }
             }
-            AddManagers();
+            if(categories != null && categories.Count!=0)
+                AddManagers();
         }
         else
         {
@@ -62,7 +63,8 @@ public class CategoryManager : MonoBehaviour
     {
         using (FileStream file = File.Create(filepath))
         {
-            new BinaryFormatter().Serialize(file, categories);
+            if(categories!=null)
+                new BinaryFormatter().Serialize(file, categories);
         }
     }
     

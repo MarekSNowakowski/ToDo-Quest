@@ -42,10 +42,6 @@ public class QuestManager : MonoBehaviour
     public void AddQuest(QuestData questData)
     {
         questData.Initialize();
-        //foreach(QuestDisplayer questDisplayer in questDisplayers)
-        //{
-        //    questDisplayer.AddQuest(this, questData);
-        //}
         activeQuests.Add(questData);
         Save();
         Unload();
