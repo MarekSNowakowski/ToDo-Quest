@@ -372,7 +372,7 @@ public class QuestDisplayer : MonoBehaviour
         }
         else if (state == QuestDisplayerState.SortByDate)
         {
-            Label label = GetDateLabel(quest.date);
+            Label label = GetDateLabel(quest.GetDate());
 
             label.QuestRemoved();
             if (label.GetNumberOfQuestsInside() == 0)

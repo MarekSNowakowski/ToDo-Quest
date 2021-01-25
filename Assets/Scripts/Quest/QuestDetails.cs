@@ -44,6 +44,18 @@ public class QuestDetails : MonoBehaviour
     [SerializeField]
     CategoryDetails categoryDetails;
 
+    [Header("Deadline")]
+    [SerializeField]
+    GameObject deadlineField;
+    [SerializeField]
+    TextMeshProUGUI deadlineText;
+    [SerializeField]
+    Image deadlineImage;
+    [SerializeField]
+    Image remindImage;
+    [SerializeField]
+    Image autoRemove;
+
     private void Start()
     {
         addPanelManager = addPanelCanvas.GetComponent<AddPanelManager>();
@@ -89,6 +101,16 @@ public class QuestDetails : MonoBehaviour
                 }
             }
         }
+        if (questData.deadline != default)
+        {
+            deadlineField.SetActive(true);
+            if (questData.deadline == DateTime.Today) deadlineImage.color = Color.yellow;
+            else if (questData.deadline < DateTime.Today) deadlineImage.color = Color.red;
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+            deadlineText.text = questData.deadline.ToString("dddd, dd MMMM yyyy", cultureInfo);
+            if (questData.remind) remindImage.gameObject.SetActive(true);
+            if (questData.autoRemove) autoRemove.gameObject.SetActive(true);
+        }
         if (questData.category != null)
         {
             categoryField.SetActive(true);
@@ -129,11 +151,16 @@ public class QuestDetails : MonoBehaviour
         cycleImage.gameObject.SetActive(false);
         cycleText.text = "";
         category = null;
+        deadlineImage.color = Color.white;
+        deadlineText.text = "";
+        remindImage.gameObject.SetActive(false);
+        autoRemove.gameObject.SetActive(false);
 
         rewardField.SetActive(false);
         commentField.SetActive(false);
         categoryField.SetActive(false);
         dateField.SetActive(false);
+        deadlineField.SetActive(false);
     }
 
     public void EditQuest()

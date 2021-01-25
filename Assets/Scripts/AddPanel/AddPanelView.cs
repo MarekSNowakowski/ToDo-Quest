@@ -21,6 +21,8 @@ public class AddPanelView : MonoBehaviour
     GameObject commentAddPanel;
     [SerializeField]
     GameObject datePanel;
+    [SerializeField]
+    GameObject deadlinePanel;
 
     [Header("CommentPanel")]
     [SerializeField]
@@ -64,7 +66,8 @@ public class AddPanelView : MonoBehaviour
     {
         mainAddPanel.SetActive(true);
         commentAddPanel.SetActive(false);
-        datePanel.SetActive(false);
+        CloseDatePanel();
+        CloseDeadlinePanel();
         discardPaenl.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -161,5 +164,15 @@ public class AddPanelView : MonoBehaviour
     public void CloseDatePanel()
     {
         datePanel.SetActive(false);
+    }
+
+    public void OpenDeadlinePanel()
+    {
+        deadlinePanel.SetActive(true);
+    }
+
+    public void CloseDeadlinePanel()
+    {
+        deadlinePanel.SetActive(false);
     }
 }

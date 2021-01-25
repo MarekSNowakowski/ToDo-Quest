@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Calendar : MonoBehaviour
 {
+    [SerializeField]
+    CalendarState calendarState;
     /// <summary>
     /// All the days in the month. After we make our first calendar we store these days in this list so we do not have to recreate them every time.
     /// </summary>
@@ -54,9 +56,13 @@ public class Calendar : MonoBehaviour
     [SerializeField] Color selectedColor;
     [SerializeField] Color pastDateColor;
 
+    [Header("Deadline")]
+    [SerializeField] Toggle remindToggle;
+    [SerializeField] Toggle autoRemoveToggle;
+
     private void Awake()
     {
-        if(!addPanelManager.IsDateChosen())
+        if ((calendarState == CalendarState.date && !addPanelManager.IsDateChosen()) || (calendarState == CalendarState.deadline && !addPanelManager.IsDeadlineChosen()))
         {
             currDate = DateTime.Now;
         }
@@ -67,7 +73,7 @@ public class Calendar : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        if (!addPanelManager.IsDateChosen())
+        if ((calendarState == CalendarState.date  && !addPanelManager.IsDateChosen()) || (calendarState == CalendarState.deadline && !addPanelManager.IsDeadlineChosen()))
         {
             selectedDay = null;
             selectedDate = default;
@@ -175,6 +181,12 @@ public class Calendar : MonoBehaviour
         }
 
         CheckTheLastWeeks();
+    }
+
+    internal void SetUpDeadlineBools(bool remind, bool autoRemove)
+    {
+        remindToggle.isOn = remind;
+        autoRemoveToggle.isOn = autoRemove;
     }
 
     /// <summary>
@@ -300,6 +312,26 @@ public class Calendar : MonoBehaviour
         }
     }
 
+    public void SubmitDeadline()
+    {
+        if (selectedDay != null && selectedDateTemp != default)
+        {
+            selectedDate = selectedDateTemp;
+            addPanelManager.SubmitDeadline(selectedDate, remindToggle.isOn, autoRemoveToggle.isOn);
+            currDate = selectedDate;
+        }
+        else if (selectedDate != default)
+        {
+            addPanelManager.SubmitDeadline(selectedDate, remindToggle.isOn, autoRemoveToggle.isOn);
+            currDate = selectedDate;
+        }
+        else
+        {
+            addPanelManager.SubmitDeadline();
+            selectedDate = default;
+        }
+    }
+
     /// <summary>
     /// Discard selected day and close
     /// </summary>
@@ -320,7 +352,8 @@ public class Calendar : MonoBehaviour
                 selectedDateTemp = default;
             }
         }
-        cycleManager.Clear();
+        if(cycleManager!=null)
+            cycleManager.Clear();
     }
 
     public bool IsDateSelected()
@@ -339,4 +372,10 @@ public class Calendar : MonoBehaviour
     {
         cycleManager.SetUp(repeatCycle);
     }
+}
+
+public enum CalendarState
+{
+    date,
+    deadline
 }

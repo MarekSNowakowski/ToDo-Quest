@@ -47,15 +47,20 @@ public class AddPanelManager : MonoBehaviour
     CategoryColor categoryColor = null;
     Category editingCategory = null;
 
-    [Header("Calendar")]
+    [Header("Date")]
     [SerializeField]
-    Calendar calendar;
+    Calendar dateCalendar;
     DateTime date;
     int repeatCycle = 0;
     bool dateChosen;
 
-
-
+    [Header("Deadline")]
+    [SerializeField]
+    Calendar deadlineCalendar;
+    DateTime deadline;
+    bool deadlineChosen;
+    bool remind;
+    bool autoRemove;
 
     public void Submit()
     {
@@ -73,6 +78,12 @@ public class AddPanelManager : MonoBehaviour
             if (dateChosen)
             {
                 questData.date = date;
+            }
+            if(deadlineChosen)
+            {
+                questData.deadline = deadline;
+                questData.remind = remind;
+                questData.autoRemove = autoRemove;
             }
             if (editingID != null)
             {
@@ -142,14 +153,25 @@ public class AddPanelManager : MonoBehaviour
         ChooseCategory(questData.category);
         editingID = questData.ID;
         date = questData.date;
+        deadline = questData.deadline;
         repeatCycle = questData.repeatCycle;
-        calendar.SetUpCycle(repeatCycle);
+        dateCalendar.SetUpCycle(repeatCycle);
         if (date != default)
         {
             dateChosen = true;
-            calendar.ChooseDate(date);
+            dateCalendar.ChooseDate(date);
             iconManager.FillDateIcon();
         }
+        if(deadline!=default)
+        {
+            deadlineChosen = true;
+            deadlineCalendar.ChooseDate(deadline);
+            iconManager.FillDeadlineIcon();
+            remind = questData.remind;
+            autoRemove = questData.autoRemove;
+            deadlineCalendar.SetUpDeadlineBools(remind, autoRemove);
+        }
+        
     }
 
     public void EditCategory(Category category)
@@ -182,7 +204,8 @@ public class AddPanelManager : MonoBehaviour
         {
             CloseCategory();
         }
-        calendar.Discard();
+        dateCalendar.Discard();
+        deadlineCalendar.Discard();
 
         addPanelView.Close();
     }
@@ -209,8 +232,8 @@ public class AddPanelManager : MonoBehaviour
     /// </summary>
     bool CanClose()
     {
-        if (questNameFeild.text != "" || rewardFeild.text != "" || editingID != null || comment != "" || commentFeild.text != "" || calendar.IsDateSelected() ||
-            !iconManager.IsWeightIconWhite() || activeCategory != null || dateChosen)
+        if (questNameFeild.text != "" || rewardFeild.text != "" || editingID != null || comment != "" || commentFeild.text != "" || dateCalendar.IsDateSelected() ||
+            deadlineCalendar.IsDateSelected() || !iconManager.IsWeightIconWhite() || activeCategory != null || dateChosen)
         {
             return false;
         }
@@ -232,6 +255,7 @@ public class AddPanelManager : MonoBehaviour
         activeCategory = null;
         iconManager.Clear();
         dateChosen = false;
+        deadlineChosen = false;
         editingCategory = null;
         categoryInputField.text = "";
         categoryCreationIcon.color = Color.white;
@@ -352,9 +376,31 @@ public class AddPanelManager : MonoBehaviour
         }
     }
 
+    public void SubmitDeadline(DateTime dateTime, bool remind, bool autoRemove)
+    {
+        deadline = dateTime;
+        deadlineChosen = true;
+        addPanelView.CloseDeadlinePanel();
+        iconManager.FillDeadlineIcon();
+        this.remind = remind;
+        this.autoRemove = autoRemove; 
+    }
+
+    public void SubmitDeadline()
+    {
+        deadlineChosen = false;
+        addPanelView.CloseDatePanel();
+        iconManager.ClearDeadlineIcon();
+    }
+
     public bool IsDateChosen()
     {
         return dateChosen;
+    }
+
+    public bool IsDeadlineChosen()
+    {
+        return deadlineChosen;
     }
 
     public QuestManager GetQuestManager()

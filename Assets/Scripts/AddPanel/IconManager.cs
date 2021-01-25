@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,12 +34,13 @@ public class IconManager : MonoBehaviour
     [SerializeField]
     Image weightIcon;
 
-    private void Start()
-    {
-        //bookmarkEmpty = categoryIcon.sprite;
-        //dateEmptyIcon = dateIcon.sprite;
-        //commentEmptyIcon = commentIcon.sprite;
-    }
+    [Header("Deadline")]
+    [SerializeField]
+    Image deadlineIcon;
+    [SerializeField]
+    Sprite deadlineFilledIcon;
+    [SerializeField]
+    Sprite deadlineEmptyIcon;
 
     public void SetCategoryIconColor(Color color)
     {
@@ -88,10 +90,21 @@ public class IconManager : MonoBehaviour
         ClearCategoryIcon();
         ClearCommentIcon();
         ClearWeightIcon();
+        ClearDeadlineIcon();
     }
 
     public bool IsWeightIconWhite()
     {
         return weightIcon.color == Color.white;
+    }
+
+    public void FillDeadlineIcon()
+    {
+        deadlineIcon.sprite = deadlineFilledIcon;
+    }
+
+    public void ClearDeadlineIcon()
+    {
+        deadlineIcon.sprite = deadlineEmptyIcon;
     }
 }

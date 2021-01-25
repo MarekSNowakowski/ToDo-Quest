@@ -21,6 +21,8 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     Image categoryImage;
     [SerializeField]
     GameObject repeatCycleImage;
+    [SerializeField]
+    Image deadlineImage;
 
     QuestManager questManager;
     //Important for sorting
@@ -34,8 +36,11 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     string comment;
     DateTime questCreationDateTime;
     Category category;
-    public DateTime date;
+    DateTime date;
     int repeatCycle;
+    public DateTime deadline;
+    public bool remind;
+    public bool autoRemove;
 
     [Header("Removal")]
     [SerializeField]
@@ -51,6 +56,12 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         if (reward != "" && reward != null) rewardImage.gameObject.SetActive(true);
         if (comment != "" && comment != null) commentImage.gameObject.SetActive(true);
         if (repeatCycle != 0) repeatCycleImage.SetActive(true);
+        if (deadline != default)
+        {
+            deadlineImage.gameObject.SetActive(true);
+            if (deadline == DateTime.Today) deadlineImage.color = Color.yellow;
+            if (deadline < DateTime.Today) deadlineImage.color = Color.red;
+        }
         if (category != null && sortingState != QuestDisplayerState.SortByCategory && sortingState != QuestDisplayerState.ShowOneCategory)
         {
             categoryImage.gameObject.SetActive(true);
@@ -78,7 +89,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle, deadline, remind, autoRemove);
         return saveData;
     }
 
@@ -94,12 +105,25 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.date = questData.date;
         this.sortingState = state;
         this.repeatCycle = questData.repeatCycle;
+        this.deadline = questData.deadline;
+        this.remind = questData.remind;
+        this.autoRemove = questData.autoRemove;
         SetUp();
     }
 
     public void GetManager(QuestManager questManager)
     {
         this.questManager = questManager;
+    }
+
+    public DateTime GetDate()
+    {
+        return date;
+    }
+
+    public DateTime GetDeadline()
+    {
+        return deadline;
     }
 
     public void Remove()
@@ -189,10 +213,13 @@ public struct QuestData : IComparable<QuestData>
     public string comment;
     public DateTime creationDateTime;
     public DateTime date;
+    public DateTime deadline;
     public Category category;
     public int repeatCycle;
+    public bool remind;
+    public bool autoRemove;
 
-    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime, DateTime date, int repeatCycle)
+    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime, DateTime date, int repeatCycle, DateTime deadline, bool remind, bool autoRemove)
     {
         this.ID = ID;
         this.questName = questName;
@@ -203,6 +230,9 @@ public struct QuestData : IComparable<QuestData>
         this.category = category;
         this.date = date;
         this.repeatCycle = repeatCycle;
+        this.deadline = deadline;
+        this.remind = remind;
+        this.autoRemove = autoRemove;
     }
 
     public void Initialize()
