@@ -64,7 +64,6 @@ public class AddPanelView : MonoBehaviour
         float waitingTime = 0.25f;
         yield return new WaitForSeconds(waitingTime);
         keyboardHeight = GetKeyboardHeight();
-        Debug.Log("Keyboard size: " + keyboardHeight);
         addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
         keyboardActive = true;
     }

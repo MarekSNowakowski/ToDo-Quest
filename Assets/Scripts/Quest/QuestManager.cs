@@ -36,6 +36,7 @@ public class QuestManager : MonoBehaviour
     {
         filepath = Application.persistentDataPath + "/save.dat";
         LoadFromFile();
+        CheckExpired();
         Load();
     }
 
@@ -126,6 +127,16 @@ public class QuestManager : MonoBehaviour
         {
             questDisplayer.RemoveQuest(id);
         }
+        Save();
+    }
+
+    /// <summary>
+    /// Called only before load
+    /// </summary>
+    /// <param name="questData"></param>
+    public void SilentRemoveQuest(QuestData questData)
+    {
+        activeQuests.Remove(questData);
         Save();
     }
 
@@ -255,6 +266,28 @@ public class QuestManager : MonoBehaviour
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.SetCategoryButton();
+        }
+    }
+
+    void CheckExpired()
+    {
+        if(activeQuests != null && activeQuests.Count > 0)
+        {
+            List<QuestData> questsToBeRemoved = new List<QuestData>(); 
+            foreach (QuestData questData in activeQuests)
+            {
+                if (questData.autoRemove && questData.deadline != default && questData.deadline < DateTime.Today)
+                {
+                    questsToBeRemoved.Add(questData);
+                }
+            }
+            if(questsToBeRemoved.Count > 0)
+            {
+                foreach (QuestData questData in questsToBeRemoved)
+                {
+                    SilentRemoveQuest(questData);
+                }
+            }
         }
     }
 }
