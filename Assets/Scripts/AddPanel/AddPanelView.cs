@@ -36,30 +36,37 @@ public class AddPanelView : MonoBehaviour
 
 
     float screenHeight = Screen.height;
+    float keyboardHeight = 0;
 
-    int counter;
+    bool keyboardActive;
 
 
     void Start()
     {
         nameInput.ActivateInputField();
         nameInput.Select();
-        StartCoroutine(waitForKeyboardToOpen());
+        StartCoroutine(WaitForKeyboardToOpen());
     }
 
     void OnEnable()
     {
-        counter = 0;
         nameInput.ActivateInputField();
         nameInput.Select();
+        if (keyboardHeight == 0)
+        {
+            StartCoroutine(WaitForKeyboardToOpen());
+        }
+        OnKeyboardOpen();
     }
 
-    IEnumerator waitForKeyboardToOpen()
+    IEnumerator WaitForKeyboardToOpen()
     {
         float waitingTime = 0.25f;
         yield return new WaitForSeconds(waitingTime);
-        int keyboardSize = GetKeyboardHeight();
-        addPanel.anchoredPosition = new Vector2(0, keyboardSize);
+        keyboardHeight = GetKeyboardHeight();
+        Debug.Log("Keyboard size: " + keyboardHeight);
+        addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
+        keyboardActive = true;
     }
 
     public void Close()
@@ -82,23 +89,28 @@ public class AddPanelView : MonoBehaviour
         discardPaenl.SetActive(false);
     }
 
-    private void Update()
+    public void OnKeyboardClose()
     {
-        //counter++;
-        //if (counter % 100 == 0 && !nameInput.isFocused && !rewardInput.isFocused)
-        //{
-        //    Close();
-        //}
-        //if (counter > 9999) counter = 101;
+        addPanel.anchoredPosition = new Vector2(0, 0);
+        keyboardActive = false;
+    }
+
+    public void OnKeyboardOpen()
+    {
+        if (!keyboardActive)
+        {
+            addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
+            keyboardActive = true;
+        }
     }
 
     /// <summary>
     /// Returns the keyboard height in display pixels.
     /// </summary>
-    public static int GetKeyboardHeight()
+    public int GetKeyboardHeight()
     {
 #if UNITY_EDITOR
-        return 1;
+        return 0;
 #endif
 #if UNITY_ANDROID
         using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -123,7 +135,7 @@ public class AddPanelView : MonoBehaviour
             using (var rect = new AndroidJavaObject("android.graphics.Rect"))
             {
                 view.Call("getWindowVisibleDisplayFrame", rect);
-                return Display.main.systemHeight - rect.Call<int>("height") + decorHeight;
+                return (int)screenHeight - rect.Call<int>("height") + decorHeight;
             }
         }
 #else
