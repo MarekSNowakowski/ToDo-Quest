@@ -27,6 +27,9 @@ public class QuestManager : MonoBehaviour
 
     string filepath;
 
+    [SerializeField]
+    NotificationManager notificationManager;
+
     private void Start()
     {
         questDetails = detailsCanvas.GetComponent<QuestDetails>();
@@ -112,6 +115,10 @@ public class QuestManager : MonoBehaviour
         GiveReward(questData);
         CheckCycle(questData);
         activeQuests.Remove(questData);
+        if (questData.deadline != default && questData.remind && questData.notificationID != default)
+        {
+            notificationManager.CancelNotification(questData.notificationID);
+        }
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.RemoveQuest(id);
@@ -123,6 +130,10 @@ public class QuestManager : MonoBehaviour
     {
         QuestData questData = FindQuestWithID(id);
         activeQuests.Remove(questData);
+        if(questData.deadline!=default && questData.remind && questData.notificationID != default)
+        {
+            notificationManager.CancelNotification(questData.notificationID);
+        }
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.RemoveQuest(id);

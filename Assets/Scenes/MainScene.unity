@@ -28727,6 +28727,7 @@ MonoBehaviour:
   categoryCreationIcon: {fileID: 318804337}
   dateCalendar: {fileID: 78274412}
   deadlineCalendar: {fileID: 1817936868}
+  notificationManager: {fileID: 1268028215}
 --- !u!114 &1254508440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29011,6 +29012,8 @@ GameObject:
   - component: {fileID: 1268028212}
   - component: {fileID: 1268028211}
   - component: {fileID: 1268028214}
+  - component: {fileID: 1268028215}
+  - component: {fileID: 1268028216}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -29112,13 +29115,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373a26ecf6d40394cb902f6e26f0b0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsManager: {fileID: 11400000, guid: 54b7a007efab3b74189383d45bf2957a, type: 2}
+  settingsManager: {fileID: 1268028216}
   detailsCanvas: {fileID: 1765920805}
   rewardManager: {fileID: 813670853}
   levelManager: {fileID: 1486964255}
   questDisplayers:
   - {fileID: 264740472}
   - {fileID: 787022888}
+  notificationManager: {fileID: 1268028215}
+--- !u!114 &1268028215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268028209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c163c6461c4fb49ac6286502695609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1268028216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268028209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4158dfc74412545a4f24e969732265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questCompleteExp: 0100000002000000050000000a000000
 --- !u!1 &1268117222
 GameObject:
   m_ObjectHideFlags: 0
@@ -45767,7 +45796,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: "\u0105\u017Aasdasdasdda\u017Ad"
+  m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -45825,7 +45854,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0105\u017Aasdasdasdda\u017Ad\u200B"
+  m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 935b40c20d841b14a82ff38278719e1d, type: 2}
   m_sharedMaterial: {fileID: 1855543317945526370, guid: 935b40c20d841b14a82ff38278719e1d,
@@ -45895,7 +45924,7 @@ MonoBehaviour:
   m_margin: {x: 160, y: 30, z: 70, w: 22}
   m_textInfo:
     textComponent: {fileID: 1939635298}
-    characterCount: 16
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
     wordCount: 1

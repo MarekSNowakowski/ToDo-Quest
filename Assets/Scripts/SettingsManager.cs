@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SettingsManager",menuName = "Settings Manager")]
-public class SettingsManager : ScriptableObject
+public class SettingsManager : MonoBehaviour
 {
     [SerializeField]
     private int[] questCompleteExp = { 1, 2, 5, 10 };

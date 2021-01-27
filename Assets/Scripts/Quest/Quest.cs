@@ -38,9 +38,10 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     Category category;
     DateTime date;
     int repeatCycle;
-    public DateTime deadline;
-    public bool remind;
-    public bool autoRemove;
+    DateTime deadline;
+    bool remind;
+    bool autoRemove;
+    int notificationID;
 
     [Header("Removal")]
     [SerializeField]
@@ -89,7 +90,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle, deadline, remind, autoRemove);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle, deadline, remind, autoRemove, notificationID);
         return saveData;
     }
 
@@ -108,6 +109,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.deadline = questData.deadline;
         this.remind = questData.remind;
         this.autoRemove = questData.autoRemove;
+        this.notificationID = questData.notificationID;
         SetUp();
     }
 
@@ -218,8 +220,10 @@ public struct QuestData : IComparable<QuestData>
     public int repeatCycle;
     public bool remind;
     public bool autoRemove;
+    public int notificationID;
 
-    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category, DateTime creationDateTime, DateTime date, int repeatCycle, DateTime deadline, bool remind, bool autoRemove)
+    public QuestData(string ID, string questName, string reward, int weight, string comment, Category category,
+        DateTime creationDateTime, DateTime date, int repeatCycle, DateTime deadline, bool remind, bool autoRemove, int notificationID)
     {
         this.ID = ID;
         this.questName = questName;
@@ -233,6 +237,7 @@ public struct QuestData : IComparable<QuestData>
         this.deadline = deadline;
         this.remind = remind;
         this.autoRemove = autoRemove;
+        this.notificationID = notificationID;
     }
 
     public void Initialize()

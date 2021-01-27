@@ -61,6 +61,8 @@ public class AddPanelManager : MonoBehaviour
     bool deadlineChosen;
     bool remind;
     bool autoRemove;
+    [SerializeField]
+    NotificationManager notificationManager;
 
     public void Submit()
     {
@@ -84,6 +86,13 @@ public class AddPanelManager : MonoBehaviour
                 questData.deadline = deadline;
                 questData.remind = remind;
                 questData.autoRemove = autoRemove;
+                
+                if (remind && deadline!=default)
+                {
+                    int notificationID = (int)UnityEngine.Random.value * 100;
+                    notificationManager.ShedudleNotification(questData.questName, deadline, notificationID);
+                    questData.notificationID = notificationID;
+                }
             }
             if (editingID != null)
             {
