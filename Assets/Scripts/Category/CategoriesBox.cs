@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -85,5 +86,12 @@ public class CategoriesBox : MonoBehaviour
         categoryObject.transform.SetParent(categoriesContainer);
         categoryObjectScript.Set(category);
         categoriesObjects.Add(categoryObjectScript);
+    }
+
+    internal void ReLoadCategory(Category editingCategory)
+    {
+        CategoryObject categoryObject = categoriesObjects.Find(x => x.GetCategory() != null && x.GetCategory().GetID() == editingCategory.GetID());
+        CategoryObject categoryObjectScript = categoryObject.GetComponent<CategoryObject>();
+        categoryObjectScript.Set(editingCategory);
     }
 }

@@ -147,7 +147,7 @@ public class QuestDisplayer : MonoBehaviour
         if(state == QuestDisplayerState.SortByCategory && activeLabels.Exists(x=>x.GetID()==category.GetID()))
         {
             CategoryLabel categoryLabel = activeLabels.Find(x => x.GetID() == category.GetID()).GetComponent<CategoryLabel>();
-            categoryLabel.EditLabel(category.GetName(), category.GetColor());
+            categoryLabel.EditLabel(category);
         }
     }
 

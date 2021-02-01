@@ -189,6 +189,8 @@ public class AddPanelManager : MonoBehaviour
         categoryInputField.text = category.GetName();
         categoryCreationIcon.color = category.GetColor();
         editingCategory = category;
+        categoryInputField.ActivateInputField();
+        categoryInputField.Select();
     }
 
     public Color GetEditingCategoryColor()
@@ -278,6 +280,8 @@ public class AddPanelManager : MonoBehaviour
         editingCategory = null;
         categoryInputField.text = "";
         categoryCreationIcon.color = Color.white;
+        categoryInputField.ActivateInputField();
+        categoryInputField.Select();
     }
 
     public void CloseCategory()

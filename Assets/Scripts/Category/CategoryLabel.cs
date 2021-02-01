@@ -57,10 +57,11 @@ public class CategoryLabel : Label
         categoryName.color = Color.white;
     }
 
-    public void EditLabel(string name, Color color)
+    public void EditLabel(Category category)
     {
-        categoryName.text = name;
-        categoryIcon.color = color;
+        this.category = category;
+        categoryName.text = category.GetName();
+        categoryIcon.color = category.GetColor();
     }
 
 

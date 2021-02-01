@@ -106,8 +106,7 @@ public class CategoryManager : MonoBehaviour
     {
         editingCategoryColor = color;
         editingCategory.Edit(name, color);
-        categoriesBox.UnLoadCategory(editingCategory);
-        categoriesBox.LoadCategory(editingCategory);
+        categoriesBox.ReLoadCategory(editingCategory);
         questManager.ReloadQuests();
         categories.RemoveAll(x => x.GetID() == editingCategory.GetID());
         categories.Add(editingCategory);
