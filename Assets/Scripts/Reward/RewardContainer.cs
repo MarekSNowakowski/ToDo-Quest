@@ -8,13 +8,16 @@ public class RewardContainer : MonoBehaviour
     PageSwiper pageSwiper;
 
     int numberOfChildren;
-    float rewardPanelHeight = 100;
+    float rewardPanelHeight;
+    float rewardHeightRatio = 0.045f;
     RectTransform myRectTransform;
 
     private void Start()
     {
         myRectTransform = gameObject.GetComponent<RectTransform>();
         numberOfChildren = myRectTransform.childCount;
+
+        rewardPanelHeight = rewardHeightRatio * Screen.height;
 
         var height = numberOfChildren * rewardPanelHeight;
 

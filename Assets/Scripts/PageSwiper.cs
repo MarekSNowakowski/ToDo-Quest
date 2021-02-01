@@ -29,9 +29,12 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField]
     GameObject categories;
     RectTransform categoriesRT;
-    float upperPanelHeight = 240;
-    float questSize = 100;
-    float rewardSize = 100;
+    [SerializeField]
+    RectTransform upperPanelRT;
+    float upperPanelHeight;
+    readonly float questHeightRatio = 0.045f;
+    readonly float labelHeightRatio = 0.03f;
+    float questSize, rewardSize, labelSize;
     float rewardPanelDistance;
 
     public int currentPage = 1;
@@ -39,6 +42,10 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void Start()
     {
+        questSize = questHeightRatio * Screen.height;
+        labelSize = labelHeightRatio * Screen.height;
+        rewardSize = questSize;
+        upperPanelHeight = upperPanelRT.rect.height;
         panelLocation = transform.position;
         indicatorLocation = panelIndicator.transform.position;
         questsLocation = quests.transform.position;
@@ -224,7 +231,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if(dateLabelInteraction)
                 {
-                    questsLocation.y -= 60 / 2;
+                    questsLocation.y -= labelSize / 2;
                 }
                 questsLocation.y -= questSize / 4;
             }
@@ -238,7 +245,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 categoriesLocation.y -= questSize / 4;
                 if (categoryLabelInteraction)
                 {
-                    categoriesLocation.y -= 60 / 2;
+                    categoriesLocation.y -= labelSize / 2;
                 }
             }
         }
@@ -253,7 +260,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if(dateLabelInteraction)
                 {
-                    questsLocation.y += 60 / 2;
+                    questsLocation.y += labelSize / 2;
                 }
                 questsLocation.y += questSize / 4;
             }
@@ -266,7 +273,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if (categoryLabelInteraction)
                 {
-                    categoriesLocation.y += 60 / 2;
+                    categoriesLocation.y += labelSize / 2;
                 }
                 categoriesLocation.y += questSize / 4;
             }

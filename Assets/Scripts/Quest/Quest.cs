@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class Quest : MonoBehaviour, IComparable<Quest>
 {
     [SerializeField]
+    readonly float screenHeightRatio = 0.045f;
+    [SerializeField]
     TMPro.TextMeshProUGUI nameText;
     [SerializeField]
     GameObject rewardImage;
@@ -50,6 +52,12 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     GameObject cancelRemovalButton;
     bool toBeRemoved;
     private bool thisQuestIsRemoving;
+
+
+    private void Start()
+    {
+        GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, screenHeightRatio * Screen.height);
+    }
 
     void SetUp()
     {
