@@ -163,14 +163,17 @@ public class QuestManager : MonoBehaviour
     {
         if(questData.repeatCycle != 0)
         {
-            if (questData.repeatCycle == 30)
+            do
             {
-                questData.date = questData.date.AddMonths(1);
-            }
-            else
-            {
-                questData.date = questData.date.AddDays(questData.repeatCycle);
-            }
+                if (questData.repeatCycle == 30)
+                {
+                    questData.date = questData.date.AddMonths(1);
+                }
+                else
+                {
+                    questData.date = questData.date.AddDays(questData.repeatCycle);
+                }
+            } while (questData.date <= DateTime.Today);
 
             AddQuest(questData);
         }
