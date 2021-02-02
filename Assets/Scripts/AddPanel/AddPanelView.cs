@@ -1,9 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Windows.Input;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using System.Threading.Tasks;
 
 public class AddPanelView : MonoBehaviour
 {
@@ -56,7 +53,6 @@ public class AddPanelView : MonoBehaviour
         {
             StartCoroutine(WaitForKeyboardToOpen());
         }
-        OnKeyboardOpen();
     }
 
     IEnumerator WaitForKeyboardToOpen()
@@ -74,6 +70,7 @@ public class AddPanelView : MonoBehaviour
         commentAddPanel.SetActive(false);
         CloseDatePanel();
         CloseDeadlinePanel();
+        OnKeyboardClose();
         discardPaenl.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -88,18 +85,30 @@ public class AddPanelView : MonoBehaviour
         discardPaenl.SetActive(false);
     }
 
-    public void OnKeyboardClose()
+    public async void OnKeyboardClose()
     {
-        addPanel.anchoredPosition = new Vector2(0, 0);
-        keyboardActive = false;
+        if(keyboardActive)
+        {
+            await CloseKeyboard();
+        }
     }
 
     public void OnKeyboardOpen()
     {
         if (!keyboardActive)
         {
-            addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
             keyboardActive = true;
+            addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
+        }
+    }
+
+    async Task CloseKeyboard()
+    {
+        keyboardActive = false;
+        await Task.Delay(150);
+        if(!keyboardActive)
+        {
+            addPanel.anchoredPosition = new Vector2(0, 0);
         }
     }
 
@@ -109,7 +118,7 @@ public class AddPanelView : MonoBehaviour
     public int GetKeyboardHeight()
     {
 #if UNITY_EDITOR
-        return 0;
+        return 100;
 #endif
 #if UNITY_ANDROID
         using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
