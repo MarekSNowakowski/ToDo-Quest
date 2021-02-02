@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3288507810232701294}
   - component: {fileID: 1005822956812100508}
   - component: {fileID: 6845642316618214881}
+  - component: {fileID: 4165132240506095079}
   m_Layer: 5
   m_Name: Category
   m_TagString: Quest
@@ -60,6 +61,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryColor: {fileID: 2171000701808979549}
   categoryText: {fileID: 6616673222472991698}
+  categoryManager: {fileID: 0}
+--- !u!114 &4165132240506095079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347593139646735392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f8ff3e167c86cb429a0988b8a2fedf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heightRatio: 0.045
 --- !u!1 &795257630416540877
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +170,7 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0

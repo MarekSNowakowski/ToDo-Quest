@@ -118,7 +118,7 @@ public class AddPanelView : MonoBehaviour
     public int GetKeyboardHeight()
     {
 #if UNITY_EDITOR
-        return 100;
+        return 0;
 #endif
 #if UNITY_ANDROID
         using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))

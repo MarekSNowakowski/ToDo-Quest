@@ -16,13 +16,16 @@ public class CategoriesBox : MonoBehaviour
     RectTransform categoriesContainer;
     List<CategoryObject> categoriesObjects = new List<CategoryObject>();
 
-    protected float categoryHeight = 100;
-    protected float categoriesBoxMaxHeight = 500;
+    protected float categoryHeightRatio = 0.045f;
+    protected float categoryHeight;
+    protected float categoriesBoxMaxHeight;
     protected float height;
 
     private void Awake()
     {
         myRectTransform = gameObject.GetComponent<RectTransform>();
+        categoryHeight = categoryHeightRatio * Screen.height;
+        categoriesBoxMaxHeight = 5 * categoryHeight;
     }
 
     public virtual void RefreshSize(int numberOfCategories)
