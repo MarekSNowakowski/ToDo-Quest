@@ -325,12 +325,12 @@ public class AddPanelManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogWarning("Nie można utworzyć kategorii z powodu braku wybranego koloru!");
+                        Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("Nie można utworzyć kategorii z powodu braku nazwy!");
+                    Debug.LogWarning("Nie można utworzyć kategorii z powodu braku wybranego koloru!");
                 }
             }
         }

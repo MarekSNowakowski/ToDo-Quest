@@ -15,6 +15,8 @@ public class CategoryManager : MonoBehaviour
     AddPanelManager addPanelManager;
     [SerializeField]
     QuestManager questManager;
+    [SerializeField]
+    CategoriesColors categoriesColors;
     private Color editingCategoryColor;
 
     // Start is called before the first frame update
@@ -81,12 +83,9 @@ public class CategoryManager : MonoBehaviour
     public void RemoveCategory(Category category)
     {
         categories.RemoveAll(x => x.GetID() == category.GetID());
-        foreach (Category c in categories)
-        {
-            Debug.Log(c.GetName());
-        }
         categoriesBox.RefreshSize(categories.Count);
         categoriesBox.UnLoadCategory(category);
+        categoriesColors.UpdateCategories();
         Save();
     }
 

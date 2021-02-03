@@ -20,11 +20,6 @@ public class CategoryColor : MonoBehaviour
 
     Button button;
 
-    void Awake()
-    {
-
-    }
-
     private void Start()
     {
         button = gameObject.GetComponent<Button>();
@@ -39,12 +34,21 @@ public class CategoryColor : MonoBehaviour
         button.interactable = false;
     }
 
-    void CheckIfLocked()
+    public void UnBlock()
+    {
+        Blocker.SetActive(false);
+        button.interactable = true;
+    }
+
+    public void CheckIfLocked()
     {
         if (addPanelManager.GetCategoryManager().CheckColor(color))
         {
-            Blocker.SetActive(true);
-            button.interactable = false;
+            Block();
+        }
+        else
+        {
+            UnBlock();
         }
     }
 

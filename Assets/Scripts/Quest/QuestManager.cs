@@ -250,7 +250,6 @@ public class QuestManager : MonoBehaviour
     public void RemoveCategory(Category category)
     {
         List<QuestData> categoryQuests = FindQuestsWithCategory(category);
-        Debug.Log(categoryQuests.Count);
         foreach(QuestData questData in categoryQuests)
         {
             FastRemoveQuest(questData.ID);

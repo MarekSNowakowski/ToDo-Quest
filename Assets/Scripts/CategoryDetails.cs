@@ -47,8 +47,8 @@ public class CategoryDetails : MonoBehaviour
 
     public void RemoveCategory()
     {
-        questManager.RemoveCategory(displayedCategory);
         categoryManager.RemoveCategory(displayedCategory);
+        questManager.RemoveCategory(displayedCategory);
         CloseDetails();
     }
 }

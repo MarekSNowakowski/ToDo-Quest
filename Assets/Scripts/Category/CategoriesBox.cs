@@ -79,7 +79,10 @@ public class CategoriesBox : MonoBehaviour
     public void UnLoadCategory(Category category)
     {
         CategoryObject categoryObject = categoriesObjects.Find(x => x.GetCategory() != null && x.GetCategory().GetID() == category.GetID());
-        Destroy(categoryObject.gameObject);
+        if(categoryObject)
+        {
+            Destroy(categoryObject.gameObject);
+        }
     }
 
     public void LoadCategory(Category category)
