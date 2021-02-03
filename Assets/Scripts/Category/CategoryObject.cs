@@ -13,9 +13,12 @@ public class CategoryObject : MonoBehaviour
     /// </summary>
     [SerializeField]
     CategoryManager categoryManager;
+    [SerializeField]
+    CategoriesBox categoriesBox;
 
-    public void Set(Category category)
+    public void Set(Category category, CategoriesBox categoriesBox)
     {
+        this.categoriesBox = categoriesBox;
         if(category == null)
         {
             categoryColor.color = Color.white;
@@ -34,11 +37,11 @@ public class CategoryObject : MonoBehaviour
     {
         if(category!=null)
         {
-            category.GetCategoryManager().ChooseCategory(category);
+            categoriesBox.OnCategoryChoose(category);
         }
         else
         {
-            categoryManager.ChooseCategory(null);
+            categoriesBox.OnCategoryChooseNoCategory();
         }
     }
 

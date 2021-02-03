@@ -14,58 +14,28 @@ public class CategoriesBox : MonoBehaviour
     GameObject categoryPrefab;
     [SerializeField]
     RectTransform categoriesContainer;
+    [SerializeField]
+    CategoryManager categoryManager;
     List<CategoryObject> categoriesObjects = new List<CategoryObject>();
+    Category categorySelected = null;
+    bool categoryLocked = false;
 
     protected float categoryHeightRatio = 0.045f;
     protected float categoryHeight;
     protected float categoriesBoxMaxHeight;
     protected float height;
 
+    [SerializeField]
+    Image categoryImage;
+    [SerializeField]
+    Sprite emptyCategorySprite;
+    [SerializeField]
+    Sprite fullCategorySprite;
+
     private void Awake()
     {
         myRectTransform = gameObject.GetComponent<RectTransform>();
         categoryHeight = categoryHeightRatio * Screen.height;
-        categoriesBoxMaxHeight = 5 * categoryHeight;
-    }
-
-    public virtual void RefreshSize(int numberOfCategories)
-    {
-        height = (numberOfCategories + 1) * categoryHeight;
-    }
-
-    public void OnCategoriesChoosePress()
-    {
-        if (background.activeInHierarchy)
-        {
-            CloseCategoriesContainer();
-        }
-        else
-        {
-            background.SetActive(true);
-            categoriesContainer.gameObject.SetActive(true);
-            categoriesContainer.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-            if (height > categoriesBoxMaxHeight)
-            {
-                myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, categoriesBoxMaxHeight);
-            }
-            else
-            {
-                myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-            }
-        }
-        
-    }
-
-    public void CloseCategoriesContainer()
-    {
-        background.SetActive(false);
-        categoriesContainer.gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        background.SetActive(false);
-        categoriesContainer.gameObject.SetActive(false);
     }
 
     public void LoadCategories(List<Category> categories)
@@ -90,7 +60,7 @@ public class CategoriesBox : MonoBehaviour
         GameObject categoryObject = Instantiate(categoryPrefab);
         CategoryObject categoryObjectScript = categoryObject.GetComponent<CategoryObject>();
         categoryObject.transform.SetParent(categoriesContainer);
-        categoryObjectScript.Set(category);
+        categoryObjectScript.Set(category, this);
         categoriesObjects.Add(categoryObjectScript);
     }
 
@@ -98,6 +68,45 @@ public class CategoriesBox : MonoBehaviour
     {
         CategoryObject categoryObject = categoriesObjects.Find(x => x.GetCategory() != null && x.GetCategory().GetID() == editingCategory.GetID());
         CategoryObject categoryObjectScript = categoryObject.GetComponent<CategoryObject>();
-        categoryObjectScript.Set(editingCategory);
+        categoryObjectScript.Set(editingCategory, this);
+    }
+
+    public void OnCategoryChoose(Category category)
+    {
+        categorySelected = category;
+        categoryImage.sprite = fullCategorySprite;
+        categoryImage.color = category.GetColor();
+    }
+
+    public void OnCategoryChooseNoCategory()
+    {
+        ClearIcon();
+    }
+
+    public void ClearIcon()
+    {
+        categorySelected = null;
+        categoryImage.sprite = emptyCategorySprite;
+        categoryImage.color = Color.white;
+        categoryLocked = false;
+    }
+
+    public void GoBack()
+    {
+        if(!categoryLocked)
+        {
+            ClearIcon();
+        }
+    }
+
+    public void LockCategory()
+    {
+        categoryLocked = true;
+    }
+
+    public void SubmitCategory()
+    {
+        categoryManager.ChooseCategory(categorySelected);
+        categoryLocked = true;
     }
 }

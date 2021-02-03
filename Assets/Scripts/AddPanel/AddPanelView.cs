@@ -8,6 +8,9 @@ public class AddPanelView : MonoBehaviour
     RectTransform addPanel;
 
     [SerializeField]
+    RectTransform keyboardPlaceholder;
+
+    [SerializeField]
     TMPro.TMP_InputField nameInput;
     [SerializeField]
     TMPro.TMP_InputField rewardInput;
@@ -20,6 +23,8 @@ public class AddPanelView : MonoBehaviour
     GameObject datePanel;
     [SerializeField]
     GameObject deadlinePanel;
+    [SerializeField]
+    GameObject categoriesPanel;
 
     [Header("CommentPanel")]
     [SerializeField]
@@ -61,6 +66,7 @@ public class AddPanelView : MonoBehaviour
         yield return new WaitForSeconds(waitingTime);
         keyboardHeight = GetKeyboardHeight();
         addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
+        keyboardPlaceholder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, keyboardHeight + (0.046f * Screen.height));
         keyboardActive = true;
     }
 
@@ -68,9 +74,10 @@ public class AddPanelView : MonoBehaviour
     {
         mainAddPanel.SetActive(true);
         commentAddPanel.SetActive(false);
-        CloseDatePanel();
-        CloseDeadlinePanel();
-        OnKeyboardClose();
+        datePanel.SetActive(false);
+        deadlinePanel.SetActive(false);
+        categoriesPanel.SetActive(false);
+        keyboardPlaceholder.gameObject.SetActive(false);
         discardPaenl.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -85,32 +92,6 @@ public class AddPanelView : MonoBehaviour
         discardPaenl.SetActive(false);
     }
 
-    public async void OnKeyboardClose()
-    {
-        if(keyboardActive)
-        {
-            await CloseKeyboard();
-        }
-    }
-
-    public void OnKeyboardOpen()
-    {
-        if (!keyboardActive)
-        {
-            keyboardActive = true;
-            addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
-        }
-    }
-
-    async Task CloseKeyboard()
-    {
-        keyboardActive = false;
-        await Task.Delay(150);
-        if(!keyboardActive)
-        {
-            addPanel.anchoredPosition = new Vector2(0, 0);
-        }
-    }
 
     /// <summary>
     /// Returns the keyboard height in display pixels.
@@ -118,7 +99,7 @@ public class AddPanelView : MonoBehaviour
     public int GetKeyboardHeight()
     {
 #if UNITY_EDITOR
-        return 0;
+        return 685;
 #endif
 #if UNITY_ANDROID
         using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -178,21 +159,37 @@ public class AddPanelView : MonoBehaviour
 
     public void OpenDatePanel()
     {
+        keyboardPlaceholder.gameObject.SetActive(true);
         datePanel.SetActive(true);
     }
 
     public void CloseDatePanel()
     {
         datePanel.SetActive(false);
+        keyboardPlaceholder.gameObject.SetActive(false);
     }
 
     public void OpenDeadlinePanel()
     {
+        keyboardPlaceholder.gameObject.SetActive(true);
         deadlinePanel.SetActive(true);
     }
 
     public void CloseDeadlinePanel()
     {
         deadlinePanel.SetActive(false);
+        keyboardPlaceholder.gameObject.SetActive(false);
+    }
+
+    public void OpenCategoryPanel()
+    {
+        keyboardPlaceholder.gameObject.SetActive(true);
+        categoriesPanel.SetActive(true);
+    }
+
+    public void CloseCategoryPanel()
+    {
+        categoriesPanel.SetActive(false);
+        keyboardPlaceholder.gameObject.SetActive(false);
     }
 }

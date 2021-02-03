@@ -27,7 +27,6 @@ public class CategoryManager : MonoBehaviour
         {
             LoadCategories();
         }
-        categoriesBox.RefreshSize(categories.Count);
         categoriesBox.LoadCategories(categories);
     }
 
@@ -74,7 +73,6 @@ public class CategoryManager : MonoBehaviour
     {
         Category category = new Category(name, color, this);
         categories.Add(category);
-        categoriesBox.RefreshSize(categories.Count);
         categoriesBox.LoadCategory(category);
         Save();
         questManager.ReloadQuests();
@@ -83,7 +81,6 @@ public class CategoryManager : MonoBehaviour
     public void RemoveCategory(Category category)
     {
         categories.RemoveAll(x => x.GetID() == category.GetID());
-        categoriesBox.RefreshSize(categories.Count);
         categoriesBox.UnLoadCategory(category);
         categoriesColors.UpdateCategories();
         Save();
@@ -98,7 +95,6 @@ public class CategoryManager : MonoBehaviour
     public void ChooseCategory(Category category)
     {
         addPanelManager.ChooseCategory(category);
-        categoriesBox.CloseCategoriesContainer();
     }
 
     internal void EditCategory(Category editingCategory, string name, Color color)

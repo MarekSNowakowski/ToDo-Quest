@@ -46,6 +46,8 @@ public class AddPanelManager : MonoBehaviour
     Image categoryCreationIcon;
     CategoryColor categoryColor = null;
     Category editingCategory = null;
+    [SerializeField]
+    CategoriesBox categoriesBox;
 
     [Header("Date")]
     [SerializeField]
@@ -160,6 +162,11 @@ public class AddPanelManager : MonoBehaviour
             iconManager.FillCommentIcon();
         }
         ChooseCategory(questData.category);
+        if(questData.category!=null)
+        {
+            categoriesBox.OnCategoryChoose(questData.category);
+            categoriesBox.LockCategory();
+        }
         editingID = questData.ID;
         date = questData.date;
         deadline = questData.deadline;
@@ -270,6 +277,7 @@ public class AddPanelManager : MonoBehaviour
         editingCategory = null;
         categoryInputField.text = "";
         categoryCreationIcon.color = Color.white;
+        categoriesBox.ClearIcon();
     }
 
     public void OpenCategory()
