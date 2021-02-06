@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class RewardManager : MonoBehaviour
@@ -34,9 +36,43 @@ public class RewardManager : MonoBehaviour
 
     public void AddReward(QuestData questData)
     {
-        Reward reward = rewardFactory.AddReward(questData);
-        reward.Initialize(questData);
-        SetUpAfterAddingReward(reward);
+        int amount = 1;
+        string name;
+        //Check if the amount of rewards is to be changed
+        if(questData.reward.Length > 3 && (questData.reward[1] == 'x' || questData.reward[1] == 'X') && char.IsDigit(questData.reward[0]) && questData.reward[2] == ' ')
+        {
+            amount = (int) char.GetNumericValue(questData.reward[0]);
+            name = questData.reward.Substring(3);
+        }
+        else
+        {
+            name = questData.reward;
+        }
+        //Check if we can add amount to existing reward to prevent from duplicating rewards with the same name
+        if (activeRewards.Exists(x => x.GetName() == name))
+        {
+            //Increase amount
+            Reward reward = activeRewards.Find(x => x.GetName() == name);
+            reward.IncreaseAmount(amount);
+            reward.SetUp();
+            Save();
+            Unload();
+            Load();
+        }
+        else
+        {
+            Reward reward = rewardFactory.AddReward();
+            if(amount > 1)
+            {
+                reward.Initialize(questData, name, amount);
+            }
+            else
+            {
+                reward.Initialize(questData);
+            }
+
+            SetUpAfterAddingReward(reward);
+        }
     }
 
     void SetUpAfterAddingReward(Reward reward)

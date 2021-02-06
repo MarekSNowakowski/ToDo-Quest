@@ -21,7 +21,7 @@ public class RewardDetails : MonoBehaviour
     {
         rewardDetailsPanel.SetActive(true);
         questDetailsPanel.SetActive(false);
-        rewardName.text = rewardData.rewardName;
+        rewardName.text = rewardData.GetText();
         questName.text = rewardData.questName;
         date.text = rewardData.questCompletitionTime.ToShortDateString();
     }

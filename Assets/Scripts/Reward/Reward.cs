@@ -15,6 +15,7 @@ public class Reward : MonoBehaviour, IComparable<Reward>
     string rewardName;
     string questName;
     DateTime questCompletitionTime;
+    int amount;
 
     RewardManager rewardManager;
 
@@ -30,13 +31,24 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         this.id = questData.ID;
         this.rewardName = questData.reward;
         this.questName = questData.questName;
+        this.amount = 1;
         questCompletitionTime = DateTime.Today;
-        setUp();
+        SetUp();
     }
 
-    void setUp()
+    public void Initialize(QuestData questData, string name, int amount)
     {
-        nameText.text = rewardName;
+        this.id = questData.ID;
+        this.rewardName = name;
+        this.questName = name;
+        this.amount = amount;
+        questCompletitionTime = DateTime.Today;
+        SetUp();
+    }
+
+    public void SetUp()
+    {
+        nameText.text = GetText();
         if(questCompletitionTime.Date == DateTime.Today)
         {
             dateText.text = "Today";
@@ -51,9 +63,14 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         }
     }
 
+    internal void IncreaseAmount(int amount)
+    {
+        this.amount += amount;
+    }
+
     public RewardData Save()
     {
-        RewardData saveData = new RewardData(id, rewardName, questName, questCompletitionTime);
+        RewardData saveData = new RewardData(id, rewardName, questName, questCompletitionTime, amount);
         return saveData;
     }
 
@@ -62,8 +79,9 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         this.id = rewardData.ID;
         this.rewardName = rewardData.rewardName;
         this.questName = rewardData.questName;
+        this.amount = rewardData.amount;
         questCompletitionTime = rewardData.questCompletitionTime;
-        setUp();
+        SetUp();
     }
 
     public void GetManager(RewardManager rewardManager)
@@ -89,7 +107,7 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         float questRemovalTime = 3;
 
         toBeRemoved = true;
-        nameText.text = $"<s>{rewardName}</s>";
+        nameText.text = $"<s>{GetText()}</s>";
         cancelRemovalButton.SetActive(true);
         removeButton.SetActive(false);
 
@@ -110,6 +128,23 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         rewardManager.ShowRewardDetails(rewardData);
     }
 
+    public string GetName()
+    {
+        return rewardName;
+    }
+
+    public string GetText()
+    {
+        if (amount > 1)
+        {
+            return amount + "x " + rewardName;
+        }
+        else
+        {
+            return rewardName;
+        }
+    }
+
     public int CompareTo(Reward other)
     {
         return (-1) * questCompletitionTime.CompareTo(other.questCompletitionTime);
@@ -123,13 +158,15 @@ public struct RewardData : IComparable<RewardData>
     public string rewardName;
     public string questName;
     public DateTime questCompletitionTime;
+    public int amount;
 
-    public RewardData(string ID, string rewardName, string questName, DateTime questCompletitionTime)
+    public RewardData(string ID, string rewardName, string questName, DateTime questCompletitionTime, int amount)
     {
         this.ID = ID;
         this.rewardName = rewardName;
         this.questName = questName;
         this.questCompletitionTime = questCompletitionTime;
+        this.amount = amount;
     }
 
     public int CompareTo(RewardData other)
@@ -143,5 +180,17 @@ public struct RewardData : IComparable<RewardData>
         this.rewardName = rewardName;
         this.questName = questName;
         this.questCompletitionTime = questCompletitionTime;
+    }
+
+    public string GetText()
+    {
+        if (amount > 1)
+        {
+            return amount + "x " + rewardName;
+        }
+        else
+        {
+            return rewardName;
+        }
     }
 }
