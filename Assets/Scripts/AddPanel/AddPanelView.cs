@@ -40,8 +40,6 @@ public class AddPanelView : MonoBehaviour
     float screenHeight = Screen.height;
     float keyboardHeight = 0;
 
-    bool keyboardActive;
-
 
     void Start()
     {
@@ -54,10 +52,7 @@ public class AddPanelView : MonoBehaviour
     {
         nameInput.ActivateInputField();
         nameInput.Select();
-        if (keyboardHeight == 0)
-        {
-            StartCoroutine(WaitForKeyboardToOpen());
-        }
+        CheckIfKeyboardOpened();
     }
 
     IEnumerator WaitForKeyboardToOpen()
@@ -67,7 +62,14 @@ public class AddPanelView : MonoBehaviour
         keyboardHeight = GetKeyboardHeight();
         addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
         keyboardPlaceholder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, keyboardHeight + (0.046f * Screen.height));
-        keyboardActive = true;
+    }
+
+    public void CheckIfKeyboardOpened()
+    {
+        if (keyboardHeight == 0)
+        {
+            StartCoroutine(WaitForKeyboardToOpen());
+        }
     }
 
     public void Close()
