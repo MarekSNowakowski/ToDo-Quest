@@ -57,7 +57,7 @@ public class AddPanelView : MonoBehaviour
 
     IEnumerator WaitForKeyboardToOpen()
     {
-        float waitingTime = 0.25f;
+        float waitingTime = 0.5f;
         yield return new WaitForSeconds(waitingTime);
         keyboardHeight = GetKeyboardHeight();
         addPanel.anchoredPosition = new Vector2(0, keyboardHeight);
@@ -66,7 +66,7 @@ public class AddPanelView : MonoBehaviour
 
     public void CheckIfKeyboardOpened()
     {
-        if (keyboardHeight == 0)
+        if (keyboardHeight < 200)
         {
             StartCoroutine(WaitForKeyboardToOpen());
         }
