@@ -7,9 +7,21 @@ public class MenuBar : MonoBehaviour
     [SerializeField]
     float menuWidthRatio;
     [SerializeField]
-    int slideSpeed;
+    float slideSpeed;
     [SerializeField]
     GameObject blocker;
+    [Header("Buttons")]
+    [SerializeField]
+    GameObject addButton;
+    [SerializeField]
+    GameObject backButton;
+    [Header("Panels")]
+    [SerializeField]
+    GameObject settingPanel;
+    [SerializeField]
+    GameObject aboutPanel;
+    [SerializeField]
+    GameObject helpPanel;
 
     float width;
     int currentPosition;
@@ -44,7 +56,7 @@ public class MenuBar : MonoBehaviour
     IEnumerator MenuOpeningCorutine()
     {
         opened = true;
-        for( ; currentPosition <= width/2 ; currentPosition += slideSpeed)
+        for( ; currentPosition <= width/2 ; currentPosition += (int)(slideSpeed*Screen.width))
         {
             yield return null;
             transform.position = new Vector2(currentPosition, transform.position.y);
@@ -56,12 +68,65 @@ public class MenuBar : MonoBehaviour
     IEnumerator MenuClosingCorutine()
     {
         opened = false;
-        for (; currentPosition >= -width / 2; currentPosition -= slideSpeed)
+        for (; currentPosition >= -width / 2; currentPosition -= (int)(slideSpeed*Screen.width))
         {
             yield return null;
             transform.position = new Vector2(currentPosition, transform.position.y);
         }
         currentPosition = (int) -width / 2;
         transform.position = new Vector2(currentPosition, transform.position.y);
+    }
+
+    public void OnSettingsButtonPress()
+    {
+        OnPanelOpen();
+        settingPanel.SetActive(true);
+    }
+
+    public void OnAboutButtonPress()
+    {
+        OnPanelOpen();
+        aboutPanel.SetActive(true);
+    }
+
+    public void OnHelpButtonpress()
+    {
+        OnPanelOpen();
+        helpPanel.SetActive(true);
+    }
+
+    public void OnPanelOpen()
+    {
+        ClosePanels();
+        OnBlockerPress();
+        backButton.SetActive(true);
+        addButton.SetActive(false);
+    }
+
+    void ClosePanels()
+    {
+        if (settingPanel.activeInHierarchy)
+        {
+            settingPanel.SetActive(false);
+        }
+        if (aboutPanel.activeInHierarchy)
+        {
+            aboutPanel.SetActive(false);
+        }
+        if (helpPanel.activeInHierarchy)
+        {
+            helpPanel.SetActive(false);
+        }
+    }
+
+    public void OnBackButtonPress()
+    {
+        ClosePanels();
+        addButton.SetActive(true);
+        backButton.SetActive(false);
+        if (opened)
+        {
+            OnBlockerPress();
+        }
     }
 }
