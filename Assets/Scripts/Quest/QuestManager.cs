@@ -209,13 +209,10 @@ public class QuestManager : MonoBehaviour
             else
             {
                 rewardManager.AddReward(questData);
-                GiveExp(questData.weight);
             }
         }
-        else
-        {
-            GiveExp(questData.weight);
-        }
+
+        GiveExp(questData.weight);
     }
 
     void GiveExp(int weight)

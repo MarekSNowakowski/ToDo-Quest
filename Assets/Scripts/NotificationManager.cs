@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NotificationManager : MonoBehaviour
 {
+    [SerializeField]
+    SettingsManager settings;
+
     private int notificationHour = 9;
 
     private void Start()
@@ -23,7 +26,7 @@ public class NotificationManager : MonoBehaviour
         var notification = new AndroidNotification();
         notification.Title = title;
         notification.Text = "Today is the deadline!";
-        notification.FireTime = notificationDay.AddHours(notificationHour);
+        notification.FireTime = notificationDay.AddHours(settings.GetNotificationHour()).AddMinutes(settings.GetNotificationMinutes());
         notification.SmallIcon = "app_icon_small";
         notification.LargeIcon = "app_icon_large";
 
