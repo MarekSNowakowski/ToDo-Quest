@@ -90,7 +90,7 @@ public class QuestDetails : MonoBehaviour
                         cycleText.text = "Every day";
                         break;
                     case 7:
-                        cycleText.text = "Every week";
+                        cycleText.text = $"Every {questData.date.ToString("dddd", cultureInfo).ToLower()}";
                         break;
                     case 14:
                         cycleText.text = "Every 2 weeks";
