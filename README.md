@@ -1,1 +1,1 @@
-# ToDoQuestLog
+ToDo Quest is a basic planner that helps you to organize your tasks and make plans for the future. Thanks to reward system, you can motivate yourself by creating goals and declaring how you will reward yourself for compleating them. Use comftable features including writing comments, setting deadlines and remainders, creating cyclic quests and sorting tasks by category.
