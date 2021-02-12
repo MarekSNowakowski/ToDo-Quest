@@ -21,6 +21,9 @@ public class Calendar : MonoBehaviour
     AddPanelManager addPanelManager;
 
     [SerializeField]
+    TranslationManager translationManager;
+
+    [SerializeField]
     CycleManager cycleManager;
 
     /// <summary>
@@ -101,7 +104,7 @@ public class Calendar : MonoBehaviour
 
         DateTime temp = new DateTime(year, month, 1);
         currDate = temp;
-        CultureInfo cultureInfo = new CultureInfo("en-US");
+        CultureInfo cultureInfo = translationManager.GetCultureInfo();
         MonthAndYear.text = temp.Year.ToString() + "\n" + temp.ToString("MMMM", cultureInfo);
         int startDay = GetMonthStartDay(year,month) - 1;
         int endDay = GetTotalNumberOfDays(year, month);

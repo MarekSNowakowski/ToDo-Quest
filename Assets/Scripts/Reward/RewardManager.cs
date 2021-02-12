@@ -18,6 +18,9 @@ public class RewardManager : MonoBehaviour
     [SerializeField]
     GameObject detailsCanvas;
 
+    [SerializeField]
+    TranslationManager translationManager;
+
     List<Reward> activeRewards = new List<Reward>();
 
     string filepath;
@@ -54,7 +57,7 @@ public class RewardManager : MonoBehaviour
             //Increase amount
             Reward reward = activeRewards.Find(x => x.GetName() == name);
             reward.IncreaseAmount(amount);
-            reward.SetUp();
+            reward.SetUp(translationManager.GetStaticString(24), translationManager.GetStaticString(25));
             Save();
             Unload();
             Load();
@@ -64,11 +67,11 @@ public class RewardManager : MonoBehaviour
             Reward reward = rewardFactory.AddReward();
             if(amount > 1)
             {
-                reward.Initialize(questData, name, amount);
+                reward.Initialize(questData, name, amount, translationManager.GetStaticString(24));
             }
             else
             {
-                reward.Initialize(questData);
+                reward.Initialize(questData, translationManager.GetStaticString(24));
             }
 
             SetUpAfterAddingReward(reward);

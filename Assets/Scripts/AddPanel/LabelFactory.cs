@@ -13,7 +13,8 @@ public class LabelFactory : MonoBehaviour
     GameObject labelDate;
     [SerializeField]
     Sprite emptyBookmarkIcon;
-    string emptyLabelText = "Others";
+    [SerializeField]
+    TranslationManager translationManager;
     /// <summary>
     /// Only for factory of categories
     /// </summary>
@@ -35,7 +36,7 @@ public class LabelFactory : MonoBehaviour
         GameObject ob = Instantiate(labelCategory);
         ob.transform.SetParent(transform);
         CategoryLabel categoryLabel = ob.GetComponent<CategoryLabel>();
-        categoryLabel.Initialize(emptyLabelText,emptyBookmarkIcon);
+        categoryLabel.Initialize(translationManager.GetStaticString(2),emptyBookmarkIcon);
 
         return categoryLabel;
     }
@@ -46,19 +47,19 @@ public class LabelFactory : MonoBehaviour
     public DateLabel LoadDate(DateTime date)
     {
         string title = "", dateText = "", id = "";
-        CultureInfo cultureInfo = new CultureInfo("en-US");
+        CultureInfo cultureInfo = translationManager.GetCultureInfo();
 
         if (date == default || date >= DateTime.Today.AddDays(7))
         {
-            title = "Other";
+            title = translationManager.GetStaticString(2);
             dateText = "";
-            id = title;
+            id = "Other";
         }
         else if(date < DateTime.Today)
         {
-            title = "Overdue";
+            title = translationManager.GetStaticString(1);
             dateText = "";
-            id = title;
+            id = "Overdue";
         }
         else
         {
@@ -69,11 +70,11 @@ public class LabelFactory : MonoBehaviour
                 {
                     if(i==0)
                     {
-                        title = "Today ( " + date.ToString("dddd", cultureInfo) + " )";
+                        title = translationManager.GetStaticString(24) + " ( " + date.ToString("dddd", cultureInfo) + " )";
                     }
                     else if(i==1)
                     {
-                        title = "Tommorow ( " + date.ToString("dddd", cultureInfo) + " )";
+                        title = translationManager.GetStaticString(25) + " ( " + date.ToString("dddd", cultureInfo) + " )";
                     }
                     else
                     {

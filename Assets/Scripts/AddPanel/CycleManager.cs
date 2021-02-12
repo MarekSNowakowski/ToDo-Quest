@@ -8,6 +8,8 @@ public class CycleManager : MonoBehaviour
 
     [SerializeField]
     TMPro.TextMeshProUGUI cycleText;
+    [SerializeField]
+    TranslationManager translationManager;
 
     public void OnNextPress()
     {
@@ -74,16 +76,16 @@ public class CycleManager : MonoBehaviour
                 cycleText.text = "-";
                 break;
             case 1:
-                cycleText.text = "day";
+                cycleText.text = translationManager.GetStaticString(26);
                 break;
             case 7:
-                cycleText.text = "week";
+                cycleText.text = translationManager.GetStaticString(27);
                 break;
             case 14:
-                cycleText.text = "2 weeks";
+                cycleText.text = translationManager.GetStaticString(28);
                 break;
             case 30:
-                cycleText.text = "month";
+                cycleText.text = translationManager.GetStaticString(29);
                 break;
         }
     }

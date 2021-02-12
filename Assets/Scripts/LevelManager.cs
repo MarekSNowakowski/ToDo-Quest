@@ -21,9 +21,19 @@ public class LevelManager : MonoBehaviour
     RewardManager rewardManager;
     [SerializeField]
     Slider levelSlider;
+    [SerializeField]
+    TranslationManager translationManager;
 
     string rewardText;
-    string rewardPlaceholder = "Add your reward!";
+
+    private string RewardPlaceholder
+    {
+        get
+        {
+            return translationManager.GetStaticString(7);
+        }
+    }
+
     int currentLevel;
     int currentExp;
     int expToNextLevel;
@@ -61,7 +71,7 @@ public class LevelManager : MonoBehaviour
             questData.questName = "Level " + currentLevel;
             rewardManager.AddReward(questData);
             rewardText = null;
-            levelRewardTextField.text = rewardPlaceholder;
+            levelRewardTextField.text = RewardPlaceholder;
         }
         expToNextLevel += (int)(expToNextLevel * (float)(currentLevel / defaultExpToNextLevel));  // highering the bar
         currentLevel++;
@@ -116,9 +126,9 @@ public class LevelManager : MonoBehaviour
 
     public void OnRewardEditEnd()
     {
-        if(levelRewardTextField.text == "" || levelRewardTextField.text == rewardPlaceholder)
+        if(levelRewardTextField.text == "" || levelRewardTextField.text == RewardPlaceholder)
         {
-            levelRewardTextField.text = rewardPlaceholder;
+            levelRewardTextField.text = RewardPlaceholder;
             rewardText = null;
         }else
         {
@@ -149,7 +159,7 @@ public class LevelManager : MonoBehaviour
         levelRewardTextField.ActivateInputField();
         if(!levelRewardTextField.isFocused)
         levelRewardTextField.Select();
-        if(rewardText == null || levelRewardTextField.text == rewardPlaceholder)
+        if(rewardText == null || levelRewardTextField.text == RewardPlaceholder)
         {
             levelRewardTextField.text = "";
         }
@@ -163,6 +173,10 @@ public class LevelManager : MonoBehaviour
         if(rewardText != null)
         {
             levelRewardTextField.text = rewardText;
+        }
+        else
+        {
+            levelRewardTextField.text = RewardPlaceholder;
         }
         levelSlider.value = (float)currentExp / (float)expToNextLevel;
     }

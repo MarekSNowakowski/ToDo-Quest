@@ -6,13 +6,15 @@ public class RewardFactory : MonoBehaviour
 {
     [SerializeField]
     GameObject rewardObject;
+    [SerializeField]
+    TranslationManager translationManager;
 
     public Reward LoadReward(RewardData rewardData)
     {
         GameObject ob = Instantiate(rewardObject);
         ob.transform.SetParent(transform);
         Reward reward = ob.GetComponent<Reward>();
-        reward.Load(rewardData);
+        reward.Load(rewardData, translationManager.GetStaticString(24), translationManager.GetStaticString(25));
 
         return reward;
     }

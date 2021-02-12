@@ -26,36 +26,36 @@ public class Reward : MonoBehaviour, IComparable<Reward>
     GameObject cancelRemovalButton;
     bool toBeRemoved;
 
-    public void Initialize(QuestData questData)
+    public void Initialize(QuestData questData, string today)
     {
         this.id = questData.ID;
         this.rewardName = questData.reward;
         this.questName = questData.questName;
         this.amount = 1;
         questCompletitionTime = DateTime.Today;
-        SetUp();
+        SetUp(today, "");
     }
 
-    public void Initialize(QuestData questData, string name, int amount)
+    public void Initialize(QuestData questData, string name, int amount, string today)
     {
         this.id = questData.ID;
         this.rewardName = name;
         this.questName = name;
         this.amount = amount;
         questCompletitionTime = DateTime.Today;
-        SetUp();
+        SetUp(today, "");
     }
 
-    public void SetUp()
+    public void SetUp(string today, string tommorow)
     {
         nameText.text = GetText();
         if(questCompletitionTime.Date == DateTime.Today)
         {
-            dateText.text = "Today";
+            dateText.text = today;
         }
         else if(questCompletitionTime.Date == DateTime.Today.AddDays(-1))
         {
-            dateText.text = "Yesterday";
+            dateText.text = tommorow;
         }
         else
         {
@@ -74,14 +74,14 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         return saveData;
     }
 
-    public void Load(RewardData rewardData)
+    public void Load(RewardData rewardData, string today, string tommorow)
     {
         this.id = rewardData.ID;
         this.rewardName = rewardData.rewardName;
         this.questName = rewardData.questName;
         this.amount = rewardData.amount;
         questCompletitionTime = rewardData.questCompletitionTime;
-        SetUp();
+        SetUp(today, tommorow);
     }
 
     public void GetManager(RewardManager rewardManager)

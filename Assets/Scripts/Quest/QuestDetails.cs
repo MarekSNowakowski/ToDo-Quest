@@ -35,6 +35,8 @@ public class QuestDetails : MonoBehaviour
     AddPanelManager addPanelManager;
     QuestData questData;
     Category category;
+    [SerializeField]
+    TranslationManager translationManager;
 
     [Header("Cycle")]
     [SerializeField]
@@ -78,7 +80,7 @@ public class QuestDetails : MonoBehaviour
         if (questData.date != default)
         {
             dateField.SetActive(true);
-            CultureInfo cultureInfo = new CultureInfo("en-US");
+            CultureInfo cultureInfo = translationManager.GetCultureInfo();
             date.text = questData.date.ToString("dddd, dd MMMM yyyy", cultureInfo);
             if(questData.repeatCycle != 0)
             {
@@ -87,16 +89,16 @@ public class QuestDetails : MonoBehaviour
                 switch (questData.repeatCycle)
                 {
                     case 1:
-                        cycleText.text = "Every day";
+                        cycleText.text = translationManager.GetStaticString(20);
                         break;
                     case 7:
-                        cycleText.text = $"Every {questData.date.ToString("dddd", cultureInfo).ToLower()}";
+                        cycleText.text = translationManager.GetStaticString(30) + $" {questData.date.ToString("dddd", cultureInfo).ToLower()}";
                         break;
                     case 14:
-                        cycleText.text = "Every 2 weeks";
+                        cycleText.text = translationManager.GetStaticString(30) + " " + translationManager.GetStaticString(28);
                         break;
                     case 30:
-                        cycleText.text = "Every month";
+                        cycleText.text = translationManager.GetStaticString(30) + " " + translationManager.GetStaticString(29);
                         break;
                 }
             }

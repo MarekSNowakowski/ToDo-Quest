@@ -48,6 +48,7 @@ public class SettingsManager : MonoBehaviour
 
     private void Load()
     {
+        if(filepath==null) filepath = Application.persistentDataPath + "/settings.dat";
         if (File.Exists(filepath))
         {
             using (FileStream file = File.Open(filepath, FileMode.Open))
@@ -159,6 +160,10 @@ public class SettingsManager : MonoBehaviour
 
     public string GetLanguage()
     {
+        if (settings == null) 
+        {
+            Load();
+        }
         return settings.language;
     }
 }
