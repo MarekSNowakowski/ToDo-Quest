@@ -45,9 +45,6 @@ public class QuestManager : MonoBehaviour
 
     public void AddQuest(QuestData questData)
     {
-        bool addingCategoryLabel = false;
-        bool addingDateLabel = false;
-
         questData.Initialize();
         activeQuests.Add(questData);
         Save();

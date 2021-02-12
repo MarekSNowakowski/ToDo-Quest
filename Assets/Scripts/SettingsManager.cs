@@ -24,7 +24,7 @@ public class SettingsManager : MonoBehaviour
 
     Settings settings;
 
-    private void Start()
+    private void Awake()
     {
         filepath = Application.persistentDataPath + "/settings.dat";
         Load();
@@ -59,6 +59,16 @@ public class SettingsManager : MonoBehaviour
         else
         {
             settings = new Settings();
+            //Default language selection
+            switch (Application.systemLanguage)
+            {
+                case SystemLanguage.Polish:
+                    settings.language = "pl";
+                    break;
+                default:
+                    settings.language = "en";
+                    break;
+            }
             Save();
         }
     }
@@ -133,6 +143,24 @@ public class SettingsManager : MonoBehaviour
             Save();
         }
     }
+
+    public void SetLanguage(string language)
+    {
+        if(language=="en"||language=="pl")
+        {
+            settings.language = language;
+        }
+        else
+        {
+            settings.language = "en";
+        }
+        Save();
+    }
+
+    public string GetLanguage()
+    {
+        return settings.language;
+    }
 }
 
 [Serializable]
@@ -142,6 +170,8 @@ public class Settings
 
     public int deadlineTimeHours;
     public int deadlineTimeMinutes;
+
+    public string language;
 
     public Settings()
     {
