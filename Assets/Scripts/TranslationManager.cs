@@ -78,6 +78,87 @@ public class TranslationManager : MonoBehaviour
                         return "miesiąc";
                     case 30:
                         return "Co";
+                        //Settings
+                    case 31:
+                        return "Bazowe punkty doświadczenia:";
+                    case 32:
+                        return "Przypomnij o deadlinie o godzienie:";
+                    case 33:
+                        return "Język:";
+                    //About
+                    case 34:
+                        return "Autor:";
+                    case 35:
+                        return "O aplikacji:";
+                    case 36:
+                        return "ToDo Quest to planer który pomoże ci zoorganizować i zaplanować zadania. Dzięki systemowi nagród, możesz zmotywować się poprzez wyznaczanie sobie celów i nagradzanie się za ich realizację. Używaj wygodnych funkcji takich jak dodawanie komentarzy, ustawianie deadlinu i przypomnień, tworzenie zadań cyklicznych czy sortowanie.";
+                    case 37:
+                        return "Wspomóż autora";
+                    case 38:
+                        return "E-mail do kontaktu:";
+                    case 39:
+                        return "TAK";
+                    case 40:
+                        return "ANULUJ";
+                    case 41:
+                        return "Odrzucić zmiany?";
+                    case 42:
+                        return "Czy chcesz usunąć to zadanie?";
+                    case 43:
+                        return "Czy chcesz usunąć tę kategorię?";
+                    //Tutorial
+                    case 44:
+                        return "Naciśnij ten przycisk aby rozwinąć menu.";
+                    case 45:
+                        return "Naciśnij ten przycisk aby otworzyć panel dodawania zadań.";
+                    case 46:
+                        return "Dodaj nazwę zadania.";
+                    case 47:
+                        return "Tutaj możesz dodać nagrodę za wykonanie zadania.";
+                    case 48:
+                        return "Kliknij tu aby dodać komentarz.";
+                    case 49:
+                        return "Wybierz datę wykonania zadania. Wybrana data oznaczona jest na <color=red>czerwono</color>, aktualna data na <color=green>zielono</color>. Potwierdź datę klikając ikonę zapisu, bądź odrzuć klikając strzałkę cofania.";
+                    case 50:
+                        return "Ten dolny pasek pozwala wybrać czy zadanie ma być powtarzane.";
+                    case 51:
+                        return "Naciśnij tutaj aby otworzyć kalendarz i dodać datę.";
+                    case 52:
+                        return "2021\nKwiecień";
+                    case 53:
+                        return "2021\nCzerwiec";
+                    case 54:
+                        return "Ten dolny pasek pozwala wybrać czy po przekroczeniu daty zadanie ma być usunięte automatycznie i czy chcesz dostać powiadomienie o danym zadaniu w wybranym dniu.";
+                    case 55:
+                        return "Naciśnij tutaj aby otworzyć kalendarz i dodać deadline.";
+                    case 56:
+                        return "Kliknij tutaj aby zmienić wagę zadania. Biały jest najmniej ważny, <color=green>zielony</color> jest istotny, <color=blue>niebieski</color> jest ważny i <color=red>czerwony</color> jest do najważniejszych zadań.";
+                    case 57:
+                        return "Kliknij tutaj by wybrać między istniejącymi kategoriami.";
+                    case 58:
+                        return "Kiedy zadanie jest gotowe, wciśnij przycisk zapisu.";
+                    case 59:
+                        return "Kiedy jesteś na stronie \"Nadchodzące\", zadania są sortowane w zależności od daty.";
+                    case 60:
+                        return "Możesz otworzyć detale zadania klikając na nie. Mozesz tam zobaczyć wszelkie informacje o zadaniu, a także edytować je lub usunąć.";
+                    case 61:
+                        return "Możesz zmienić na sortowanie w zależności od kategorii, klikając tutaj, bądź przesuwając palcem po ekranie.";
+                    case 62:
+                        return "Otwórz detale kategorii, klikając na jej etykietę. Poprzez ten panel możesz edytować lub usunąć kategorię.";
+                    case 63:
+                        return "Klikając w ten przycisk otwierasz panel tworzenia kategorii.";
+                    case 64:
+                        return "Dodaj nazwę kategorii, wybierz kolor i wciśnij ikone zapisu aby stworzyć kategorię. Kolor musi być unikalny dla każdej kategorii.";
+                    case 65:
+                        return "Nagrody za wykonane zadania czekają na ciebie tutaj. Odbierz je klikając w okrąg.";
+                    case 66:
+                        return "Zdobywaj doświadczenie wykonując zadania. Doświadczenie jest przyznawane w zależności od wagi zadania. Ilość doświadczenia bazowego możesz zmienić w ustawieniach. Możesz również dodać dodatkowe doświadczenie pisząc zamiast nagrody \" + [liczba]\", np. \" + 6\".";
+                    case 67:
+                        return "Naciśnij tutaj aby dodać nagrodę za level. Kiedy awansujesz, nagroda zostanie automatycznie dodana.";
+                    case 68:
+                        return "Naciśnij tutaj aby zakończyć samouczek";
+                    case 69:
+                        return "Dziękuję za ukończenie samouczka!";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -148,6 +229,88 @@ public class TranslationManager : MonoBehaviour
                         return "month";
                     case 30:
                         return "Every";
+                        //Settings
+                    case 31:
+                        return "Base experience points:";
+                    case 32:
+                        return "Remind about the deadline at:";
+                    case 33:
+                        return "Language:";
+                    //About
+                    case 34:
+                        return "Author:";
+                    case 35:
+                        return "About the app:";
+                    case 36:
+                        return "ToDo Quest is a basic planner that helps you to organize your tasks and make plans for the future. Thanks to reward system, you can motivate yourself by creating goals and declaring how you will reward yourself for compleating them. Use comftable features including writing comments, setting deadlines and remainders, creating cyclic quests and sorting tasks by category.";
+                    case 37:
+                        return "Donate the creator";
+                    case 38:
+                        return "Contact email:";
+                    //Discard panels
+                    case 39:
+                        return "YES";
+                    case 40:
+                        return "CANCEL";
+                    case 41:
+                        return "Discard changes?";
+                    case 42:
+                        return "Do you want to remove this task?";
+                    case 43:
+                        return "Do you want to remove this category?";
+                    //Tutorial
+                    case 44:
+                        return "Click the menu button to slide the menu.";
+                    case 45:
+                        return "Click the add task button to open add panel.";
+                    case 46:
+                        return "Here add name of the task you want to add.";
+                    case 47:
+                        return "Here you can add the reward you will get for compleating the task.";
+                    case 48:
+                        return "Click here to add coment.";
+                    case 49:
+                        return "Choose date you want to do the task on. Selected date is marked <color=red>red</color>, current is marked with <color=green>green</color> color. Click save icon to apply or back to discard.";
+                    case 50:
+                        return "This bottom bar allows you to decide if you want to repeat task.";
+                    case 51:
+                        return "Click here to open caledar and add task date.";
+                    case 52:
+                        return "2021\nApril";
+                    case 53:
+                        return "2021\nJune";
+                    case 54:
+                        return "This bottom bar allows you to decide if task after deadline shall be automaticly removed and if you want to recive notification at that date.";
+                    case 55:
+                        return "Click here to open caledar and add task deadline.";
+                    case 56:
+                        return "Click here to change importance of the task. White is least important, <color=green>green</color> is normall, <color=blue>blue</color> is important and <color=red>red</color> is for very important things.";
+                    case 57:
+                        return "Click here to choose between your categories.";
+                    case 58:
+                        return "When task is ready to add, click here to save it.";
+                    case 59:
+                        return "When you are at incoming page, quests are sorted by date and organized with labels.";
+                    case 60:
+                        return "You can open task details by clicking on it. There you can see all informations about it, edit the task or remove it.";
+                    case 61:
+                        return "You can change to sorting by category by clicking here or swiping.";
+                    case 62:
+                        return "Open category details by clicking on it's label. There you will be able to edit or remove it.";
+                    case 63:
+                        return "You can open category creation panel by clicking this button.";
+                    case 64:
+                        return "Add category name, choose color and click save icon to create category. The colors must be unique for each category.";
+                    case 65:
+                        return "Rewards for compleated quests are waiting for you here. You can claim them by pressing circle icon.";
+                    case 66:
+                        return "Earn experience by completing quests. Experience rewards are given based on task importance. You can change the base amount in the settings. You can also add additional experience by writing instead of reward \" + [number]\", e.g. \" + 6\".";
+                    case 67:
+                        return "Click here to add reward for the level. When you level up, the revard will be added automaticly.";
+                    case 68:
+                        return "Click here to end tutorial.";
+                    case 69:
+                        return "Thank you for completing tutorial!";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
