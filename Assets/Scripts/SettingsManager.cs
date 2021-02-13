@@ -3,6 +3,7 @@ using TMPro;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SceneManagement;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class SettingsManager : MonoBehaviour
     [SerializeField]
     TMP_InputField deadlineMinutesInputField;
 
+    [SerializeField]
+    TMP_Dropdown languageDropdown;
+
     string filepath;
 
     Settings settings;
@@ -34,6 +38,23 @@ public class SettingsManager : MonoBehaviour
         weight4InputField.text = settings.questCompleteExp[3].ToString();
         deadlineHourInputField.text = settings.deadlineTimeHours.ToString("d2");
         deadlineMinutesInputField.text = settings.deadlineTimeMinutes.ToString("d2");
+        languageDropdown.value = GetDropdownValue();
+        languageDropdown.onValueChanged.AddListener(
+            delegate
+            {
+                OnLanguageChange(languageDropdown.value);
+            });
+        }
+
+    public int GetDropdownValue()
+    {
+        switch (settings.language)
+        {
+            case "pl":
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     public int GetNotificationHour()
@@ -65,9 +86,11 @@ public class SettingsManager : MonoBehaviour
             {
                 case SystemLanguage.Polish:
                     settings.language = "pl";
+                    languageDropdown.value = 1;
                     break;
                 default:
                     settings.language = "en";
+                    languageDropdown.value = 0;
                     break;
             }
             Save();
@@ -165,6 +188,30 @@ public class SettingsManager : MonoBehaviour
             Load();
         }
         return settings.language;
+    }
+
+    public void OnLanguageChange(int number)
+    {
+        switch(number)
+        {
+            case 0:
+                settings.language = "en";
+                Save();
+                ReloadScene();
+                break;
+            case 1:
+                settings.language = "pl";
+                Save();
+                ReloadScene();
+                break;
+        }
+    }
+
+    public void ReloadScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.UnloadSceneAsync(currentScene.name);
+        SceneManager.LoadScene(currentScene.name);
     }
 }
 
