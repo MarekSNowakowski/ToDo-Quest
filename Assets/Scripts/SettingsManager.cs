@@ -213,6 +213,17 @@ public class SettingsManager : MonoBehaviour
         SceneManager.UnloadSceneAsync(currentScene.name);
         SceneManager.LoadScene(currentScene.name);
     }
+
+    public bool IsFirstRun()
+    {
+        return settings.firstRun;
+    }
+
+    public void SetFirstRun()
+    {
+        settings.firstRun = false;
+        Save();
+    }
 }
 
 [Serializable]
@@ -225,10 +236,13 @@ public class Settings
 
     public string language;
 
+    public bool firstRun;
+
     public Settings()
     {
         questCompleteExp = new int[] { 1, 2, 5, 10 };
         deadlineTimeHours = 10;
         deadlineTimeMinutes = 0;
+        firstRun = true;
     }
 }

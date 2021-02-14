@@ -159,6 +159,10 @@ public class TranslationManager : MonoBehaviour
                         return "Naciśnij tutaj aby zakończyć samouczek";
                     case 69:
                         return "Dziękuję za ukończenie samouczka!";
+                    case 70:
+                        return "Czy chcesz rozpocząć samouczek?";
+                    case 71:
+                        return "NIE";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -311,6 +315,10 @@ public class TranslationManager : MonoBehaviour
                         return "Click here to end tutorial.";
                     case 69:
                         return "Thank you for completing tutorial!";
+                    case 70:
+                        return "Do you want to start the tutorial?";
+                    case 71:
+                        return "NO";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
