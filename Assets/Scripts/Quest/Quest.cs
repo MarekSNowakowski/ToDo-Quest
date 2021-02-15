@@ -138,13 +138,25 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public void Remove()
     {
-        questManager.StartRemovall(Save());
+        questManager.StartRemovall(ID);
+        thisQuestIsRemoving = true;
+        questManager.OnQuestRemovalStart(ID);
+    }
+
+    public void Remove(float time)
+    {
+        questManager.StartRemovall(ID, time);
         thisQuestIsRemoving = true;
     }
 
     public void RemoveSelf()
     {
         StartCoroutine(ToBeRemovedCO());
+    }
+
+    public void RemoveSelf(float time)
+    {
+        StartCoroutine(ToBeRemovedCO(time));
     }
 
     public void CancellRemoval()
@@ -159,10 +171,12 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     public void StartCancellRemoval()
     {
         questManager.CancellRemoval(ID);
+        questManager.OnQuestRemovalStop(ID);
     }
 
     IEnumerator ToBeRemovedCO()
     {
+        questManager.OnQuestRemovalStart(ID);
         float questRemovalTime = 3;
 
         toBeRemoved = true;
@@ -179,6 +193,28 @@ public class Quest : MonoBehaviour, IComparable<Quest>
             questManager.RemoveQuest(this.ID);
         }
         toBeRemoved = false;
+        questManager.OnQuestRemovalStop(ID);
+    }
+
+    IEnumerator ToBeRemovedCO(float time)
+    {
+        float questRemovalTime = 3 - time;
+
+        toBeRemoved = true;
+        nameText.text = $"<s>{questName}</s>";
+        cancelRemovalButton.SetActive(true);
+        removeButton.SetActive(false);
+
+        for (int i = 0; toBeRemoved && i < questRemovalTime; i++)
+        {
+            yield return new WaitForSeconds(1);
+        }
+        if (toBeRemoved && thisQuestIsRemoving)
+        {
+            questManager.RemoveQuest(this.ID);
+        }
+        toBeRemoved = false;
+        questManager.OnQuestRemovalStop(ID);
     }
 
     public void ShowDetails()

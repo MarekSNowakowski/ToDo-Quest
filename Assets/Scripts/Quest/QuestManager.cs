@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
@@ -30,6 +31,9 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     NotificationManager notificationManager;
 
+    Dictionary<string, float> questToBeRemoved = new Dictionary<string, float>();
+
+
     private void Start()
     {
         questDetails = detailsCanvas.GetComponent<QuestDetails>();
@@ -48,9 +52,7 @@ public class QuestManager : MonoBehaviour
         questData.Initialize();
         activeQuests.Add(questData);
         Save();
-        Unload();
-        LoadFromFile();
-        Load();
+        Reload();
 
         foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
@@ -58,6 +60,53 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    private void Reload()
+    {
+        Unload();
+        LoadFromFile();
+        Load();
+        StartRemovalQuestsAfterReload();
+    }
+
+    /// <summary>
+    /// Prevents from cancelling removal of multiple quests. All quests that are to be removed will try to be removed after the reload
+    /// </summary>
+    public void StartRemovalQuestsAfterReload()
+    {
+        if (questToBeRemoved.Count > 0)
+        {
+            //Make a copy of the list to prevent invalidOperationException (changing the list during enumeration)
+            Dictionary<string, float> removalList = new Dictionary<string, float>();
+            foreach(KeyValuePair<string,float> pair in questToBeRemoved)
+            {
+                removalList.Add(pair.Key, pair.Value);
+            }
+            foreach (KeyValuePair<string, float> pair in removalList)
+            {
+                //if exist - important, cyclick quests cause exception here without it
+                if (activeQuests.Exists(x => x.ID == pair.Key))
+                {
+                    float time = Time.time - pair.Value;
+                    //We remove the quest via first displayer, the removal needs to have source.
+                    questDisplayers[0].FindQuestWithID(pair.Key).Remove(time);
+                }
+            }
+            questToBeRemoved.Clear();
+        }
+    }
+
+    public void OnQuestRemovalStart(string ID)
+    {
+        if(!questToBeRemoved.ContainsKey(ID))
+        {
+            questToBeRemoved.Add(ID, Time.time);
+        }
+    }
+
+    public void OnQuestRemovalStop(string ID)
+    {
+        questToBeRemoved.Remove(ID);
+    }
 
     public void Save()
     {
@@ -176,11 +225,19 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void StartRemovall(QuestData questData)
+    public void StartRemovall(string ID)
     {
         foreach(QuestDisplayer questDisplayer in questDisplayers)
         {
-            questDisplayer.StartRemovall(questData.ID);
+            questDisplayer.StartRemovall(ID);
+        }
+    }
+
+    public void StartRemovall(string ID, float time)
+    {
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.StartRemovall(ID, time);
         }
     }
 

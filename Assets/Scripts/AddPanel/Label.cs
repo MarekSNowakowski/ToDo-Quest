@@ -3,7 +3,7 @@
 public abstract class Label : MonoBehaviour
 {
     protected string labelID;
-    protected int questsInside;
+    public int questsInside;
     protected float labelHeightRatio = 0.03f;
 
     private void Start()

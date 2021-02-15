@@ -269,6 +269,10 @@ public class QuestDisplayer : MonoBehaviour
                 }
             }
         }
+        else if(date == default || date >= DateTime.Today.AddDays(7))
+        {
+            activeLabels[activeLabels.Count - 1].QuestAdded();
+        }
     }
 
     void CreateLabels(int start)
@@ -425,7 +429,12 @@ public class QuestDisplayer : MonoBehaviour
     {
         FindQuestWithID(id).RemoveSelf();
     }
-    
+
+    public void StartRemovall(string id, float time)
+    {
+        FindQuestWithID(id).RemoveSelf(time);
+    }
+
     public void CancellRemoval(string ID)
     {
         FindQuestWithID(ID).CancellRemoval();
