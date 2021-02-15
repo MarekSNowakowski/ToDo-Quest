@@ -110,7 +110,6 @@ public class QuestManager : MonoBehaviour
     {
         QuestData questData = FindQuestWithID(id);
         GiveReward(questData);
-        CheckCycle(questData);
         activeQuests.Remove(questData);
         if (questData.deadline != default && questData.remind && questData.notificationID != default)
         {
@@ -121,6 +120,7 @@ public class QuestManager : MonoBehaviour
             questDisplayer.RemoveQuest(id);
         }
         Save();
+        CheckCycle(questData);
     }
 
     public void FastRemoveQuest(string id)
