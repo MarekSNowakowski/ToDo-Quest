@@ -24,7 +24,6 @@ public class QuestContainer : MonoBehaviour
         questHeight = questHeightRatio * Screen.height;
         labelHeight = labelHeightRatio * Screen.height;
 
-        questHeight = Screen.width * questHeightRatio;
         var height = initialHeight + (questCount * questHeight) + (labelCount * labelHeight);
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);

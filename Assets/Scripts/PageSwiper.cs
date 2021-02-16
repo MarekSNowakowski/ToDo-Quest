@@ -216,35 +216,35 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void resetQuestsPositionl(bool adding, bool dateLabelInteraction, bool categoryLabelInteraction)   
     {
-        float panelDifference = 25;  //default 25 but no idea why :(
         float endQuest = questRT.rect.height / 2;
         float endCategories = categoriesRT.rect.height / 2;
         if (adding)
         {
             //When you are at the end
-            if (endQuest - (questSize / 2) == questsLocation.y + panelDifference)
+            if (questRT.rect.height > Screen.height - upperPanelHeight && endQuest - (questSize / 2) < questsLocation.y)
             {
-                Debug.Log("1");
-                questsLocation.y += questSize / 2 + panelDifference;
+                questsLocation.y += questSize / 4;
             }
             else
             {
-                if(dateLabelInteraction)
+                if (dateLabelInteraction)
                 {
+                    Debug.Log("Date label added");
                     questsLocation.y -= labelSize / 2;
                 }
                 questsLocation.y -= questSize / 4;
             }
             //When you are at the end
-            if (endCategories - (questSize / 2) == categoriesLocation.y + panelDifference)
+            if (categoriesRT.rect.height > Screen.height - upperPanelHeight && endCategories - (questSize / 2) - 0.5 < categoriesLocation.y)
             {
-                categoriesLocation.y += questSize / 2 + panelDifference;
+                categoriesLocation.y += questSize / 4;
             }
             else
             {
                 categoriesLocation.y -= questSize / 4;
                 if (categoryLabelInteraction)
                 {
+                    Debug.Log("Category label added");
                     categoriesLocation.y -= labelSize / 2;
                 }
             }
@@ -254,12 +254,13 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             //When you are at the end?
             if (questRT.rect.height > Screen.height - upperPanelHeight && endQuest - (questSize / 2)  < questsLocation.y)
             {
-                questsLocation.y -= questSize / 4;
+                questsLocation.y -= questSize/4;
             }
             else
             {
                 if(dateLabelInteraction)
                 {
+                    Debug.Log("Date label removed");
                     questsLocation.y += labelSize / 2;
                 }
                 questsLocation.y += questSize / 4;
@@ -273,6 +274,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if (categoryLabelInteraction)
                 {
+                    Debug.Log("Category label remoced");
                     categoriesLocation.y += labelSize / 2;
                 }
                 categoriesLocation.y += questSize / 4;
