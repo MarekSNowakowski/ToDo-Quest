@@ -24,6 +24,9 @@ public class SettingsManager : MonoBehaviour
     [SerializeField]
     TMP_Dropdown languageDropdown;
 
+    [SerializeField]
+    TMP_InputField archiveSizeInputField;
+
     string filepath;
 
     Settings settings;
@@ -32,6 +35,16 @@ public class SettingsManager : MonoBehaviour
     {
         filepath = Application.persistentDataPath + "/settings.dat";
         Load();
+        Set();
+        languageDropdown.onValueChanged.AddListener(
+            delegate
+            {
+                OnLanguageChange(languageDropdown.value);
+            });
+    }
+
+    private void Set()
+    {
         weight1InputField.text = settings.questCompleteExp[0].ToString();
         weight2InputField.text = settings.questCompleteExp[1].ToString();
         weight3InputField.text = settings.questCompleteExp[2].ToString();
@@ -39,12 +52,8 @@ public class SettingsManager : MonoBehaviour
         deadlineHourInputField.text = settings.deadlineTimeHours.ToString("d2");
         deadlineMinutesInputField.text = settings.deadlineTimeMinutes.ToString("d2");
         languageDropdown.value = GetDropdownValue();
-        languageDropdown.onValueChanged.AddListener(
-            delegate
-            {
-                OnLanguageChange(languageDropdown.value);
-            });
-        }
+        archiveSizeInputField.text = settings.archiveMaxSize.ToString();
+    }
 
     public int GetDropdownValue()
     {
@@ -82,18 +91,23 @@ public class SettingsManager : MonoBehaviour
         {
             settings = new Settings();
             //Default language selection
-            switch (Application.systemLanguage)
-            {
-                case SystemLanguage.Polish:
-                    settings.language = "pl";
-                    languageDropdown.value = 1;
-                    break;
-                default:
-                    settings.language = "en";
-                    languageDropdown.value = 0;
-                    break;
-            }
+            SetDefaultLanguage();
             Save();
+        }
+    }
+
+    private void SetDefaultLanguage()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.Polish:
+                settings.language = "pl";
+                languageDropdown.value = 1;
+                break;
+            default:
+                settings.language = "en";
+                languageDropdown.value = 0;
+                break;
         }
     }
 
@@ -224,6 +238,26 @@ public class SettingsManager : MonoBehaviour
         settings.firstRun = false;
         Save();
     }
+
+    public void OnRestoreDefaultSettingsButtonPress()
+    {
+        settings = new Settings();
+        SetDefaultLanguage();
+        SetFirstRun();
+        Set();
+    }
+
+    public void OnArchiveMaxSizeEditEnd()
+    {
+        if (archiveSizeInputField.text == "" || !int.TryParse(archiveSizeInputField.text, out settings.archiveMaxSize))
+        {
+            archiveSizeInputField.text = settings.archiveMaxSize.ToString();
+        }
+        else
+        {
+            Save();
+        }
+    }
 }
 
 [Serializable]
@@ -233,6 +267,7 @@ public class Settings
 
     public int deadlineTimeHours;
     public int deadlineTimeMinutes;
+    public int archiveMaxSize;
 
     public string language;
 
@@ -243,6 +278,7 @@ public class Settings
         questCompleteExp = new int[] { 1, 2, 5, 10 };
         deadlineTimeHours = 10;
         deadlineTimeMinutes = 0;
+        archiveMaxSize = 100;
         firstRun = true;
     }
 }

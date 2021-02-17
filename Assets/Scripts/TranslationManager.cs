@@ -163,6 +163,12 @@ public class TranslationManager : MonoBehaviour
                         return "Czy chcesz rozpocząć samouczek?";
                     case 71:
                         return "NIE";
+                    case 72:
+                        return "Maksymalny rozmiar archiwum:";
+                    case 73:
+                        return "Przywróc domyślne";
+                    case 74:
+                        return "Archiwum";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -319,6 +325,12 @@ public class TranslationManager : MonoBehaviour
                         return "Do you want to start the tutorial?";
                     case 71:
                         return "NO";
+                    case 72:
+                        return "Archive maximum size:";
+                    case 73:
+                        return "Restore to default";
+                    case 74:
+                        return "Archive";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";

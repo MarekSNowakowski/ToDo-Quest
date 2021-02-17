@@ -22,6 +22,8 @@ public class MenuBar : MonoBehaviour
     GameObject aboutPanel;
     [SerializeField]
     GameObject helpPanel;
+    [SerializeField]
+    GameObject archivePanel;
 
     float width;
     int currentPosition;
@@ -95,6 +97,12 @@ public class MenuBar : MonoBehaviour
         helpPanel.SetActive(true);
     }
 
+    public void OnArchiveButtonPress()
+    {
+        OnPanelOpen();
+        archivePanel.SetActive(true);
+    }
+
     public void OnPanelOpen()
     {
         ClosePanels();
@@ -116,6 +124,10 @@ public class MenuBar : MonoBehaviour
         if (helpPanel.activeInHierarchy)
         {
             helpPanel.SetActive(false);
+        }
+        if (archivePanel.activeInHierarchy)
+        {
+            archivePanel.SetActive(false);
         }
     }
 
