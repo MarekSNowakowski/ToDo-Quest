@@ -265,6 +265,7 @@ public struct QuestData : IComparable<QuestData>
     public bool remind;
     public bool autoRemove;
     public int notificationID;
+    public List<SubQuestData> subQuests;
 
     public QuestData(string ID, string questName, string reward, int weight, string comment, Category category,
         DateTime creationDateTime, DateTime date, int repeatCycle, DateTime deadline, bool remind, bool autoRemove, int notificationID)
@@ -282,6 +283,7 @@ public struct QuestData : IComparable<QuestData>
         this.remind = remind;
         this.autoRemove = autoRemove;
         this.notificationID = notificationID;
+        subQuests = new List<SubQuestData>();
     }
 
     public void Initialize()

@@ -68,6 +68,12 @@ public class QuestDetails : MonoBehaviour
     [SerializeField]
     TranslationManager translationManager;
 
+    [Header("SubQuests")]
+    [SerializeField]
+    SubQuestDisplayer subQuestDisplayer;
+    [SerializeField]
+    GameObject subQuestsPanel;
+
     private void Start()
     {
         addPanelManager = addPanelCanvas.GetComponent<AddPanelManager>();
@@ -143,6 +149,11 @@ public class QuestDetails : MonoBehaviour
             default:
                 weightImage.color = new Color(255, 255, 255);
                 break;
+        }
+        if(questData.subQuests.Count > 0)
+        {
+            subQuestsPanel.SetActive(true);
+            subQuestDisplayer.LoadSubQuests(questData.subQuests);
         }
     }
 
