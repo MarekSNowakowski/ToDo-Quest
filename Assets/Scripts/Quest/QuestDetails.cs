@@ -11,40 +11,39 @@ public class QuestDetails : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI questName;
     [SerializeField]
-    TextMeshProUGUI rewardName;
+    Image weightImage;
+
+    [Header("Reward")]
     [SerializeField]
     GameObject rewardField;
     [SerializeField]
-    Image weightImage;
-    [SerializeField]
-    TextMeshProUGUI categoryName;
+    TextMeshProUGUI rewardName;
+
+    [Header("Category")]
     [SerializeField]
     GameObject categoryField;
     [SerializeField]
-    Image categoryIcon;
+    TextMeshProUGUI categoryName;
     [SerializeField]
-    TextMeshProUGUI comment;
+    Image categoryIcon;
+
+    [Header("Comment")]
     [SerializeField]
     GameObject commentField;
     [SerializeField]
-    GameObject addPanelCanvas;
+    TextMeshProUGUI comment;
+
+    [Header("Date")]
     [SerializeField]
     GameObject dateField;
     [SerializeField]
     TextMeshProUGUI date;
-    AddPanelManager addPanelManager;
-    QuestData questData;
-    Category category;
-    [SerializeField]
-    TranslationManager translationManager;
 
     [Header("Cycle")]
     [SerializeField]
     Image cycleImage;
     [SerializeField]
     TextMeshProUGUI cycleText;
-    [SerializeField]
-    CategoryDetails categoryDetails;
 
     [Header("Deadline")]
     [SerializeField]
@@ -58,6 +57,17 @@ public class QuestDetails : MonoBehaviour
     [SerializeField]
     Image autoRemove;
 
+    [Header("Other")]
+    [SerializeField]
+    GameObject addPanelCanvas;
+    [SerializeField]
+    CategoryDetails categoryDetails;
+    AddPanelManager addPanelManager;
+    QuestData questData;
+    Category category;
+    [SerializeField]
+    TranslationManager translationManager;
+
     private void Start()
     {
         addPanelManager = addPanelCanvas.GetComponent<AddPanelManager>();
@@ -67,7 +77,8 @@ public class QuestDetails : MonoBehaviour
     {
         this.questData = questData;
         questName.text = questData.questName;
-        if(questData.reward!= null)
+        CultureInfo cultureInfo = translationManager.GetCultureInfo();
+        if (questData.reward!= null)
         {
             rewardField.SetActive(true);
             rewardName.text = questData.reward;
@@ -80,7 +91,6 @@ public class QuestDetails : MonoBehaviour
         if (questData.date != default)
         {
             dateField.SetActive(true);
-            CultureInfo cultureInfo = translationManager.GetCultureInfo();
             date.text = questData.date.ToString("dddd, dd MMMM yyyy", cultureInfo);
             if(questData.repeatCycle != 0)
             {
@@ -108,7 +118,6 @@ public class QuestDetails : MonoBehaviour
             deadlineField.SetActive(true);
             if (questData.deadline == DateTime.Today) deadlineImage.color = Color.yellow;
             else if (questData.deadline < DateTime.Today) deadlineImage.color = Color.red;
-            CultureInfo cultureInfo = new CultureInfo("en-US");
             deadlineText.text = questData.deadline.ToString("dddd, dd MMMM yyyy", cultureInfo);
             if (questData.remind) remindImage.gameObject.SetActive(true);
             if (questData.autoRemove) autoRemove.gameObject.SetActive(true);

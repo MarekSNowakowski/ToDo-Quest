@@ -26,6 +26,8 @@ public class SettingsManager : MonoBehaviour
 
     [SerializeField]
     TMP_InputField archiveSizeInputField;
+    [SerializeField]
+    ArchiveManager archiveManager;
 
     string filepath;
 
@@ -74,6 +76,11 @@ public class SettingsManager : MonoBehaviour
     public int GetNotificationMinutes()
     {
         return settings.deadlineTimeMinutes;
+    }
+
+    public int GetArchiveMaxSize()
+    {
+        return settings.archiveMaxSize;
     }
 
     private void Load()
@@ -257,6 +264,7 @@ public class SettingsManager : MonoBehaviour
         {
             Save();
         }
+        archiveManager.CheckIfFull();
     }
 }
 

@@ -31,6 +31,9 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     NotificationManager notificationManager;
 
+    [SerializeField]
+    ArchiveManager archiveManager;
+
     Dictionary<string, float> questToBeRemoved = new Dictionary<string, float>();
 
 
@@ -170,6 +173,7 @@ public class QuestManager : MonoBehaviour
         }
         Save();
         CheckCycle(questData);
+        archiveManager.ArchiveQuest(questData, true);
     }
 
     public void FastRemoveQuest(string id)
@@ -185,6 +189,7 @@ public class QuestManager : MonoBehaviour
             questDisplayer.RemoveQuest(id);
         }
         Save();
+        archiveManager.ArchiveQuest(questData, false);
     }
 
     /// <summary>
@@ -195,6 +200,7 @@ public class QuestManager : MonoBehaviour
     {
         activeQuests.Remove(questData);
         Save();
+        archiveManager.ArchiveQuest(questData, false);
     }
 
     internal void ChangeLabel(Category editingCategory)

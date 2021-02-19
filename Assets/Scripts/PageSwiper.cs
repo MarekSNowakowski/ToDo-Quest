@@ -229,7 +229,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if (dateLabelInteraction)
                 {
-                    Debug.Log("Date label added");
                     questsLocation.y -= labelSize / 2;
                 }
                 questsLocation.y -= questSize / 4;
@@ -244,7 +243,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 categoriesLocation.y -= questSize / 4;
                 if (categoryLabelInteraction)
                 {
-                    Debug.Log("Category label added");
                     categoriesLocation.y -= labelSize / 2;
                 }
             }
@@ -260,7 +258,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if(dateLabelInteraction)
                 {
-                    Debug.Log("Date label removed");
                     questsLocation.y += labelSize / 2;
                 }
                 questsLocation.y += questSize / 4;
@@ -274,7 +271,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if (categoryLabelInteraction)
                 {
-                    Debug.Log("Category label remoced");
                     categoriesLocation.y += labelSize / 2;
                 }
                 categoriesLocation.y += questSize / 4;
