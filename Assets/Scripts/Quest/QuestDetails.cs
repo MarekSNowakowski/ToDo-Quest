@@ -171,6 +171,7 @@ public class QuestDetails : MonoBehaviour
     {
         subQuestDisplayer.Unload();
         subQuestDisplayer.LoadSubQuests(questData.subQuests, questData);
+        if(questData.subQuests.Count == 0) subQuestsPanel.SetActive(false); 
     }
 
     public void CloseDetails()
@@ -200,6 +201,7 @@ public class QuestDetails : MonoBehaviour
         dateField.SetActive(false);
         deadlineField.SetActive(false);
         subQuestDisplayer.Unload();
+        subQuestsPanel.SetActive(false);
     }
 
     public void EditQuest()

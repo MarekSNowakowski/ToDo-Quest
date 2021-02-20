@@ -60,6 +60,11 @@ public class SubQuest : MonoBehaviour
     {
         subQuestDisplayer.RemoveSubQuest(data);
     }
+
+    public bool IsCompleted()
+    {
+        return completed;
+    }
 }
 
 [Serializable]

@@ -292,7 +292,10 @@ public struct QuestData : IComparable<QuestData>
     {
         creationDateTime = DateTime.Now;
         ID = CorrelationIdGenerator.GetNextId();
-        subQuests = new List<SubQuestData>();
+        if(subQuests == null)
+        {
+            subQuests = new List<SubQuestData>();
+        }
     }
 
     public int CompareTo(QuestData other)

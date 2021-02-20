@@ -79,6 +79,12 @@ public class ArchiveDetails : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI compleatitionDateText;
 
+    [Header("SubQuests")]
+    [SerializeField]
+    SubQuestDisplayer subQuestDisplayer;
+    [SerializeField]
+    GameObject subQuestsPanel;
+
     public void ShowDetails(ArchivedQuestData archivedQuestData)
     {
         this.archiveQuestData = archivedQuestData;
@@ -160,6 +166,16 @@ public class ArchiveDetails : MonoBehaviour
                 weightImage.color = new Color(255, 255, 255);
                 break;
         }
+        if (questData.subQuests.Count > 0)
+        {
+            subQuestsPanel.SetActive(true);
+            subQuestDisplayer.LoadSubQuests(questData.subQuests, questData);
+        }
+    }
+
+    private void OnDisable()
+    {
+        this.gameObject.SetActive(false);
     }
 
     public void CloseDetails()
@@ -188,6 +204,8 @@ public class ArchiveDetails : MonoBehaviour
         categoryField.SetActive(false);
         dateField.SetActive(false);
         deadlineField.SetActive(false);
+        subQuestDisplayer.Unload();
+        subQuestsPanel.SetActive(false);
     }
 
     public void ReAddQuest()

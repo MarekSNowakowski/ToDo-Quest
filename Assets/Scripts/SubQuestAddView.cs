@@ -18,11 +18,12 @@ public class SubQuestAddView : MonoBehaviour
     float keyboardHeight = 0;
     float screenHeight = Screen.height;
 
-    // Start is called before the first frame update
     void Start()
     {
         myRectTransform = GetComponent<RectTransform>();
-        CheckIfKeyboardOpened();
+        nameInputField.ActivateInputField();
+        nameInputField.Select();
+        StartCoroutine(WaitForKeyboardToOpen());
     }
 
     void OnEnable()
