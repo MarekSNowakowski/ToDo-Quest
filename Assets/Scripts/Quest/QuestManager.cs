@@ -173,7 +173,6 @@ public class QuestManager : MonoBehaviour
         }
         Save();
         CheckCycle(questData);
-        archiveManager.ArchiveQuest(questData, true);
     }
 
     public void FastRemoveQuest(string id)
@@ -228,6 +227,9 @@ public class QuestManager : MonoBehaviour
             } while (questData.date <= DateTime.Today);
 
             AddQuest(questData);
+        }
+        else {
+            archiveManager.ArchiveQuest(questData, true);
         }
     }
 
