@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,21 +7,27 @@ public class SubQuestDisplayer : MonoBehaviour
 {
     [SerializeField]
     GameObject subQuestObject;
+    [SerializeField]
+    QuestManager questManager;
+    [SerializeField]
+    QuestDetails questDetails;
 
+    QuestData questData;
     List<SubQuest> subQuestObjects = new List<SubQuest>();
     protected float subQuestHeightRatio = 0.045f;
-    int questCount;
 
-    public void LoadSubQuests(List<SubQuestData> subQuests)
+    public void LoadSubQuests(List<SubQuestData> subQuests, QuestData questData)
     {
+        this.questData = questData;
         foreach(SubQuestData data in subQuests)
         {
             GameObject ob = Instantiate(subQuestObject);
             ob.transform.SetParent(transform);
             SubQuest subQuest = ob.GetComponent<SubQuest>();
-            subQuest.Set(data);
+            subQuest.Set(data, this);
             subQuestObjects.Add(subQuest);
         }
+        UpdateSize(subQuests.Count);
     }
 
     public void Unload()
@@ -30,11 +37,11 @@ public class SubQuestDisplayer : MonoBehaviour
             Destroy(subQuest.gameObject);
         }
         subQuestObjects.Clear();
+        UpdateSize(0);
     }
 
-    private void Start()
+    public void UpdateSize(int questCount)
     {
-        CountChildren();
 
         RectTransform myRectTransform = gameObject.GetComponent<RectTransform>();
 
@@ -46,13 +53,15 @@ public class SubQuestDisplayer : MonoBehaviour
         myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
     }
 
-    public virtual void CountChildren()
+    public void RemoveSubQuest(SubQuestData subQuest)
     {
-        questCount = 0;
+        questManager.RemoveSubQuest(questData.ID, subQuest);
+        questDetails.ReloadSubQuestDisplayer();
+    }
 
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "SubQuest") questCount++;
-        }
+    public void ChangeSubQuestCompletition(bool completed, SubQuestData subQuestData)
+    {
+        int subQuestID = questData.subQuests.FindIndex(x => x.Equals(subQuestData));
+        questManager.ChangeCompletition(completed, questData.ID, subQuestID);
     }
 }

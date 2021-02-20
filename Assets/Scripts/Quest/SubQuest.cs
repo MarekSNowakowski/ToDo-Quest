@@ -18,33 +18,52 @@ public class SubQuest : MonoBehaviour
     [SerializeField]
     Sprite notCompletedSprite;
 
-    public void Set(SubQuestData data)
+    SubQuestDisplayer subQuestDisplayer;
+    SubQuestData data;
+
+    bool completed = false;
+
+    public void Set(SubQuestData data, SubQuestDisplayer subQuestDisplayer)
     {
-        nameText.text = data.name;
-        if(data.completed)
+        this.data = data;
+        this.subQuestDisplayer = subQuestDisplayer;
+        if (data.completed)
         {
             completedImage.sprite = completedSprite;
+            completed = true;
+            nameText.text = $"<s>{data.name}</s>";
+        }
+        else
+        {
+            nameText.text = data.name;
         }
     }
 
-    public void Complete()
+    public void OnCompleteButtonPress()
     {
-        //tbd
-    }
-
-    public void UnComplete()
-    {
-        //tbd
+        if (completed)
+        {
+            nameText.text = data.name;
+            completedImage.sprite = notCompletedSprite;
+            completed = false;
+        }
+        else
+        {
+            nameText.text = $"<s>{data.name}</s>";
+            completedImage.sprite = completedSprite;
+            completed = true;
+        }
+        subQuestDisplayer.ChangeSubQuestCompletition(completed, data);
     }
 
     public void Remove()
     {
-        //tbd
+        subQuestDisplayer.RemoveSubQuest(data);
     }
 }
 
 [Serializable]
-public struct SubQuestData
+public class SubQuestData
 {
     public string name;
     public bool completed;

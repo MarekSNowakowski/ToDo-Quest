@@ -153,8 +153,24 @@ public class QuestDetails : MonoBehaviour
         if(questData.subQuests.Count > 0)
         {
             subQuestsPanel.SetActive(true);
-            subQuestDisplayer.LoadSubQuests(questData.subQuests);
+            subQuestDisplayer.LoadSubQuests(questData.subQuests, questData);
         }
+    }
+
+    public void AddSubQuest(SubQuestData subQuestData, QuestManager questManager)
+    {
+        if (!subQuestsPanel.activeInHierarchy)
+        {
+            subQuestsPanel.SetActive(true);
+        }
+        questManager.AddSubQuest(questData.ID, subQuestData);
+        ReloadSubQuestDisplayer();
+    }
+
+    public void ReloadSubQuestDisplayer()
+    {
+        subQuestDisplayer.Unload();
+        subQuestDisplayer.LoadSubQuests(questData.subQuests, questData);
     }
 
     public void CloseDetails()
@@ -183,6 +199,7 @@ public class QuestDetails : MonoBehaviour
         categoryField.SetActive(false);
         dateField.SetActive(false);
         deadlineField.SetActive(false);
+        subQuestDisplayer.Unload();
     }
 
     public void EditQuest()

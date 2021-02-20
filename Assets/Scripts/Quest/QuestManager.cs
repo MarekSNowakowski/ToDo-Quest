@@ -360,4 +360,26 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
+    public void AddSubQuest(string ID, SubQuestData subQuest)
+    {
+        QuestData questData = FindQuestWithID(ID);
+        questData.subQuests.Add(subQuest);
+        Save();
+    }
+
+    public void RemoveSubQuest(string ID, SubQuestData subQuest)
+    {
+        QuestData questData = FindQuestWithID(ID);
+        questData.subQuests.Remove(subQuest);
+        Save();
+    }
+
+    public void ChangeCompletition(bool completed, string ID, int subQuestID)
+    {
+        QuestData questData = FindQuestWithID(ID);
+        SubQuestData subQuest = questData.subQuests[subQuestID];
+        subQuest.completed = completed;
+        Save();
+    }
 }

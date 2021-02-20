@@ -44,6 +44,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     bool remind;
     bool autoRemove;
     int notificationID;
+    List<SubQuestData> subQuests = new List<SubQuestData>();
 
     [Header("Removal")]
     [SerializeField]
@@ -98,7 +99,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 
     public QuestData Save()
     {
-        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle, deadline, remind, autoRemove, notificationID);
+        QuestData saveData = new QuestData(ID, questName, reward, weight, comment, category, questCreationDateTime, date, repeatCycle, deadline, remind, autoRemove, notificationID, subQuests);
         return saveData;
     }
 
@@ -118,6 +119,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
         this.remind = questData.remind;
         this.autoRemove = questData.autoRemove;
         this.notificationID = questData.notificationID;
+        this.subQuests = questData.subQuests;
         SetUp();
     }
 
@@ -268,7 +270,7 @@ public struct QuestData : IComparable<QuestData>
     public List<SubQuestData> subQuests;
 
     public QuestData(string ID, string questName, string reward, int weight, string comment, Category category,
-        DateTime creationDateTime, DateTime date, int repeatCycle, DateTime deadline, bool remind, bool autoRemove, int notificationID)
+        DateTime creationDateTime, DateTime date, int repeatCycle, DateTime deadline, bool remind, bool autoRemove, int notificationID, List<SubQuestData> subQuests)
     {
         this.ID = ID;
         this.questName = questName;
@@ -283,13 +285,14 @@ public struct QuestData : IComparable<QuestData>
         this.remind = remind;
         this.autoRemove = autoRemove;
         this.notificationID = notificationID;
-        subQuests = new List<SubQuestData>();
+        this.subQuests = subQuests;
     }
 
     public void Initialize()
     {
         creationDateTime = DateTime.Now;
         ID = CorrelationIdGenerator.GetNextId();
+        subQuests = new List<SubQuestData>();
     }
 
     public int CompareTo(QuestData other)
