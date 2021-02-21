@@ -34,6 +34,8 @@ public class AddPanelManager : MonoBehaviour
     [SerializeField]
     AddPanelView addPanelView;
     string editingID;
+    //Get subQuests if quest is edited
+    List<SubQuestData> subQuests = new List<SubQuestData>();
 
     [Header("CategoryPanel")]
     [SerializeField]
@@ -98,9 +100,10 @@ public class AddPanelManager : MonoBehaviour
             }
             if (editingID != null)
             {
-                questManager.FastRemoveQuest(editingID);
+                questManager.RemoveEditedQuest(editingID);
             }
             questData.repeatCycle = repeatCycle;
+            questData.subQuests = subQuests;
 
             questManager.AddQuest(questData);
 
@@ -187,7 +190,7 @@ public class AddPanelManager : MonoBehaviour
             autoRemove = questData.autoRemove;
             deadlineCalendar.SetUpDeadlineBools(remind, autoRemove);
         }
-        
+        subQuests = questData.subQuests;
     }
 
     public void EditCategory(Category category)

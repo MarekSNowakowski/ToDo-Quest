@@ -191,6 +191,21 @@ public class QuestManager : MonoBehaviour
         archiveManager.ArchiveQuest(questData, false);
     }
 
+    public void RemoveEditedQuest(string id)
+    {
+        QuestData questData = FindQuestWithID(id);
+        activeQuests.Remove(questData);
+        if (questData.deadline != default && questData.remind && questData.notificationID != default)
+        {
+            notificationManager.CancelNotification(questData.notificationID);
+        }
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
+        {
+            questDisplayer.RemoveQuest(id);
+        }
+        Save();
+    }
+
     /// <summary>
     /// Called only before load
     /// </summary>
