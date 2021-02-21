@@ -24,4 +24,20 @@ public class CategoriesContainer : QuestContainer
         addCategoryButton.SetParent(transform);
         addCategoryButton.SetAsLastSibling();
     }
+
+    public virtual void RefreshSizeAfterLabelInteraction(bool adding)
+    {
+        CountChildren();
+
+        if (!adding)
+        {
+            labelCount--;
+        }
+
+        var height = initialHeight + (questCount * questHeight) + (labelCount * labelHeight);
+
+        myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        myRectTransform.anchoredPosition = new Vector3(0, -0.5f * height);
+        pageSwiper.reseCategoryPositionlAfterLabelInteraction(adding);
+    }
 }

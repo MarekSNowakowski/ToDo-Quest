@@ -14,4 +14,9 @@ public class CategoriesColors : MonoBehaviour
             categoryColor.CheckIfLocked();
         }
     }
+
+    public void BlockWhite()
+    {
+        categoriesColors[0].Block();
+    }
 }

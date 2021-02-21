@@ -37,6 +37,7 @@ public class CategoryColor : MonoBehaviour
     public void UnBlock()
     {
         Blocker.SetActive(false);
+        if(!button) button = gameObject.GetComponent<Button>();
         button.interactable = true;
     }
 

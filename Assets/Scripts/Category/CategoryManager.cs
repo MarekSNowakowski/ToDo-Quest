@@ -17,6 +17,8 @@ public class CategoryManager : MonoBehaviour
     QuestManager questManager;
     [SerializeField]
     CategoriesColors categoriesColors;
+    [SerializeField]
+    CategoriesContainer categoriesContainer;
     private Color editingCategoryColor;
 
     // Start is called before the first frame update
@@ -76,6 +78,7 @@ public class CategoryManager : MonoBehaviour
         categoriesBox.LoadCategory(category);
         Save();
         questManager.ReloadQuests();
+        categoriesContainer.RefreshSizeAfterLabelInteraction(true);
     }
 
     public void RemoveCategory(Category category)
@@ -84,12 +87,19 @@ public class CategoryManager : MonoBehaviour
         categoriesBox.UnLoadCategory(category);
         categoriesColors.UpdateCategories();
         Save();
+        questManager.ReloadQuests();
+        categoriesContainer.RefreshSizeAfterLabelInteraction(false);
     }
 
     public bool CheckColor(Color color)
     {
         if (categories.Count == 0) return false;
         return categories.Exists(x => x.GetColor() != addPanelManager.GetEditingCategoryColor() && x.GetColor() == color);
+    }
+
+    public void BlockWhiteColor()
+    {
+        categoriesColors.BlockWhite();
     }
 
     public void ChooseCategory(Category category)

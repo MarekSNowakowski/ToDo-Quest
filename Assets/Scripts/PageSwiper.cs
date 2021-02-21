@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -277,6 +278,21 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             }
         }
         quests.transform.position = new Vector3(quests.transform.position.x, questsLocation.y);
+        categories.transform.position = new Vector3(categories.transform.position.x, categoriesLocation.y);
+    }
+
+    public void reseCategoryPositionlAfterLabelInteraction(bool adding)
+    {
+        float endQuest = questRT.rect.height / 2;
+        float endCategories = categoriesRT.rect.height / 2;
+        if (adding)
+        {
+            categoriesLocation.y -= labelSize / 2;
+        }
+        else
+        {
+            categoriesLocation.y += labelSize / 2;
+        }
         categories.transform.position = new Vector3(categories.transform.position.x, categoriesLocation.y);
     }
 

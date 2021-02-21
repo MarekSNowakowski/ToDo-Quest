@@ -280,6 +280,7 @@ public class AddPanelManager : MonoBehaviour
         editingCategory = null;
         categoryInputField.text = "";
         categoryCreationIcon.color = Color.white;
+        categoryColor = null;
         categoriesBox.ClearIcon();
     }
 
@@ -299,6 +300,7 @@ public class AddPanelManager : MonoBehaviour
     {
         categoryPanel.SetActive(false);
         categoryInputField.text = "";
+        categoryColor = null;
         editingCategory = null;
     }
 
@@ -308,7 +310,7 @@ public class AddPanelManager : MonoBehaviour
         if(editingCategory != null)
         {
             categoryManager.EditCategory(editingCategory, name, categoryCreationIcon.color);
-            CloseCategory();
+            Close();
         }
         else
         {
@@ -318,7 +320,7 @@ public class AddPanelManager : MonoBehaviour
                 {
                     categoryManager.AddCategory(name, categoryColor.GetColor());
                     categoryColor.Block();
-                    CloseCategory();
+                    Close();
                 }
                 else
                 {
@@ -332,7 +334,8 @@ public class AddPanelManager : MonoBehaviour
                     if (name != null && name != "")
                     {
                         categoryManager.AddCategory(name, Color.white);
-                        CloseCategory();
+                        categoryManager.BlockWhiteColor();
+                        Close();
                     }
                     else
                     {
