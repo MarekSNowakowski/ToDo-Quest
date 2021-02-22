@@ -169,6 +169,8 @@ public class TranslationManager : MonoBehaviour
                         return "Przywróc domyślne";
                     case 74:
                         return "Archiwum";
+                    case 75:
+                        return "Dodaj podzadanie";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -331,6 +333,8 @@ public class TranslationManager : MonoBehaviour
                         return "Restore to default";
                     case 74:
                         return "Archive";
+                    case 75:
+                        return "Add subtask";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";

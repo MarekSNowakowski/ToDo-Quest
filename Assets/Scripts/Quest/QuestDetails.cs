@@ -12,6 +12,10 @@ public class QuestDetails : MonoBehaviour
     TextMeshProUGUI questName;
     [SerializeField]
     Image weightImage;
+    [SerializeField]
+    BlockerFade blocker;
+    [SerializeField]
+    GameObject categoryDetailsPanel;
 
     [Header("Reward")]
     [SerializeField]
@@ -81,6 +85,11 @@ public class QuestDetails : MonoBehaviour
 
     public void ShowQuestDetails(QuestData questData)
     {
+        if (categoryDetailsPanel.activeInHierarchy)
+        {
+            categoryDetailsPanel.SetActive(false);
+            categoryDetails.Clear();
+        }
         this.questData = questData;
         questName.text = questData.questName;
         CultureInfo cultureInfo = translationManager.GetCultureInfo();
@@ -176,8 +185,12 @@ public class QuestDetails : MonoBehaviour
 
     public void CloseDetails()
     {
+        blocker.DisableBlocker(this.gameObject);
+    }
+
+    private void OnDisable()
+    {
         Clear();
-        this.gameObject.SetActive(false);
     }
 
     public void Clear()

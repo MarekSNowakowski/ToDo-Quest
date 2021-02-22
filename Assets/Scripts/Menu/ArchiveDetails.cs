@@ -12,6 +12,8 @@ public class ArchiveDetails : MonoBehaviour
     TextMeshProUGUI questName;
     [SerializeField]
     Image weightImage;
+    [SerializeField]
+    BlockerFade blocker;
 
     [Header("Reward")]
     [SerializeField]
@@ -175,13 +177,12 @@ public class ArchiveDetails : MonoBehaviour
 
     private void OnDisable()
     {
-        this.gameObject.SetActive(false);
+        Clear();
     }
 
     public void CloseDetails()
     {
-        Clear();
-        this.gameObject.SetActive(false);
+        blocker.DisableBlocker(this.gameObject);
     }
 
     public void Clear()

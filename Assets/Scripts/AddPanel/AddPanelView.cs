@@ -16,6 +16,9 @@ public class AddPanelView : MonoBehaviour
     TMPro.TMP_InputField rewardInput;
 
     [SerializeField]
+    BlockerFade blocker;
+
+    [SerializeField]
     GameObject mainAddPanel;
     [SerializeField]
     GameObject commentAddPanel;
@@ -81,7 +84,8 @@ public class AddPanelView : MonoBehaviour
         categoriesPanel.SetActive(false);
         keyboardPlaceholder.gameObject.SetActive(false);
         discardPaenl.SetActive(false);
-        this.gameObject.SetActive(false);
+        blocker.DisableBlocker(this.gameObject);
+        //this.gameObject.SetActive(false);
     }
 
     public void TryClose()

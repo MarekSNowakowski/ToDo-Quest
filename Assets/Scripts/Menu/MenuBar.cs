@@ -10,6 +10,8 @@ public class MenuBar : MonoBehaviour
     float slideSpeed;
     [SerializeField]
     GameObject blocker;
+    [SerializeField]
+    BlockerFade blockerFade;
     [Header("Buttons")]
     [SerializeField]
     GameObject addButton;
@@ -51,7 +53,7 @@ public class MenuBar : MonoBehaviour
     {
         StopAllCoroutines();
         currentPosition = (int)transform.position.x;
-        blocker.SetActive(false);
+        blockerFade.DisableBlocker(blocker);
         StartCoroutine(MenuClosingCorutine());
     }
 

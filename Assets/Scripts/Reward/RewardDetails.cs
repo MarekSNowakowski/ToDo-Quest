@@ -16,6 +16,8 @@ public class RewardDetails : MonoBehaviour
     GameObject rewardDetailsPanel;
     [SerializeField]
     GameObject questDetailsPanel;
+    [SerializeField]
+    BlockerFade blocker;
 
     public void ShowRewardDetails(RewardData rewardData)
     {
@@ -28,12 +30,20 @@ public class RewardDetails : MonoBehaviour
 
     public void CloseDetails()
     {
+        blocker.DisableBlocker(this.gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Clear();
+    }
+
+    void Clear()
+    {
         questName.text = "";
         rewardName.text = "";
         date.text = "";
         rewardDetailsPanel.SetActive(false);
         questDetailsPanel.SetActive(true);
-
-        this.gameObject.SetActive(false);
     }
 }

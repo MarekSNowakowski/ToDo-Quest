@@ -19,6 +19,8 @@ public class CategoryDetails : MonoBehaviour
     Category displayedCategory;
     [SerializeField]
     AddPanelManager addPanelManager;
+    [SerializeField]
+    BlockerFade blocker;
 
     public void ShowCategoryDetails(Category category)
     {
@@ -31,12 +33,21 @@ public class CategoryDetails : MonoBehaviour
 
     public void CloseDetails()
     {
+        blocker.DisableBlocker(this.gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Clear();
+    }
+
+    public void Clear()
+    {
         categoryName.text = "";
         categoryImage.color = Color.white;
         displayedCategory = null;
         questDisplayer.Unload();
         categoryDetails.SetActive(false);
-        this.gameObject.SetActive(false);
     }
 
     public void EditCategory()
