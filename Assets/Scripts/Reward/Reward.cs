@@ -46,7 +46,7 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         SetUp(today, "");
     }
 
-    public void SetUp(string today, string tommorow)
+    public void SetUp(string today, string yesterday)
     {
         nameText.text = GetText();
         if(questCompletitionTime.Date == DateTime.Today)
@@ -55,7 +55,7 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         }
         else if(questCompletitionTime.Date == DateTime.Today.AddDays(-1))
         {
-            dateText.text = tommorow;
+            dateText.text = yesterday;
         }
         else
         {
@@ -74,14 +74,14 @@ public class Reward : MonoBehaviour, IComparable<Reward>
         return saveData;
     }
 
-    public void Load(RewardData rewardData, string today, string tommorow)
+    public void Load(RewardData rewardData, string today, string yesterday)
     {
         this.id = rewardData.ID;
         this.rewardName = rewardData.rewardName;
         this.questName = rewardData.questName;
         this.amount = rewardData.amount;
         questCompletitionTime = rewardData.questCompletitionTime;
-        SetUp(today, tommorow);
+        SetUp(today, yesterday);
     }
 
     public void GetManager(RewardManager rewardManager)

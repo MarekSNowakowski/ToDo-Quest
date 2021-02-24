@@ -281,7 +281,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         categories.transform.position = new Vector3(categories.transform.position.x, categoriesLocation.y);
     }
 
-    bool categoryAlreadyRemoved;
 
     public void reseCategoryPositionlAfterLabelInteraction(bool adding)
     {
@@ -294,11 +293,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         else
         {
             categoriesLocation.y += labelSize / 2;
-            if (!categoryAlreadyRemoved)
-            {
-                categoriesLocation.y += labelSize / 2;
-                categoryAlreadyRemoved = true;
-            }
         }
         categories.transform.position = new Vector3(categories.transform.position.x, categoriesLocation.y);
     }

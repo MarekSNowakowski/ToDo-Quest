@@ -29,11 +29,6 @@ public class CategoriesContainer : QuestContainer
     {
         CountChildren();
 
-        if (!adding)
-        {
-            labelCount--;
-        }
-
         var height = initialHeight + (questCount * questHeight) + (labelCount * labelHeight);
 
         myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);

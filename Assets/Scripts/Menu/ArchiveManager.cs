@@ -77,7 +77,7 @@ public class ArchiveManager : MonoBehaviour
         GameObject ob = Instantiate(archivedQuestPrefab);
         ob.transform.SetParent(transform);
         ArchivedQuest archivedQuest = ob.GetComponent<ArchivedQuest>();
-        archivedQuest.Initialize(archivedQuestData, this, translation.GetStaticString(24), translation.GetStaticString(25));
+        archivedQuest.Initialize(archivedQuestData, this, translation.GetStaticString(24), translation.GetStaticString(76));
         archivedQuestsObjects.Add(archivedQuest);
     }
 

@@ -57,7 +57,7 @@ public class RewardManager : MonoBehaviour
             //Increase amount
             Reward reward = activeRewards.Find(x => x.GetName() == name);
             reward.IncreaseAmount(amount);
-            reward.SetUp(translationManager.GetStaticString(24), translationManager.GetStaticString(25));
+            reward.SetUp(translationManager.GetStaticString(24), translationManager.GetStaticString(76));
             Save();
             Unload();
             Load();

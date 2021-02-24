@@ -21,14 +21,14 @@ public class ArchivedQuest : MonoBehaviour
     [SerializeField]
     Sprite removedIcon;
 
-    public void Initialize(ArchivedQuestData data, ArchiveManager archiveManager, string today, string tommorow)
+    public void Initialize(ArchivedQuestData data, ArchiveManager archiveManager, string today, string yesterday)
     {
         this.data = data;
         this.archiveManager = archiveManager;
-        Set(today, tommorow);
+        Set(today, yesterday);
     }
 
-    private void Set(string today, string tommorow)
+    private void Set(string today, string yesterday)
     {
         questName.text = data.questData.questName;
 
@@ -47,7 +47,7 @@ public class ArchivedQuest : MonoBehaviour
         }
         else if (data.completitionDate.Date == DateTime.Today.AddDays(-1))
         {
-            date.text = tommorow;
+            date.text = yesterday;
         }
         else
         {

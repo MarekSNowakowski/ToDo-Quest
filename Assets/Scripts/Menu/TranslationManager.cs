@@ -171,6 +171,8 @@ public class TranslationManager : MonoBehaviour
                         return "Archiwum";
                     case 75:
                         return "Dodaj podzadanie";
+                    case 76:
+                        return "Wczoraj";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -335,6 +337,8 @@ public class TranslationManager : MonoBehaviour
                         return "Archive";
                     case 75:
                         return "Add subtask";
+                    case 76:
+                        return "Yesterday";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
