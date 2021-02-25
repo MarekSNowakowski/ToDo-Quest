@@ -47,7 +47,7 @@ public class BlockerFade : MonoBehaviour
     {
         Image.color = new Color(0, 0, 0, blockedAlpha / 255f);
 
-        for (int alpha = (int)blockedAlpha; alpha > 0; alpha-=2)
+        for (int alpha = (int)blockedAlpha; alpha > 0; alpha-=4)
         {
             Image.color = new Color(0, 0, 0, (float) alpha / 255);
             yield return null;
