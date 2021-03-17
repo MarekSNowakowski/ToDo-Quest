@@ -282,6 +282,7 @@ public class AddPanelManager : MonoBehaviour
         categoryCreationIcon.color = Color.white;
         categoryColor = null;
         categoriesBox.ClearIcon();
+        repeatCycle = 0;
     }
 
     public void OpenCategory()

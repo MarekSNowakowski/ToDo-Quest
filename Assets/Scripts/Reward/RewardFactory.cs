@@ -14,7 +14,7 @@ public class RewardFactory : MonoBehaviour
         GameObject ob = Instantiate(rewardObject);
         ob.transform.SetParent(transform);
         Reward reward = ob.GetComponent<Reward>();
-        reward.Load(rewardData, translationManager.GetStaticString(24), translationManager.GetStaticString(25));
+        reward.Load(rewardData, translationManager.GetStaticString(24), translationManager.GetStaticString(76));
 
         return reward;
     }
