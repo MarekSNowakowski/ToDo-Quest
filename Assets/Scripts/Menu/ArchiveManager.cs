@@ -19,8 +19,8 @@ public class ArchiveManager : MonoBehaviour
             return filepath;
         }
     }
-    private List<ArchivedQuestData> archivedQuests = new List<ArchivedQuestData>();
-    private List<ArchivedQuest> archivedQuestsObjects = new List<ArchivedQuest>();
+    private List<ArchivedQuestData> archivedQuests;
+    private List<ArchivedQuest> archivedQuestsObjects;
     [SerializeField]
     GameObject archivedQuestPrefab;
     [SerializeField]
@@ -32,8 +32,8 @@ public class ArchiveManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadFromFile();
-        Load();
+        if(archivedQuests==null) LoadFromFile();
+        if (archivedQuestsObjects==null) Load();
     }
 
     public void Save()
@@ -46,6 +46,7 @@ public class ArchiveManager : MonoBehaviour
 
     public void LoadFromFile()
     {
+        archivedQuests = new List<ArchivedQuestData>();
         if (File.Exists(Filepath))
         {
             using (FileStream file = File.Open(Filepath, FileMode.Open))
@@ -66,7 +67,8 @@ public class ArchiveManager : MonoBehaviour
 
     public void Load()
     {
-        foreach(ArchivedQuestData archivedQuestData in archivedQuests)
+        archivedQuestsObjects = new List<ArchivedQuest>();
+        foreach (ArchivedQuestData archivedQuestData in archivedQuests)
         {
             LoadArchivedQuest(archivedQuestData);
         }
@@ -83,13 +85,13 @@ public class ArchiveManager : MonoBehaviour
 
     private void Reload()
     {
-        Unload();
+        if (archivedQuestsObjects != null) Unload();
         Load();
     }
 
     private void Unload()
     {
-        foreach(ArchivedQuest archivedQuest in archivedQuestsObjects)
+        foreach (ArchivedQuest archivedQuest in archivedQuestsObjects)
         {
             Destroy(archivedQuest.gameObject);
         }
@@ -98,6 +100,7 @@ public class ArchiveManager : MonoBehaviour
 
     public void ArchiveQuest(QuestData questData, bool compleated)
     {
+        if (archivedQuests == null) LoadFromFile(); 
         ArchivedQuestData archivedQuestData = new ArchivedQuestData(questData, DateTime.Now, compleated);
         archivedQuests.Insert(0,archivedQuestData);
         Save();

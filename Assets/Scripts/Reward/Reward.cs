@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class Reward : MonoBehaviour, IComparable<Reward>
@@ -49,17 +50,17 @@ public class Reward : MonoBehaviour, IComparable<Reward>
     public void SetUp(string today, string yesterday)
     {
         nameText.text = GetText();
-        if(questCompletitionTime.Date == DateTime.Today)
+        if (questCompletitionTime.Date == DateTime.Today)
         {
             dateText.text = today;
         }
-        else if(questCompletitionTime.Date == DateTime.Today.AddDays(-1))
+        else if (questCompletitionTime.Date == DateTime.Today.AddDays(-1))
         {
             dateText.text = yesterday;
         }
         else
         {
-            dateText.text = questCompletitionTime.ToShortDateString();
+            dateText.text = questCompletitionTime.ToString("dd.MM");
         }
     }
 

@@ -51,7 +51,7 @@ public class ArchivedQuest : MonoBehaviour
         }
         else
         {
-            date.text = data.completitionDate.ToShortTimeString();
+            date.text = data.completitionDate.ToString("dd.MM");
         }
     }
 
