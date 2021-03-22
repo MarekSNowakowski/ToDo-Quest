@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -23,6 +24,17 @@ public class SettingsManager : MonoBehaviour
 
     [SerializeField]
     TMP_Dropdown languageDropdown;
+
+    [SerializeField]
+    Image floatingAddButtonTogggle;
+    [SerializeField]
+    GameObject floatingAddButton1;
+    [SerializeField]
+    GameObject floatingAddButton2;
+    [SerializeField]
+    Sprite checkSprite;
+    [SerializeField]
+    Sprite emptySprite;
 
     [SerializeField]
     TMP_InputField archiveSizeInputField;
@@ -55,6 +67,18 @@ public class SettingsManager : MonoBehaviour
         deadlineMinutesInputField.text = settings.deadlineTimeMinutes.ToString("d2");
         languageDropdown.value = GetDropdownValue();
         archiveSizeInputField.text = settings.archiveMaxSize.ToString();
+        if(settings.floatingAddButton)
+        {
+            floatingAddButtonTogggle.sprite = checkSprite;
+            floatingAddButton1.SetActive(true);
+            floatingAddButton2.SetActive(true);
+        }
+        else
+        {
+            floatingAddButtonTogggle.sprite = emptySprite;
+            floatingAddButton1.SetActive(false);
+            floatingAddButton2.SetActive(false);
+        }
     }
 
     public int GetDropdownValue()
@@ -266,6 +290,25 @@ public class SettingsManager : MonoBehaviour
         }
         archiveManager.CheckIfFull();
     }
+
+    public void OnFloatingAddButtonToggleClick()
+    {
+        if(settings.floatingAddButton)
+        {
+            floatingAddButtonTogggle.sprite = emptySprite;
+            settings.floatingAddButton = false;
+            floatingAddButton1.SetActive(false);
+            floatingAddButton2.SetActive(false);
+        }
+        else
+        {
+            floatingAddButtonTogggle.sprite = checkSprite;
+            settings.floatingAddButton = true;
+            floatingAddButton1.SetActive(true);
+            floatingAddButton2.SetActive(true);
+        }
+        Save();
+    }
 }
 
 [Serializable]
@@ -276,6 +319,7 @@ public class Settings
     public int deadlineTimeHours;
     public int deadlineTimeMinutes;
     public int archiveMaxSize;
+    public bool floatingAddButton;
 
     public string language;
 
@@ -288,5 +332,6 @@ public class Settings
         deadlineTimeMinutes = 0;
         archiveMaxSize = 100;
         firstRun = true;
+        floatingAddButton = false;
     }
 }

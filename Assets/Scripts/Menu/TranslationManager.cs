@@ -173,6 +173,10 @@ public class TranslationManager : MonoBehaviour
                         return "Dodaj podzadanie";
                     case 76:
                         return "Wczoraj";
+                    case 77:
+                        return "Większy przycisk dodawania";
+                    case 78:
+                        return "Czy chcesz ocenić tą aplikację?";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -339,6 +343,10 @@ public class TranslationManager : MonoBehaviour
                         return "Add subtask";
                     case 76:
                         return "Yesterday";
+                    case 77:
+                        return "Floating add button";
+                    case 78:
+                        return "Do you want to rate this app?";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
