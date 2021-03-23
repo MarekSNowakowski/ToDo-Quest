@@ -26,6 +26,8 @@ public class MenuBar : MonoBehaviour
     GameObject helpPanel;
     [SerializeField]
     GameObject archivePanel;
+    [SerializeField]
+    GameObject statisticsPanel;
 
     float width;
     int currentPosition;
@@ -105,6 +107,12 @@ public class MenuBar : MonoBehaviour
         archivePanel.SetActive(true);
     }
 
+    public void OnStatisticsButtonPress()
+    {
+        OnPanelOpen();
+        statisticsPanel.SetActive(true);
+    }
+
     public void OnPanelOpen()
     {
         ClosePanels();
@@ -130,6 +138,10 @@ public class MenuBar : MonoBehaviour
         if (archivePanel.activeInHierarchy)
         {
             archivePanel.SetActive(false);
+        }
+        if (statisticsPanel.activeInHierarchy)
+        {
+            statisticsPanel.SetActive(false);
         }
     }
 

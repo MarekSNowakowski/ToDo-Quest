@@ -177,6 +177,8 @@ public class TranslationManager : MonoBehaviour
                         return "Większy przycisk dodawania";
                     case 78:
                         return "Czy chcesz ocenić tą aplikację?";
+                    case 79:
+                        return "Statystyki";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -347,6 +349,8 @@ public class TranslationManager : MonoBehaviour
                         return "Floating add button";
                     case 78:
                         return "Do you want to rate this app?";
+                    case 79:
+                        return "Statistics";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
