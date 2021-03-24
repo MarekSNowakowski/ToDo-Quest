@@ -6,6 +6,8 @@ public class NotificationManager : MonoBehaviour
 {
     [SerializeField]
     SettingsManager settings;
+    [SerializeField]
+    TranslationManager translationManager;
     private int remindNotificationID = 0;
 
     private void Start()
@@ -26,7 +28,7 @@ public class NotificationManager : MonoBehaviour
     {
         var notification = new AndroidNotification();
         notification.Title = title;
-        notification.Text = "Today is the deadline!";
+        notification.Text = translationManager.GetStaticString(79);
         notification.FireTime = notificationDay.AddHours(settings.GetNotificationHour()).AddMinutes(settings.GetNotificationMinutes());
         notification.SmallIcon = "app_icon_small";
         notification.LargeIcon = "app_icon_large";
@@ -37,8 +39,8 @@ public class NotificationManager : MonoBehaviour
     public void ShedudleRemindNotification(int notificationID)
     {
         var notification = new AndroidNotification();
-        notification.Title = "We miss you!";
-        notification.Text = "You haven't visited our app in 3 days";
+        notification.Title = translationManager.GetStaticString(80);
+        notification.Text = translationManager.GetStaticString(81);
         notification.FireTime = DateTime.Today.AddDays(3).AddHours(settings.GetNotificationHour()).AddMinutes(settings.GetNotificationMinutes());
         notification.SmallIcon = "app_icon_small";
         notification.LargeIcon = "app_icon_large";

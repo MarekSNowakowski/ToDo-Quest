@@ -177,6 +177,12 @@ public class TranslationManager : MonoBehaviour
                         return "Większy przycisk dodawania";
                     case 78:
                         return "Czy chcesz ocenić tą aplikację?";
+                    case 79:
+                        return "Dzisiaj mija deadline!";
+                    case 80:
+                        return "Przypomnienie";
+                    case 81:
+                        return "Nie odwiedziłeś ToDo Quest od 3 dni!";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -347,6 +353,12 @@ public class TranslationManager : MonoBehaviour
                         return "Floating add button";
                     case 78:
                         return "Do you want to rate this app?";
+                    case 79:
+                        return "Today is the deadline!";
+                    case 80:
+                        return "We miss you!";
+                    case 81:
+                        return "You haven't visited our app in 3 days";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
