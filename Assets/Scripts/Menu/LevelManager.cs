@@ -135,22 +135,6 @@ public class LevelManager : MonoBehaviour
             rewardText = levelRewardTextField.text;
         }
         Save();
-        StartCoroutine(OnInputEndCOR(levelRewardTextField));
-    }
-
-    IEnumerator OnInputEndCOR(TMP_InputField inputField)
-    {
-        //Disable interactable then remove event
-        inputField.DeactivateInputField();
-        inputField.ReleaseSelection();
-
-        /*Wait until EventSystem is no longer in selecting mode
-         This prevents the "Attempting to select while already selecting an object" error
-         */
-        while (EventSystem.current.alreadySelecting)
-            yield return null;
-
-        inputField.interactable = false;
     }
 
     public void EditReward()
@@ -203,8 +187,7 @@ public class LevelManager : MonoBehaviour
             expToNextLevelTextField.text = expToNextLevel.ToString();
         }
         Save();
-        levelSlider.value = (float)currentExp / (float)expToNextLevel;
-        StartCoroutine(OnInputEndCOR(expToNextLevelTextField));
+        levelSlider.value = currentExp / (float)expToNextLevel;
     }
 
 }
