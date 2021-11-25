@@ -43,11 +43,25 @@ public class SettingsManager : MonoBehaviour
 
     string filepath;
 
+    string FilePath
+    {
+        get
+        {
+            if (filepath == null)
+            {
+                filepath = saveManager.FilePath;
+            }
+            return filepath;
+        }
+    }
+
     Settings settings;
+
+    readonly SaveManager saveManager = new SaveManager("settings");
+
 
     private void Awake()
     {
-        filepath = Application.persistentDataPath + "/settings.dat";
         Load();
         Set();
         languageDropdown.onValueChanged.AddListener(
@@ -109,10 +123,9 @@ public class SettingsManager : MonoBehaviour
 
     private void Load()
     {
-        if(filepath==null) filepath = Application.persistentDataPath + "/settings.dat";
-        if (File.Exists(filepath))
+        if (File.Exists(FilePath))
         {
-            using (FileStream file = File.Open(filepath, FileMode.Open))
+            using (FileStream file = File.Open(FilePath, FileMode.Open))
             {
                 object loadedData = new BinaryFormatter().Deserialize(file);
                 settings = (Settings)loadedData;
@@ -144,10 +157,7 @@ public class SettingsManager : MonoBehaviour
 
     private void Save()
     {
-        using (FileStream file = File.Create(filepath))
-        {
-            new BinaryFormatter().Serialize(file, settings);
-        }
+        saveManager.SaveData(settings);
     }
 
     public int[] GetQuestCompleteExp()
@@ -312,7 +322,7 @@ public class SettingsManager : MonoBehaviour
 }
 
 [Serializable]
-public class Settings
+public class Settings : ISerializable
 {
     public int[] questCompleteExp;
 

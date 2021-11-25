@@ -252,7 +252,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>
 }
 
 [Serializable]
-public struct QuestData : IComparable<QuestData>
+public struct QuestData : IComparable<QuestData>, ISerializable
 {
     public string ID;
     public string questName;

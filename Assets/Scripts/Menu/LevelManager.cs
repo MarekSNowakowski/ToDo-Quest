@@ -26,6 +26,8 @@ public class LevelManager : MonoBehaviour
 
     string rewardText;
 
+    readonly SaveManager saveManager = new SaveManager("level");
+
     private string RewardPlaceholder
     {
         get
@@ -42,7 +44,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        filepath = Application.persistentDataPath + "/saveL.dat";
+        filepath = saveManager.FilePath;
         Load();
     }
 
@@ -54,7 +56,7 @@ public class LevelManager : MonoBehaviour
             int difference = currentExp - expToNextLevel;
             currentExp = 0;
             LevelUp();
-            if(difference>0)
+            if (difference > 0)
                 AddExperience(difference);
         }
 
@@ -64,7 +66,7 @@ public class LevelManager : MonoBehaviour
 
     void LevelUp()
     {
-        if(rewardText!=null)
+        if (rewardText!=null)
         {
             QuestData questData = new QuestData();
             questData.reward = rewardText;
@@ -82,18 +84,16 @@ public class LevelManager : MonoBehaviour
     {
         LevelData data;
 
-        if(rewardText != null)
+        if (rewardText != null)
         {
             data = new LevelData(currentLevel, rewardText, currentExp, expToNextLevel);
-        }else
+        }
+        else
         {
             data = new LevelData(currentLevel, currentExp, expToNextLevel);
         }
-    
-        using (FileStream file = File.Create(filepath))
-        {
-            new BinaryFormatter().Serialize(file, data);
-        }
+
+        saveManager.SaveData(data);
     }
 
     void Load()
@@ -126,11 +126,12 @@ public class LevelManager : MonoBehaviour
 
     public void OnRewardEditEnd()
     {
-        if(levelRewardTextField.text == "" || levelRewardTextField.text == RewardPlaceholder)
+        if (levelRewardTextField.text == "" || levelRewardTextField.text == RewardPlaceholder)
         {
             levelRewardTextField.text = RewardPlaceholder;
             rewardText = null;
-        }else
+        }
+        else
         {
             rewardText = levelRewardTextField.text;
         }
@@ -141,9 +142,10 @@ public class LevelManager : MonoBehaviour
     {
         levelRewardTextField.interactable = true;
         levelRewardTextField.ActivateInputField();
-        if(!levelRewardTextField.isFocused)
-        levelRewardTextField.Select();
-        if(rewardText == null || levelRewardTextField.text == RewardPlaceholder)
+        if (!levelRewardTextField.isFocused)
+            levelRewardTextField.Select();
+        if (rewardText == null ||
+            levelRewardTextField.text == RewardPlaceholder)
         {
             levelRewardTextField.text = "";
         }
@@ -154,7 +156,7 @@ public class LevelManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         currentExpText.text = $"{currentExp} / ";
         expToNextLevelTextField.text = expToNextLevel.ToString();
-        if(rewardText != null)
+        if (rewardText != null)
         {
             levelRewardTextField.text = rewardText;
         }
@@ -181,7 +183,7 @@ public class LevelManager : MonoBehaviour
             expToNextLevel = temp;
             expToNextLevelTextField.text = expToNextLevel.ToString();
         }
-        else if(expToNextLevel <= currentExp)
+        else if (expToNextLevel <= currentExp)
         {
             expToNextLevel = currentExp + 1;
             expToNextLevelTextField.text = expToNextLevel.ToString();
@@ -193,7 +195,7 @@ public class LevelManager : MonoBehaviour
 }
 
 [System.Serializable] 
-public struct LevelData
+public struct LevelData : ISerializable
 {
     public int level;
     public string reward;

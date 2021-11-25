@@ -62,7 +62,7 @@ public class ArchivedQuest : MonoBehaviour
 }
 
 [Serializable]
-public class ArchivedQuestData
+public class ArchivedQuestData : ISerializable
 {
     public QuestData questData;
     public DateTime completitionDate;

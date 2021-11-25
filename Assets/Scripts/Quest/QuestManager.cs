@@ -36,6 +36,8 @@ public class QuestManager : MonoBehaviour
 
     Dictionary<string, float> questToBeRemoved = new Dictionary<string, float>();
 
+    readonly SaveManager saveManager = new SaveManager("quests");
+
 
     private void Start()
     {
@@ -44,7 +46,7 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        filepath = Application.persistentDataPath + "/save.dat";
+        filepath = saveManager.FilePath;
         LoadFromFile();
         CheckExpired();
         Load();
@@ -113,10 +115,7 @@ public class QuestManager : MonoBehaviour
 
     public void Save()
     {
-        using (FileStream file = File.Create(filepath))
-        {
-            new BinaryFormatter().Serialize(file, activeQuests);
-        }
+        saveManager.SaveData(activeQuests);
     }
 
     public void LoadFromFile()

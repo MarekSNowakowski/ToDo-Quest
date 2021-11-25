@@ -7,18 +7,10 @@ using UnityEngine;
 
 public class ArchiveManager : MonoBehaviour
 {
+    readonly SaveManager saveManager = new SaveManager("archive");
+
     private string filepath;
-    private string Filepath
-    {
-        get
-        {
-            if(filepath == null)
-            {
-                filepath = Application.persistentDataPath + "/archive.dat";
-            }
-            return filepath;
-        }
-    }
+
     private List<ArchivedQuestData> archivedQuests;
     private List<ArchivedQuest> archivedQuestsObjects;
     [SerializeField]
@@ -32,24 +24,22 @@ public class ArchiveManager : MonoBehaviour
 
     private void Awake()
     {
-        if(archivedQuests==null) LoadFromFile();
-        if (archivedQuestsObjects==null) Load();
+        filepath = saveManager.FilePath;
+        if (archivedQuests == null) LoadFromFile();
+        if (archivedQuestsObjects == null) Load();
     }
 
     public void Save()
     {
-        using (FileStream file = File.Create(Filepath))
-        {
-            new BinaryFormatter().Serialize(file, archivedQuests);
-        }
+        saveManager.SaveData(archivedQuests);
     }
 
     public void LoadFromFile()
     {
         archivedQuests = new List<ArchivedQuestData>();
-        if (File.Exists(Filepath))
+        if (File.Exists(filepath))
         {
-            using (FileStream file = File.Open(Filepath, FileMode.Open))
+            using (FileStream file = File.Open(filepath, FileMode.Open))
             {
                 if(file.Length!=0)
                 {

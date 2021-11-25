@@ -26,24 +26,8 @@ public class QuestDisplayer : MonoBehaviour
 
     string lastLabelCreatedID = null;
 
-    bool newLabel = false;
-
     readonly string noCategory = "No category";
     readonly string noDate = "Other";
-
-    //public void AddQuest(QuestManager questManager, QuestData questData)
-    //{
-    //    Quest quest = questFactory.AddQuest(questData);
-    //    quest.GetManager(questManager);
-    //    quest.Load(questData);
-    //    SetUpAfterAddingQuest(quest);
-    //}
-
-    //void SetUpAfterAddingQuest(Quest quest)
-    //{
-    //    activeQuests.Add(quest);
-    //    container.RefreshSize(true);
-    //}
 
     public void RefreshContainerAfterAddingQuest(QuestData addedQuestData)
     {

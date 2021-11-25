@@ -2,7 +2,7 @@
 using System;
 
 [Serializable]
-public class Category : IComparable<Category>
+public class Category : IComparable<Category>, ISerializable
 {
     readonly string id;
     string categoryName;

@@ -11,16 +11,10 @@ public class SubQuestAddView : MonoBehaviour
     [SerializeField]
     QuestDetails questDetails;
     [SerializeField]
-    SubQuestDisplayer subQuestDisplayer;
-    [SerializeField]
     GameObject subQuestPanel;
-    RectTransform myRectTransform;
-    float keyboardHeight = 0;
-    float screenHeight = Screen.height;
 
     void Start()
     {
-        myRectTransform = GetComponent<RectTransform>();
         nameInputField.ActivateInputField();
         nameInputField.Select();
     }

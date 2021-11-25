@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class RewardManager : MonoBehaviour
 {
+    readonly SaveManager saveManager = new SaveManager("rewards");
+
     [SerializeField]
     RewardFactory rewardFactory;
 
@@ -32,8 +34,7 @@ public class RewardManager : MonoBehaviour
 
     private void Awake()
     {
-        filepath = Application.persistentDataPath + "/saveR.dat";
-        if(File.Exists(filepath))
+        filepath = saveManager.FilePath;
         Load();
     }
 
@@ -98,10 +99,7 @@ public class RewardManager : MonoBehaviour
             data.Add(rewardData);
         }
 
-        using (FileStream file = File.Create(filepath))
-        {
-            new BinaryFormatter().Serialize(file, data);
-        }
+        saveManager.SaveData(data);
     }
 
     public void Load()

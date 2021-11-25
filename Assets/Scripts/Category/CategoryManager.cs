@@ -7,8 +7,9 @@ using UnityEngine;
 
 public class CategoryManager : MonoBehaviour
 {
+    readonly SaveManager saveManager = new SaveManager("categories");
     string filepath;
-    List<Category> categories;
+    List<Category> categories = new List<Category>();
     [SerializeField]
     CategoriesBox categoriesBox;
     [SerializeField]
@@ -21,20 +22,19 @@ public class CategoryManager : MonoBehaviour
     CategoriesContainer categoriesContainer;
     private Color editingCategoryColor;
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        filepath = saveManager.FilePath;
+    }
+
     void Start()
     {
-        categories = new List<Category>();
-        if (categories.Count == 0 || categories == null)
-        {
-            LoadCategories();
-        }
+        LoadCategories();
         categoriesBox.LoadCategories(categories);
     }
 
     void LoadCategories()
     {
-        filepath = Application.persistentDataPath + "/saveC.dat";
         if (File.Exists(filepath))
         {
             using (FileStream file = File.Open(filepath, FileMode.Open))
@@ -64,11 +64,7 @@ public class CategoryManager : MonoBehaviour
 
     void Save()
     {
-        using (FileStream file = File.Create(filepath))
-        {
-            if(categories!=null)
-                new BinaryFormatter().Serialize(file, categories);
-        }
+        saveManager.SaveData(categories);
     }
     
     public void AddCategory(string name, Color color)

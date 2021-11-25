@@ -153,7 +153,7 @@ public class Reward : MonoBehaviour, IComparable<Reward>
 }
 
 [System.Serializable]
-public struct RewardData : IComparable<RewardData>
+public struct RewardData : IComparable<RewardData>, ISerializable
 {
     public string ID;
     public string rewardName;
