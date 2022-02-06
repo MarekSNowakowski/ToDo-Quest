@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
 public class AddPanelView : MonoBehaviour
 {
@@ -38,11 +36,6 @@ public class AddPanelView : MonoBehaviour
     [Header("Discard")]
     [SerializeField]
     GameObject discardPaenl;
-
-
-    float screenHeight = Screen.height;
-    float keyboardHeight = 0;
-
 
     void Start()
     {
