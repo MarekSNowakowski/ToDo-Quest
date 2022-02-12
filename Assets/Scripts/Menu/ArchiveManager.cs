@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -8,8 +7,6 @@ using UnityEngine;
 public class ArchiveManager : MonoBehaviour
 {
     readonly SaveManager saveManager = new SaveManager("archive");
-
-    private string filepath;
 
     private List<ArchivedQuestData> archivedQuests;
     private List<ArchivedQuest> archivedQuestsObjects;
@@ -24,7 +21,6 @@ public class ArchiveManager : MonoBehaviour
 
     private void Awake()
     {
-        filepath = saveManager.FilePath;
         if (archivedQuests == null) LoadFromFile();
         if (archivedQuestsObjects == null) Load();
     }
@@ -37,9 +33,9 @@ public class ArchiveManager : MonoBehaviour
     public void LoadFromFile()
     {
         archivedQuests = new List<ArchivedQuestData>();
-        if (File.Exists(filepath))
+        if (File.Exists(saveManager.FilePath))
         {
-            using (FileStream file = File.Open(filepath, FileMode.Open))
+            using (FileStream file = File.Open(saveManager.FilePath, FileMode.Open))
             {
                 if(file.Length!=0)
                 {
@@ -47,7 +43,6 @@ public class ArchiveManager : MonoBehaviour
                     archivedQuests = (List<ArchivedQuestData>)loadedData;
                 }
             }
-            //archivedQuests.Sort();
         }
         else
         {
