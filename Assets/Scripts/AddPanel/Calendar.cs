@@ -289,7 +289,7 @@ public class Calendar : MonoBehaviour
     public void UnChooseDate()
     {
         selectedDay = null;
-        selectedDateTemp = default;
+        selectedDate = default;
     }
 
 
