@@ -174,7 +174,7 @@ public class QuestManager : MonoBehaviour
         CheckCycle(questData);
     }
 
-    public void FastRemoveQuest(string id)
+    public void FastRemoveQuest(string id, bool archive)
     {
         QuestData questData = FindQuestWithID(id);
         activeQuests.Remove(questData);
@@ -187,7 +187,8 @@ public class QuestManager : MonoBehaviour
             questDisplayer.RemoveQuest(id);
         }
         Save();
-        archiveManager.ArchiveQuest(questData, false);
+        if(archive)
+            archiveManager.ArchiveQuest(questData, false);
     }
 
     public void RemoveEditedQuest(string id)
@@ -325,7 +326,7 @@ public class QuestManager : MonoBehaviour
         List<QuestData> categoryQuests = FindQuestsWithCategory(category);
         foreach(QuestData questData in categoryQuests)
         {
-            FastRemoveQuest(questData.ID);
+            FastRemoveQuest(questData.ID, false);
             questData.RemoveCategory();
             AddQuest(questData);
         }

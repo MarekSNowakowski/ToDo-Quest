@@ -35,7 +35,7 @@ public class CategoryLabel : Label
 
     public void OnCategoryPress()
     {
-        if(category!=null && categoryDetails != null)
+        if(category != null && categoryDetails != null)
         {
             categoryDetails.ShowCategoryDetails(category);
         }

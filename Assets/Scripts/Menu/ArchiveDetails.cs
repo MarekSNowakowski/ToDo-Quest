@@ -224,7 +224,14 @@ public class ArchiveDetails : MonoBehaviour
 
     public void OpenCategoryDetails()
     {
-        categoryDetails.ShowCategoryDetails(category);
-        Clear();
+        if (category != null)
+        {
+            categoryDetails.ShowCategoryDetails(category);
+            Clear();
+        }
+        else
+        {
+            Debug.LogWarning("Category you are trying to open is missing!");
+        }
     }
 }

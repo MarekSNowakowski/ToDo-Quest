@@ -215,6 +215,16 @@ PrefabInstance:
       propertyPath: categoriesColors
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 197595689721786218, guid: fffe8c7bf531f01478821186c080d1eb,
+        type: 3}
+      propertyPath: m_InputType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 197595689721786218, guid: fffe8c7bf531f01478821186c080d1eb,
+        type: 3}
+      propertyPath: m_ContentType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 197595689762227065, guid: fffe8c7bf531f01478821186c080d1eb,
         type: 3}
       propertyPath: translationManager
