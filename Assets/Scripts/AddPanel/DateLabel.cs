@@ -10,12 +10,14 @@ public class DateLabel : Label
     TMPro.TextMeshProUGUI dateText;
     [SerializeField]
     Color inactiveColor;
+    DateTime date;
 
 
-    public void Initialize(string date, string title, string iD)
+    public void Initialize(DateTime date, string dateText, string title, string iD)
     {
+        this.date = date;
+        this.dateText.text = dateText;
         titleText.text = title;
-        dateText.text = date;
         questsInside = 0;
         labelID = iD;
     }
@@ -29,6 +31,11 @@ public class DateLabel : Label
     public string GetName()
     {
         return dateText.text;
+    }
+
+    public DateTime GetDate()
+    {
+        return date;
     }
 }
 

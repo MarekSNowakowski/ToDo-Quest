@@ -89,7 +89,7 @@ public class LabelFactory : MonoBehaviour
         GameObject ob = Instantiate(labelDate);
         ob.transform.SetParent(transform);
         DateLabel dateLabel = ob.GetComponent<DateLabel>();
-        dateLabel.Initialize(dateText,title,id);
+        dateLabel.Initialize(date, dateText,title,id);
 
         return dateLabel;
     }

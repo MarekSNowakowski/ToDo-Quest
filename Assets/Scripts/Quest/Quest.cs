@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Quest : MonoBehaviour, IComparable<Quest>
+public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHandler
 {
     [SerializeField]
     readonly float screenHeightRatio = 0.045f;
@@ -54,10 +54,18 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     bool toBeRemoved;
     private bool thisQuestIsRemoving;
 
+    // Dragging
+    private RectTransform rectTransform;
+    private int newIndex;
+    private Transform dateTarget;
+    private DateTime newDate;
+    private Category newCategory;
+
 
     private void Start()
     {
-        GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, screenHeightRatio * Screen.height);
+        rectTransform = GetComponent<RectTransform>();
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, screenHeightRatio * Screen.height);
     }
 
     void SetUp()
@@ -248,6 +256,93 @@ public class Quest : MonoBehaviour, IComparable<Quest>
     public Category GetCategory()
     {
         return category;
+    }
+
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if(Input.mousePosition.y > rectTransform.position.y + rectTransform.sizeDelta.y / 2 && rectTransform.GetSiblingIndex() > 1)
+        {
+            newIndex = rectTransform.GetSiblingIndex() - 1;
+            dateTarget = rectTransform.parent.GetChild(newIndex - 1);
+            newDate = default;
+            rectTransform.SetSiblingIndex(newIndex);
+        }
+        else if(Input.mousePosition.y < rectTransform.position.y - rectTransform.sizeDelta.y / 2 && rectTransform.GetSiblingIndex() < rectTransform.parent.childCount - 1)
+        {
+            newIndex = rectTransform.GetSiblingIndex() + 1;
+            dateTarget = rectTransform.parent.GetChild(newIndex);
+            newDate = default;
+            rectTransform.SetSiblingIndex(newIndex);
+        }
+        
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if(dateTarget != null)
+        {
+            if (sortingState == QuestDisplayerState.SortByDate)
+            {
+                ChangeQuestDateOnEndDrag();
+            }
+            else if(sortingState == QuestDisplayerState.SortByCategory)
+            {
+                ChangeQuestCategoryOnEndDrag();
+            }
+        }
+    }
+
+    private void ChangeQuestDateOnEndDrag()
+    {
+        if (dateTarget.TryGetComponent(out Quest quest))
+        {
+            newDate = quest.GetDate();
+        }
+        else if (dateTarget.TryGetComponent(out DateLabel dateLabel))
+        {
+            newDate = dateLabel.GetDate();
+        }
+
+        if (date != newDate)
+        {
+            Debug.Log("New date: " + newDate);
+            date = newDate;
+            QuestData questData = Save();
+            questManager.RemoveEditedQuest(questData.ID);
+            questData.date = date;
+            questManager.AddQuest(questData);
+        }
+    }
+
+    private void ChangeQuestCategoryOnEndDrag()
+    {
+        if (dateTarget.TryGetComponent(out Quest quest))
+        {
+            newCategory = quest.GetCategory();
+        }
+        else if (dateTarget.TryGetComponent(out CategoryLabel dateLabel))
+        {
+            newCategory = dateLabel.GetCategory();
+        }
+
+        if (category != newCategory)
+        {
+            if(newCategory != null)
+            {
+                Debug.Log("New category: " + newCategory.GetName());
+            }
+            else
+            {
+                Debug.Log("Category removed");
+            }
+            
+            category = newCategory;
+            QuestData questData = Save();
+            questManager.RemoveEditedQuest(questData.ID);
+            questData.category = category;
+            questManager.AddQuest(questData);
+        }
     }
 }
 
