@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CycleManager : MonoBehaviour
 {
@@ -19,6 +17,12 @@ public class CycleManager : MonoBehaviour
                 SetUp(1);
                 break;
             case 1:
+                SetUp(2);
+                break;
+            case 2:
+                SetUp(3);
+                break;
+            case 3:
                 SetUp(7);
                 break;
             case 7:
@@ -43,8 +47,14 @@ public class CycleManager : MonoBehaviour
             case 1:
                 SetUp(0);
                 break;
-            case 7:
+            case 2:
                 SetUp(1);
+                break;
+            case 3:
+                SetUp(2);
+                break;
+            case 7:
+                SetUp(3);
                 break;
             case 14:
                 SetUp(7);
@@ -77,6 +87,12 @@ public class CycleManager : MonoBehaviour
                 break;
             case 1:
                 cycleText.text = translationManager.GetStaticString(26);
+                break;
+            case 2:
+                cycleText.text = translationManager.GetStaticString(82);
+                break;
+            case 3:
+                cycleText.text = translationManager.GetStaticString(83);
                 break;
             case 7:
                 cycleText.text = translationManager.GetStaticString(27);

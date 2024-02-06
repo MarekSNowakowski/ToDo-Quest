@@ -183,6 +183,10 @@ public class TranslationManager : MonoBehaviour
                         return "Przypomnienie";
                     case 81:
                         return "Nie odwiedziłeś ToDo Quest od 3 dni!";
+                    case 82:
+                        return "2 dni";
+                    case 83:
+                        return "3 dni";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
@@ -359,6 +363,10 @@ public class TranslationManager : MonoBehaviour
                         return "We miss you!";
                     case 81:
                         return "You haven't visited our app in 3 days";
+                    case 82:
+                        return "2 days";
+                    case 83:
+                        return "3 days";
                     default:
                         Debug.LogWarning("Translation with id " + ID + " not found");
                         return "";
