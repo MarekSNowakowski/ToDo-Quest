@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
@@ -82,7 +81,7 @@ public class QuestManager : MonoBehaviour
         {
             //Make a copy of the list to prevent invalidOperationException (changing the list during enumeration)
             Dictionary<string, float> removalList = new Dictionary<string, float>();
-            foreach(KeyValuePair<string,float> pair in questToBeRemoved)
+            foreach (KeyValuePair<string, float> pair in questToBeRemoved)
             {
                 removalList.Add(pair.Key, pair.Value);
             }
@@ -102,7 +101,7 @@ public class QuestManager : MonoBehaviour
 
     public void OnQuestRemovalStart(string ID)
     {
-        if(!questToBeRemoved.ContainsKey(ID))
+        if (!questToBeRemoved.ContainsKey(ID))
         {
             questToBeRemoved.Add(ID, Time.time);
         }
@@ -128,7 +127,8 @@ public class QuestManager : MonoBehaviour
                 activeQuests = (List<QuestData>)loadedData;
             }
             activeQuests.Sort();
-        } else
+        }
+        else
         {
             Save();
         }
@@ -178,7 +178,7 @@ public class QuestManager : MonoBehaviour
     {
         QuestData questData = FindQuestWithID(id);
         activeQuests.Remove(questData);
-        if(questData.deadline!=default && questData.remind && questData.notificationID != default)
+        if (questData.deadline != default && questData.remind && questData.notificationID != default)
         {
             notificationManager.CancelNotification(questData.notificationID);
         }
@@ -187,7 +187,7 @@ public class QuestManager : MonoBehaviour
             questDisplayer.RemoveQuest(id);
         }
         Save();
-        if(archive)
+        if (archive)
             archiveManager.ArchiveQuest(questData, false);
     }
 
@@ -219,7 +219,7 @@ public class QuestManager : MonoBehaviour
 
     internal void ChangeLabel(Category editingCategory)
     {
-        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.TryChangeLabel(editingCategory);
         }
@@ -227,8 +227,10 @@ public class QuestManager : MonoBehaviour
 
     void CheckCycle(QuestData questData)
     {
-        if(questData.repeatCycle != 0)
+        if (questData.repeatCycle != 0)
         {
+            DateTime firstDate = questData.date;
+
             do
             {
                 if (questData.repeatCycle == 30)
@@ -241,16 +243,30 @@ public class QuestManager : MonoBehaviour
                 }
             } while (questData.date <= DateTime.Today);
 
+            if (questData.deadline != default)
+            {
+                int dayDifference = (int)(questData.date - firstDate).TotalDays;
+                Debug.Log("Changing repeating quest deadline");
+                questData.deadline = questData.deadline.AddDays(dayDifference);
+
+                if (questData.remind && questData.notificationID != default)
+                {
+                    Debug.Log("Rescheduling repeating quest deadline notification");
+                    notificationManager.ShedudleNotification(questData.questName, questData.deadline, questData.notificationID);
+                }
+            }
+
             AddQuest(questData);
         }
-        else {
+        else
+        {
             archiveManager.ArchiveQuest(questData, true);
         }
     }
 
     public void StartRemovall(string ID)
     {
-        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.StartRemovall(ID);
         }
@@ -315,7 +331,7 @@ public class QuestManager : MonoBehaviour
 
     public void CancellRemoval(string id)
     {
-        foreach(QuestDisplayer questDisplayer in questDisplayers)
+        foreach (QuestDisplayer questDisplayer in questDisplayers)
         {
             questDisplayer.CancellRemoval(id);
         }
@@ -324,7 +340,7 @@ public class QuestManager : MonoBehaviour
     public void RemoveCategory(Category category)
     {
         List<QuestData> categoryQuests = FindQuestsWithCategory(category);
-        foreach(QuestData questData in categoryQuests)
+        foreach (QuestData questData in categoryQuests)
         {
             FastRemoveQuest(questData.ID, false);
             questData.RemoveCategory();
@@ -338,7 +354,7 @@ public class QuestManager : MonoBehaviour
 
     public List<QuestData> FindQuestsWithCategory(Category category)
     {
-        return activeQuests.FindAll(x => x.category!=null && x.category.GetID() == category.GetID());
+        return activeQuests.FindAll(x => x.category != null && x.category.GetID() == category.GetID());
     }
 
     public void ReloadQuests()
@@ -358,9 +374,9 @@ public class QuestManager : MonoBehaviour
 
     void CheckExpired()
     {
-        if(activeQuests != null && activeQuests.Count > 0)
+        if (activeQuests != null && activeQuests.Count > 0)
         {
-            List<QuestData> questsToBeRemoved = new List<QuestData>(); 
+            List<QuestData> questsToBeRemoved = new List<QuestData>();
             foreach (QuestData questData in activeQuests)
             {
                 if (questData.autoRemove && questData.deadline != default && questData.deadline < DateTime.Today)
@@ -368,7 +384,7 @@ public class QuestManager : MonoBehaviour
                     questsToBeRemoved.Add(questData);
                 }
             }
-            if(questsToBeRemoved.Count > 0)
+            if (questsToBeRemoved.Count > 0)
             {
                 foreach (QuestData questData in questsToBeRemoved)
                 {
