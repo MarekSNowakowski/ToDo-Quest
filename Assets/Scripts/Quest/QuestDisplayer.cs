@@ -21,6 +21,9 @@ public class QuestDisplayer : MonoBehaviour
     [SerializeField]
     CategoryManager categoryManager;
 
+    [SerializeField]
+    PageSwiper pageSwiper;
+
     List<Quest> activeQuests = new List<Quest>();
     List<Label> activeLabels = new List<Label>();
 
@@ -72,7 +75,7 @@ public class QuestDisplayer : MonoBehaviour
             Quest quest = questFactory.LoadQuest(questData);
             activeQuests.Add(quest);
             quest.GetManager(questManager);
-            quest.Load(questData, state);
+            quest.Load(questData, state, pageSwiper);
         }
         if (state == QuestDisplayerState.SortByDate)
         {
@@ -431,7 +434,7 @@ public class QuestDisplayer : MonoBehaviour
             Quest quest = questFactory.LoadQuest(questData);
             activeQuests.Add(quest);
             quest.GetManager(questManager);
-            quest.Load(questData, state);
+            quest.Load(questData, state, pageSwiper);
         }
     }
 

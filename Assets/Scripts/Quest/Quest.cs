@@ -55,12 +55,13 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
     private bool thisQuestIsRemoving;
 
     // Dragging
-    private RectTransform rectTransform;
-    private int newIndex;
-    private Transform dateTarget;
-    private DateTime newDate;
-    private Category newCategory;
-
+    RectTransform rectTransform;
+    int newIndex;
+    Transform dateTarget;
+    DateTime newDate;
+    Category newCategory;
+    PageSwiper pageSwiper;
+    bool holding;
 
     private void Start()
     {
@@ -89,7 +90,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
         {
             case 1:
                 weightImage.color = new Color(0, 210, 0);
-                if(cancelRemovalButton) cancelRemovalButton.GetComponent<Image>().color = new Color(0, 210, 0);
+                if (cancelRemovalButton) cancelRemovalButton.GetComponent<Image>().color = new Color(0, 210, 0);
                 break;
             case 2:
                 weightImage.color = new Color(0, 0, 210);
@@ -111,7 +112,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
         return saveData;
     }
 
-    public void Load(QuestData questData, QuestDisplayerState state)
+    public void Load(QuestData questData, QuestDisplayerState state, PageSwiper pageSwiper)
     {
         this.ID = questData.ID;
         this.questName = questData.questName;
@@ -128,6 +129,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
         this.autoRemove = questData.autoRemove;
         this.notificationID = questData.notificationID;
         this.subQuests = questData.subQuests;
+        this.pageSwiper = pageSwiper;
         SetUp();
     }
 
@@ -198,7 +200,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
         {
             yield return new WaitForSeconds(1);
         }
-        if(toBeRemoved && thisQuestIsRemoving)
+        if (toBeRemoved && thisQuestIsRemoving)
         {
             questManager.RemoveQuest(this.ID);
         }
@@ -235,7 +237,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
 
     public int CompareTo(Quest other)
     {
-        if(sortingState == QuestDisplayerState.SortByCategory)
+        if (sortingState == QuestDisplayerState.SortByCategory)
         {
             if (this.category != other.category) return (-1) * category.CompareTo(other.category);
             else if (this.weight != other.weight) return (-1) * weight.CompareTo(other.weight);
@@ -258,35 +260,52 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
         return category;
     }
 
+    public void OnHold(PointerEventData eventData)
+    {
+        holding = true;
+        pageSwiper.OnEndDrag(eventData);
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(Input.mousePosition.y > rectTransform.position.y + rectTransform.sizeDelta.y / 2 && rectTransform.GetSiblingIndex() > 1)
+        if(!holding)
         {
-            newIndex = rectTransform.GetSiblingIndex() - 1;
-            dateTarget = rectTransform.parent.GetChild(newIndex - 1);
-            newDate = default;
-            rectTransform.SetSiblingIndex(newIndex);
+            pageSwiper.OnDrag(eventData);
         }
-        else if(Input.mousePosition.y < rectTransform.position.y - rectTransform.sizeDelta.y / 2 && rectTransform.GetSiblingIndex() < rectTransform.parent.childCount - 1)
+        else
         {
-            newIndex = rectTransform.GetSiblingIndex() + 1;
-            dateTarget = rectTransform.parent.GetChild(newIndex);
-            newDate = default;
-            rectTransform.SetSiblingIndex(newIndex);
+            if (Input.mousePosition.y > rectTransform.position.y + rectTransform.sizeDelta.y / 2 && rectTransform.GetSiblingIndex() > 1)
+            {
+                newIndex = rectTransform.GetSiblingIndex() - 1;
+                dateTarget = rectTransform.parent.GetChild(newIndex - 1);
+                newDate = default;
+                rectTransform.SetSiblingIndex(newIndex);
+            }
+            else if (Input.mousePosition.y < rectTransform.position.y - rectTransform.sizeDelta.y / 2 && rectTransform.GetSiblingIndex() < rectTransform.parent.childCount - 1)
+            {
+                newIndex = rectTransform.GetSiblingIndex() + 1;
+                dateTarget = rectTransform.parent.GetChild(newIndex);
+                newDate = default;
+                rectTransform.SetSiblingIndex(newIndex);
+            }
         }
-        
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(dateTarget != null)
+        if (!holding)
+        {
+            pageSwiper.OnEndDrag(eventData);
+        }
+
+        holding = false;
+        if (dateTarget != null)
         {
             if (sortingState == QuestDisplayerState.SortByDate)
             {
                 ChangeQuestDateOnEndDrag();
             }
-            else if(sortingState == QuestDisplayerState.SortByCategory)
+            else if (sortingState == QuestDisplayerState.SortByCategory)
             {
                 ChangeQuestCategoryOnEndDrag();
             }
@@ -328,7 +347,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
 
         if (category != newCategory)
         {
-            if(newCategory != null)
+            if (newCategory != null)
             {
                 Debug.Log("New category: " + newCategory.GetName());
             }
@@ -336,7 +355,7 @@ public class Quest : MonoBehaviour, IComparable<Quest>, IDragHandler, IEndDragHa
             {
                 Debug.Log("Category removed");
             }
-            
+
             category = newCategory;
             QuestData questData = Save();
             questManager.RemoveEditedQuest(questData.ID);
@@ -387,7 +406,7 @@ public struct QuestData : IComparable<QuestData>, ISerializable
     {
         creationDateTime = DateTime.Now;
         ID = CorrelationIdGenerator.GetNextId();
-        if(subQuests == null)
+        if (subQuests == null)
         {
             subQuests = new List<SubQuestData>();
         }

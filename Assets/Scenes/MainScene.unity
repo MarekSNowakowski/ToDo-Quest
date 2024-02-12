@@ -850,6 +850,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2265602614717860849, guid: 180bc57f4f488e141bb8ea49c63dbffb,
+        type: 3}
+      propertyPath: pageSwiper
+      value: 
+      objectReference: {fileID: 1849840046}
     - target: {fileID: 2265602614858092845, guid: 180bc57f4f488e141bb8ea49c63dbffb,
         type: 3}
       propertyPath: translationManager
@@ -910,6 +915,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2265602615269839265, guid: 180bc57f4f488e141bb8ea49c63dbffb,
+        type: 3}
+      propertyPath: pageSwiper
+      value: 
+      objectReference: {fileID: 1849840046}
     - target: {fileID: 2265602615269839267, guid: 180bc57f4f488e141bb8ea49c63dbffb,
         type: 3}
       propertyPath: categoriesBox
